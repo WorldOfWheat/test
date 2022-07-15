@@ -1,74 +1,71 @@
 #include <bits/stdc++.h>
-#define int long long
-#define pii pair<int, int>
+#define ll long long
+#define pa pair<int, int>
 #define tp tuple<int, int, int>
+#define db(x) cout << x << " "
 
 using namespace std;
 __attribute__((optimize("-O3")))
+
+int n;
+int arr[(int)1e7+1];
+int temp_arr[(int)1e7+1];
+int arr2[(int)1e7+1];
+int ps[(int)1e7+2];
+int maxi;
 
 signed main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    const int dir_ud[4] = {1, -1, 0, 0};
-    const int dir_lr[4] = {0, 0, -1, 1};
+    cin >> n;
 
-    int t;
-    int times = 1;
-    while (cin >> t) {
-        cout << "Case " << times << ":\n";
-        times++;
-        int n, m;
-        cin >> n >> m;
-        int arr[n+1][m+1];
-        memset(&arr, 0, sizeof(arr));
-        int start = 0;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                int a;
-                cin >> a;
-                if (i == 1 && a == 1) {
-                    start = j;
-                }
-                arr[i][j] = a;
+    for (int i = 1; i <= n; i++) {
+        cin >> arr[i];
+    }
+    for (int i = 1; i <= n; i++) {
+        cin >> arr2[i];
+    }
+    for (int i = 1; i <= n; i++) {
+        ps[i] = ps[i-1] + arr[i]*arr2[i];
+    }
+    maxi = ps[n];
+    for (int i = 2; i <= n; i++) {
+        copy(arr, arr+n+1, temp_arr);
+        for (int j = 1; j <= i-1 && i+j <= n; j++) {
+            int sum = 0;
+            swap(temp_arr[abs(i-j)], temp_arr[i+j]);
+            sum += ps[i-j-1]-ps[0];
+            sum += ps[n]-ps[i+j];
+            int l = abs(i-j);
+            int r = i+j;
+            while (l < r) {
+                sum += temp_arr[l]*arr2[l];
+                sum += temp_arr[r]*arr2[r];
+                l++;
+                r--;
             }
+            sum += temp_arr[l]*arr2[l];
+            maxi = max(maxi, sum);
         }
-        queue<tp> q;
-        q.push({1, start, 2});
-        arr[1][start] = -1;
-        while (!q.empty()) {
-            tp f = q.front();
-            int a = get<0>(f);
-            int b = get<1>(f);
-            int c = get<2>(f);
-            for (int i = 0; i < 4; i++) {
-                int &d = arr[a][b + dir_lr[i] ];
-                int &e = arr[a + dir_ud[i]][b];
-
-                if (d == 1 && dir_lr[i] != 0) {
-                    d = c;
-                    q.push( {a, b + dir_lr[i], c+1} );
-                }
-                if (e == 1 && dir_ud[i] != 0 ) {
-                    if ( !(t==2 && i != 0) ) {
-                        e = c;
-                        q.push( {a + dir_ud[i], b, c+1} );
-                    } else {
-                        e = 0;
-                        q.push( {a + dir_ud[i], b, 0} );
-                    }
-                }
+        copy(arr, arr+n+1, temp_arr);
+        for (int j = 1; j <= i-1 && i+j-1 <= n; j++) {
+            int sum = 0;
+            swap(temp_arr[abs(i-j)], temp_arr[i+j-1]);
+            sum += ps[i-j-1]-ps[0];
+            sum += ps[n]-ps[i+j-1];
+            int l = abs(i-j);
+            int r = i+j-1;
+            while (l < r) {
+                sum += temp_arr[l]*arr2[l];
+                sum += temp_arr[r]*arr2[r];
+                l++;
+                r--;
             }
-            q.pop();
-        }
-        arr[1][start] = 1;
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
-                cout << arr[i][j] << " ";
-            }
-            cout << endl;
+            maxi = max(maxi, sum);
         }
     }
+    cout << maxi << endl;
 
     return 0;
 }
