@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define ll long long
+//#define int long long
 #define pa pair<int, int>
 #define tp tuple<int, int, int>
 #define db(x) cout << x << " "
