@@ -22,37 +22,50 @@ void solve() {
         cin >> ve[i];
     }
     //
+    if (n == 1) {
+        cout << (m == ve[1]) << endl;
+        return;
+    }
     int mid = n/2;
-    for (int i = 0; i <= mid; i++) {
-        for (int j = i; j <= mid; j++) {
-            ve_left.push_back(ve[i] + ve[j]);
+    bitset<20+1> bs;
+    int k = 0;
+    while (bs.count() != mid) {
+        bs = k;
+        k++;
+        int sum = 0;
+        int sum2 = 0;
+        for (int i = 0; i < mid; i++) {
+            //cout << bs[i];
+            if (bs[i]) {
+                sum += ve[i+1];
+                sum2 += ve[i+1+mid];
+            }
         }
+        //cout << endl;
+        ve_left.push_back(sum);
+        ve_right.push_back(sum2);
     }
-    for (int i = mid+1; i <= n; i++) {
-        ve_right.push_back(0 + ve[i]);
-    }
-    for (int i = mid+1+1; i <= n; i++) {
-        for (int j = i; j <= n; j++) {
-            ve_right.push_back(ve[i]+ve[j]);
-        }
-    }
-    /*for (auto a : ve_left) {
+    /*
+    cout << endl;
+    for (auto a : ve_left) {
         cout << a << " ";
     }
     cout << endl;
     for (auto a : ve_right) {
         cout << a << " ";
-    }
-    cout << endl;*/
+    }*/
     sort(ve_right.begin(), ve_right.end());
     int ans = 0;
     for (auto a : ve_left) {
         int remain = m - a;
         auto it = lower_bound(ve_right.begin(), ve_right.end(), remain);
         auto it2 = upper_bound(ve_right.begin(), ve_right.end(), remain);
+        //cout << (distance(it, it2)) << endl;
         ans += distance(it, it2);
     }
     cout << ans << endl;
+
+    //cout << mid << endl;
 }
 
 signed main() {
