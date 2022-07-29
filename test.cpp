@@ -11,6 +11,7 @@ __attribute__((optimize("-O3")))
 
 int n, m;
 vector<int> ve;
+vector<int> ve2;
 vector<int> ve_left;
 vector<int> ve_right;
 
@@ -18,54 +19,65 @@ void solve() {
 
     cin >> n >> m;
     ve.resize(n+1);
-    for (int i = 1; i <= n; i++) {
+    ve2.resize(n+1);
+    int mid = n / 2;
+    for (int i = 1; i <= mid; i++) {
         cin >> ve[i];
     }
-    //
-    if (n == 1) {
-        cout << (m == ve[1]) << endl;
-        return;
+    for (int i = 1; i <= mid+n%2; i++) {
+        cin >> ve2[i];
     }
-    int mid = n/2;
-    bitset<20+1> bs;
+    bitset<40/2+1> bs;
     int k = 0;
     while (bs.count() != mid) {
         bs = k;
-        k++;
         int sum = 0;
-        int sum2 = 0;
-        for (int i = 0; i < mid; i++) {
-            //cout << bs[i];
-            if (bs[i]) {
-                sum += ve[i+1];
-                sum2 += ve[i+1+mid];
+        for (int i = 1; i <= mid; i++) {
+            //cout << bs[i-1];
+            if (bs[i-1]) {
+                sum += ve[i];
             }
         }
         //cout << endl;
         ve_left.push_back(sum);
-        ve_right.push_back(sum2);
+        k++;
     }
-    /*
-    cout << endl;
-    for (auto a : ve_left) {
+    bitset<40/2+1> bs2;
+    k = 0;
+    while (bs2.count() != mid+n%2) {
+        bs2 = k;
+        int sum = 0;
+        for (int i = 1; i <= mid+n%2; i++) {
+            //cout << bs2[i-mid-1];
+            if (bs2[i-1]) {
+                sum += ve2[i];
+            }
+        }
+        //cout << endl;
+        ve_right.push_back(sum);
+        k++;
+    }
+    /*for (auto a : ve_left) {
         cout << a << " ";
     }
     cout << endl;
     for (auto a : ve_right) {
         cout << a << " ";
-    }*/
+    }
+    cout << endl;*/
+    sort(ve_left.begin(), ve_left.end());
     sort(ve_right.begin(), ve_right.end());
     int ans = 0;
     for (auto a : ve_left) {
         int remain = m - a;
-        auto it = lower_bound(ve_right.begin(), ve_right.end(), remain);
-        auto it2 = upper_bound(ve_right.begin(), ve_right.end(), remain);
-        //cout << (distance(it, it2)) << endl;
-        ans += distance(it, it2);
+        //cout << a << " " << remain << endl;
+        auto it = upper_bound(ve_right.begin(), ve_right.end(), remain);
+        //cout << distance(ve_right.begin(), it) << endl;
+        if (it == ve_right.begin()) continue;
+        it--;
+        ans = max(ans, *it + a);
     }
     cout << ans << endl;
-
-    //cout << mid << endl;
 }
 
 signed main() {
