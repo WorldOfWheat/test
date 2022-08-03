@@ -35,28 +35,6 @@ class seg_tree {
             ans1[0] = ans2[0] = 0;
             ans1[1] = ans1[2] = ans2[1] = ans2[2] = x;
         }
-        node query2(int l, int r, int l2, int r2, int x = 1) {
-            //cout << l << " " << r << " " << l2 << " " << r2 << " " << x << endl;
-            if (l == l2 && r == r2) {
-                return data[x];
-            }
-            node result;
-            int mid = (l2 + r2) >> 1;
-            node a;
-            if (r <= mid) {
-                return query2(l, r, l2, mid, getLc(x));
-            }
-            else if (l > mid) {
-                return query2(l, r, mid+1, r2, getRc(x));
-            }
-            else {
-                node a = query2(l, mid, l2, mid, getLc(x));
-                node b = query2(mid+1, r, mid+1, r2, getRc(x));
-                node c;
-                pull(c, a, b);
-                return c;
-            }
-        }
     private:
         int _size;
         vector<int> input;
@@ -302,7 +280,6 @@ signed main() {
     cin.tie(0);
 
     while (cin >> n >> m) solve();
-    //solve();
 
     return 0;
 }
