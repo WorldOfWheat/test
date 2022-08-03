@@ -1,115 +1,308 @@
+#include <bits/stdc++.h>
+#define int long long
+#define pii pair<int, int>
+#define tp tuple<int, int, int>
+#define mp(x, y) make_pair(x, y)
+#define F first
+#define S second
 
+using namespace std;
+__attribute__((optimize("-O3")))
 
-#include<stdio.h>
-#define N 262144
-#define Maxv 2147483647
-long long A[N], Ans, f0, f1;
-int B[N], st, ed, st0, ed0, st1, ed1;
-struct segment {
-    int l, r, m;
-    int lc, rc;
-    int lst, led, rst, red, mst, med;
-    long long sum, lmax, rmax, midmax;
-}ST[2*N + 2];
-int max(int x, int y) {
-    return x >= y ? x : y;
-}
-void init(int l, int r, int k) {
-    ST[k].l = l, ST[k].r = r, ST[k].m = (l + r)>>1;
-    if(l == r)  {
-        ST[k].sum = ST[k].lmax = ST[k].rmax = ST[k].midmax = A[l];
-        ST[k].lst = ST[k].led = ST[k].rst = ST[k].red = ST[k].mst = ST[k].med = l;
-        return ;
-    }
-    ST[k].lc = k<<1, ST[k].rc = (k<<1)+1;
-    init(l, ST[k].m, ST[k].lc), init(ST[k].m+1, r, ST[k].rc);
-    ST[k].sum = ST[ST[k].lc].sum + ST[ST[k].rc].sum;
-    
-    ST[k].lmax = max(ST[ST[k].lc].lmax, ST[ST[k].lc].sum + ST[ST[k].rc].lmax);
-    ST[k].lst = Maxv, ST[k].led = Maxv;;
-    if(ST[ST[k].lc].lmax == ST[k].lmax)
-        ST[k].lst = ST[ST[k].lc].lst, ST[k].led = ST[ST[k].lc].led;
-    if(ST[ST[k].lc].sum + ST[ST[k].rc].lmax == ST[k].lmax && (ST[k].lst > ST[ST[k].lc].l || (ST[k].lst == ST[ST[k].lc].l && ST[k].led > ST[ST[k].rc].led)))
-        ST[k].lst = ST[ST[k].lc].l, ST[k].led = ST[ST[k].rc].led;
-       
-    ST[k].rmax = max(ST[ST[k].rc].rmax, ST[ST[k].rc].sum + ST[ST[k].lc].rmax);
-    ST[k].rst = Maxv, ST[k].red = Maxv;
-    if(ST[ST[k].rc].rmax == ST[k].rmax)
-        ST[k].rst = ST[ST[k].rc].rst, ST[k].red = ST[ST[k].rc].red;
-    if(ST[ST[k].rc].sum + ST[ST[k].lc].rmax == ST[k].rmax && (ST[k].rst > ST[ST[k].lc].rst || (ST[k].rst == ST[ST[k].lc].rst && ST[k].red > ST[ST[k].rc].r)))
-        ST[k].rst = ST[ST[k].lc].rst, ST[k].red = ST[ST[k].rc].r;
-    ST[k].midmax = max(max(ST[ST[k].lc].midmax, ST[ST[k].rc].midmax), ST[ST[k].lc].rmax + ST[ST[k].rc].lmax);
-   
-    ST[k].mst = Maxv, ST[k].med = Maxv;
-    if(ST[ST[k].lc].midmax == ST[k].midmax)
-        ST[k].mst = ST[ST[k].lc].mst, ST[k].med = ST[ST[k].lc].med;
-    if(ST[ST[k].rc].midmax == ST[k].midmax && (ST[k].mst > ST[ST[k].rc].mst || (ST[k].mst == ST[ST[k].rc].mst && ST[k].med > ST[ST[k].rc].med)))
-        ST[k].mst = ST[ST[k].rc].mst, ST[k].med = ST[ST[k].rc].med;
-    if(ST[ST[k].lc].rmax + ST[ST[k].rc].lmax == ST[k].midmax && (ST[k].mst > ST[ST[k].lc].rst || (ST[k].mst == ST[ST[k].lc].rst && ST[k].med > ST[ST[k].rc].led)))
-        ST[k].mst = ST[ST[k].lc].rst, ST[k].med = ST[ST[k].rc].led;
-   
-}
-void query(int l, int r, int k) {
-    if(ST[k].l > r || ST[k].r < l)
-        return ;
-    if(ST[k].l >= l && ST[k].r <= r) {
-        f0 = max(ST[k].midmax, f1 + ST[k].lmax);
-        if(ST[k].midmax == f0 && f1 + ST[k].lmax != f0)
-            st0 = ST[k].mst, ed0 = ST[k].med;
-        else if(f1 + ST[k].lmax == f0 && ST[k].midmax != f0)
-            st0 = st1, ed0 = ST[k].led;
-        else {
-            if(ST[k].mst < st1 || (ST[k].mst == st1 && ST[k].med < ST[k].led))
-                st0 = ST[k].mst, ed0 = ST[k].med;
-            else
-                st0 = st1, ed0 = ST[k].led;
+int n, m;
+vector<int> ve;
+int times = 1;
+
+struct node {
+    int sum, left, right, lc, rc; 
+    int maxi_pf, maxi_pf_left, maxi_pf_right, maxi_sf, maxi_sf_left, maxi_sf_right;
+    int maxi_subarray, maxi_subarray_left, maxi_subarray_right;
+
+class seg_tree {
+    public:
+        int ans[3];
+        seg_tree(vector<int> x) {
+            _size = x.size();
+            data.resize(4*_size);
+            input.assign(x.begin(), x.end());
+            build(1, _size, 1);
         }
-        int pref1 = f1;
-        f1 = max(ST[k].rmax, f1 + ST[k].sum);
-        if(ST[k].rmax == f1 && pref1 + ST[k].sum != f1)
-            st1 = ST[k].rst, ed1 = ST[k].red;
-        else if(pref1 + ST[k].sum == f1 && ST[k].rmax != f1)
-            st1 = st1, ed1 = ST[k].r;
-        else {
-            if(ST[k].rst < st1 || (ST[k].rst == st1 && ST[k].red < ST[k].r))
-                st1 = ST[k].rst, ed1 = ST[k].red;
-            else
-                st1 = st1, ed1 = ST[k].r;
+        void query(int l, int r) {
+            query(l, r, 1);
         }
-       
-        if(f0 > Ans || (f0 == Ans && st > st0 || (st == st0 && ed > ed0))) Ans = f0, st = st0, ed = ed0;
-        if(f1 > Ans || (f1 == Ans && st > st1 || (st == st1 && ed > ed1))) Ans = f1, st = st1, ed = ed1;
-        return ;
-    }
-    query(l, r, ST[k].lc), query(l, r, ST[k].rc);
-}
-int Input() {
-    char cha;
-    unsigned int x = 0;
-    while(cha = getchar())
-        if(cha != ' ' && cha != '\n' || cha == EOF) break;
-    if(cha == EOF) return -1;
-    x = cha-48;
-    while(cha = getchar()) {
-        if(cha == ' ' || cha == '\n') break;
-        x = x*10 + cha-48;
-    }
-    return x;
-}
-main() {
-    int n, Q, a, C = 0;
-    int i, j;
-    while(scanf("%d %d", &n, &Q) == 2) {
-        for(a = 1; a <= n; a++)
-            scanf("%lld", &A[a]);
-        init(1, n, 1);
-        printf("Case %d:\n", ++C);
-        while(Q--) {
-            i = Input(), j = Input();
-            f0 = f1 = 0, Ans = -2147483647, st0 = st1 = ed0 = ed1 = i;
-            query(i, j, 1);
-            printf("%d %d %lld\n", st, ed, Ans);
+        void reset_ans(int x) {
+            ans[0] = ans[1] = ans[2] = -2ll << 30;
+            ans1[0] = ans2[0] = 0;
+            ans1[1] = ans1[2] = ans2[1] = ans2[2] = x;
         }
+        node query2(int l, int r, int l2, int r2, int x = 1) {
+            //cout << l << " " << r << " " << l2 << " " << r2 << " " << x << endl;
+            if (l == l2 && r == r2) {
+                return data[x];
+            }
+            node result;
+            int mid = (l2 + r2) >> 1;
+            node a;
+            if (r <= mid) {
+                return query2(l, r, l2, mid, getLc(x));
+            }
+            else if (l > mid) {
+                return query2(l, r, mid+1, r2, getRc(x));
+            }
+            else {
+                node a = query2(l, mid, l2, mid, getLc(x));
+                node b = query2(mid+1, r, mid+1, r2, getRc(x));
+                node c;
+                pull(c, a, b);
+                return c;
+            }
+        }
+    private:
+        int _size;
+        vector<int> input;
+        vector<node> data;
+        int ans1[3];
+        int ans2[3];
+        int getLc(int x) {
+            return x << 1;
+        }
+        int getRc(int x) {
+            return (x << 1) + 1;
+        }
+        void build(int l, int r, int x) {
+            if (l == r) {
+                data[x].sum =
+
+                data[x].maxi_pf =
+                data[x].maxi_sf =
+                data[x].maxi_subarray = input[l-1];
+
+                data[x].left =
+                data[x].right =
+                data[x].maxi_pf_left =
+                data[x].maxi_pf_right =
+                data[x].maxi_sf_left =
+                data[x].maxi_sf_right =
+                data[x].maxi_subarray_left =
+                data[x].maxi_subarray_right = l;
+                return;
+            }
+            int mid = (l + r) / 2;
+            build(l, mid, getLc(x));
+            build(mid+1, r, getRc(x));
+
+            data[x].left = l;
+            data[x].right = r;
+            data[x].lc = getLc(x);
+            data[x].rc = getRc(x);
+
+            pull(data[x], data[ data[x].lc ], data[ data[x].rc ]);
+        }
+        void pull(node &x, node &y, node &z) {
+            x.sum = y.sum + z.sum;
+
+            x.maxi_pf_left =
+            x.maxi_pf_right =
+
+            x.maxi_sf_left =
+            x.maxi_sf_right =
+
+            x.maxi_subarray_left =
+            x.maxi_subarray_right = 2ll << 30;
+
+            //pf
+            if (y.maxi_pf >= y.sum + z.maxi_pf) {
+
+                x.maxi_pf = y.maxi_pf;
+
+                x.maxi_pf_left = y.maxi_pf_left;
+                x.maxi_pf_right = y.maxi_pf_right;
+
+            }
+            if (y.sum + z.maxi_pf >= y.maxi_pf) {
+
+                x.maxi_pf = y.sum + z.maxi_pf;
+
+                bool a = x.maxi_pf_left > y.left;
+                bool b = x.maxi_pf_left == y.left && x.maxi_pf_right > z.maxi_pf_right;
+                if ( a || b ) {
+                    x.maxi_pf_left = y.left;
+                    x.maxi_pf_right = z.maxi_pf_right;
+                }
+            }
+
+            //sf
+            if (z.maxi_sf >= z.sum + y.maxi_sf) {
+
+                x.maxi_sf = z.maxi_sf;
+
+                x.maxi_sf_left = z.maxi_sf_left;
+                x.maxi_sf_right = z.maxi_sf_right;
+
+            }
+            if (z.sum + y.maxi_sf >= z.maxi_sf) {
+
+                x.maxi_sf = z.sum + y.maxi_sf;
+
+                bool a = x.maxi_sf_left > y.maxi_sf_left;
+                bool b = x.maxi_sf_left == y.maxi_sf_left && x.maxi_sf_right > z.right;
+                if ( a || b ) {
+                    x.maxi_sf_left = y.maxi_sf_left;
+                    x.maxi_sf_right = z.right;
+                }
+            }
+
+            //subarray
+            if (y.maxi_subarray >= z.maxi_subarray && y.maxi_subarray >= y.maxi_sf + z.maxi_pf) {
+
+                x.maxi_subarray = y.maxi_subarray;
+
+                x.maxi_subarray_left == y.maxi_subarray_left;
+                x.maxi_subarray_right = y.maxi_subarray_right;
+            }
+            if (z.maxi_subarray >= y.maxi_subarray && z.maxi_subarray >= y.maxi_sf + z.maxi_pf) {
+
+                x.maxi_subarray = z.maxi_subarray;
+
+                bool a = x.maxi_subarray_left > z.maxi_subarray_left;
+                bool b = x.maxi_subarray_left == z.maxi_subarray_left && x.maxi_subarray_right > z.maxi_subarray_right;
+                if ( a || b ) {
+                    x.maxi_subarray_left = z.maxi_subarray_left;
+                    x.maxi_subarray_right = z.maxi_subarray_right;
+                }
+            }
+            if (y.maxi_sf + z.maxi_pf >= z.maxi_subarray && y.maxi_sf + z.maxi_pf >= y.maxi_subarray) {
+
+                x.maxi_subarray = y.maxi_sf + z.maxi_pf;
+
+                bool a = x.maxi_subarray_left > y.maxi_sf_left;
+                bool b = x.maxi_subarray_left == y.maxi_sf_left && x.maxi_subarray_right > z.maxi_pf_right;
+                if ( a || b ) {
+                    x.maxi_subarray_left = y.maxi_sf_left;
+                    x.maxi_subarray_right = z.maxi_pf_right;
+                }
+            }
+        }
+        void query(int l, int r, int x) {
+            if (data[x].left > r || data[x].right < l) {
+                return;
+            }
+            if (data[x].left >= l && data[x].right <= r) {
+                if (data[x].maxi_subarray > ans2[0] + data[x].maxi_pf) {
+
+                    ans1[0] = data[x].maxi_subarray;
+                    ans1[1] = data[x].maxi_subarray_left;
+                    ans1[2] = data[x].maxi_subarray_right;
+
+                }
+                else if (data[x].maxi_subarray < ans2[0] + data[x].maxi_pf) {
+
+                    ans1[0] = data[x].maxi_pf;
+                    ans1[1] = ans2[1];
+                    ans1[2] = data[x].maxi_pf_right;
+
+                }
+                else {
+
+                    ans1[0] = data[x].maxi_subarray;
+
+                    bool a = data[x].maxi_subarray_left < ans2[1];
+                    bool b = data[x].maxi_subarray_left == ans2[1] &&
+                            data[x].maxi_subarray_right < data[x].maxi_pf_right;
+                    if ( a || b ) {
+                        ans1[1] = data[x].maxi_subarray_left;
+                        ans1[2] = data[x].maxi_subarray_right;
+                    } else {
+                        ans1[1] = ans2[1];
+                        ans1[2] = data[x].maxi_pf_right;
+                    }
+
+                }
+
+                int temp = ans2[0];
+                if (data[x].maxi_sf > temp + data[x].sum) {
+
+                    ans2[0] = data[x].maxi_sf;
+                    ans2[1] = data[x].maxi_sf_left;
+                    ans2[2] = data[x].maxi_sf_right;
+
+                }
+                else if (data[x].maxi_sf < temp + data[x].sum) {
+
+                    ans2[0] = temp + data[x].sum;
+
+                    ans2[2] = data[x].right;
+
+                }
+                else {
+
+                    ans2[0] = data[x].maxi_sf;
+
+                    bool a = data[x].maxi_sf_left < ans2[1];
+                    bool b = data[x].maxi_sf_left == ans2[1] &&
+                            data[x].maxi_sf_right < data[x].right;
+                    if ( a || b ) {
+                        ans2[1] = data[x].maxi_sf_left;
+                        ans2[2] = data[x].maxi_sf_right;
+                    } else {
+                        ans2[2] = data[x].right;
+                    }
+
+                }
+                if (ans1[0] > ans[0] ||
+                    ( ans1[0] == ans[0] && ans[1] > ans1[1] ) ||
+                    ( ans[1] == ans1[1] && ans[2] > ans1[2] )
+                ) {
+                    //cout << ans1[0] << " " << ans1[1] << " " << ans1[2] << endl;
+                    ans[0] = ans1[0];
+                    ans[1] = ans1[1];
+                    ans[2] = ans1[2];
+                }
+                if (ans2[0] > ans[0] ||
+                    ( ans2[0] == ans[0] && ans[1] > ans2[1] ) ||
+                    ( ans[1] == ans2[1] && ans[2] > ans2[2] )
+                ) {
+                    ans[0] = ans2[0];
+                    ans[1] = ans2[1];
+                    ans[2] = ans2[2];
+                }
+
+                return;
+            }
+            query(l, r, data[x].lc);
+            query(l, r, data[x].rc);
+            return;
+        }
+};
+
+void solve() {
+
+    cout << "Case " << times << ":" << "\n";
+    times++;
+    ve.resize(n);
+    for (int i = 0; i < n; i++) {
+        cin >> ve[i];
     }
+    seg_tree seg(ve);
+    for (int i = 0; i < m; i++) {
+        int a, b;
+        cin >> a >> b;
+        seg.reset_ans(a);
+        seg.query(a, b);
+        node test = seg.query2(a, b, 1, ve.size());
+        //cout << test.maxi_subarray_left << " " << test.maxi_subarray_right << " " << test.maxi_subarray << "\n";
+        cout << seg.ans[1] << " " << seg.ans[2] << " " << seg.ans[0] << "\n";
+    }
+
+    return;
+}
+
+signed main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    while (cin >> n >> m) solve();
+    //solve();
+
     return 0;
 }
