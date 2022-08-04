@@ -9,91 +9,117 @@
 using namespace std;
 __attribute__((optimize("-O3")))
 
-int n, m, p;
-vector<int> ve;
-vector<pii> ve_left;
-vector<pii> ve_right;
-int mid;
+struct node{
+    int left;
+    int right;
+    int lc;
+    int rc;
+    int sum;
+    int tag;
+};
 
-vector<int> table(25+1);
-int fact(int x) {
-    if (table[x] != -1) {
-        return table[x];
-    }
-    int a = fact(x-1) * x;
-    table[x] = a;
-    return a;
-}
-void dfs_left(int x, int y, int z) {
-    //cout << x << " " << y << " " << z << endl;
-    if (x == mid) {
-        //cout << y << endl;
-        ve_left.push_back(mp(y, z));
-        return;
-    }
-    dfs_left(x+1, y, z);
-    dfs_left(x+1, y+ve[x], z);
-    if (z < m) dfs_left(x+1, y+fact(ve[x]), z+1);
-}
+class seg_tree {
+    public:
+        seg_tree(vector<int> x) {
+            _size = x.size();
+            input.assign(x.begin(), x.end());
+            data.resize(4*_size);
+            build(1, _size, 1);
+        }
+        node query(int l, int r) {
+            return query(l, r, 1, _size, 1);
+        }
+        void update(int l, int r, int value) {
+            update(l, r, 1, _size, value, 1);
+        }
+    private:
+        int _size;
+        vector<int> input;
+        vector<node> data;
+        int getLc(int x) {
+            return x << 1;
+        }
+        int getRc(int x) {
+            return (x << 1) + 1;
+        }
+        void pull(node &x, node y, node z) {
+            x.left = y.left;
+            x.right = z.right;
+            x.sum = y.sum + z.sum;
+        }
+        void push(int l, int r, int x) {
+            data[ data[x].lc ].tag = data[x].tag;
+            data[ data[x].rc ].tag = data[x].tag;
+            //cout << data[x].sum << endl;
+            data[x].sum += (r - l + 1) * data[x].tag;
+            //cout << data[x].sum << endl;
+            data[x].tag = 0;
+        }
+        void build(int l, int r, int x) {
+            if (l == r) {
+                data[x].left = data[x].right = data[x].lc = data[x].rc = l;
+                data[x].sum = input[l-1];
+                return;
+            }
+            int mid = (l + r) / 2;
+            build(l, mid, getLc(x));
+            build(mid+1, r, getRc(x));
+            data[x].lc = getLc(x);
+            data[x].rc = getRc(x);
+            pull(data[x], data[ data[x].lc ], data[ data[x].rc ]);
+        }
+        node query(int l, int r, int l2, int r2, int x) {
+            if (l == l2 && r == r2) {
+                return data[x];
+            }
+            push(l, r, x);
+            int mid = (l2 + r2) >> 1;
+            if (r <= mid) {
+                return query(l, r, l2, mid, getLc(x));
+            }
+            else if (l > mid) {
+                return query(l, r, mid+1, r2, getRc(x));
+            }
+            else {
+                node a = query(l, mid, l2, mid, getLc(x));
+                node b = query(mid+1, r, mid+1, r2, getRc(x));
+                node result;
+                pull(result, a, b);
+                return result;
+            }
+        }
+        void update(int l, int r, int l2, int r2, int value, int x) {
+            if (l == l2 && r == r2) {
+                //cout << l << " " <<r <<endl;
+                data[x].tag += value;
+                return;
+            }
+            int mid = (l2 + r2) >> 1;
+            if (r <= mid) {
+                update(l, r, l2, mid, value, getLc(x));
+            }
+            else if (l > mid) {
+                update(l, r, mid+1, r2, value, getRc(x));
+            }
+            else {
+                update(l, mid, l2, mid, value, getLc(x));
+                update(mid+1, r, mid+1, r2, value, getRc(x));
+            }
+            pull(data[x], data[ data[x].lc ], data[ data[x].rc ]);
+            return;
+        }
+};
 
-void dfs_right(int x, int y, int z) {
-    if (x == mid+n%2) {
-        ve_right.push_back(mp(y, z));
-        return;
-    }
-    dfs_right(x+1, y, z);
-    dfs_right(x+1, y+ve[x+mid+1], z);
-    if (z < m) dfs_right(x+1, y+fact(ve[x+mid+1]), z+1);
-}
+vector<int> ve = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 void solve() {
 
-    fill(table.begin(), table.end(), -1);
-    table[1] = 1;
+    seg_tree seg(ve);
+    cout << (seg.query(1, 9).sum) << endl;
+    seg.update(1, 9, 100);
+    cout << (seg.query(1, 9).sum) << endl;
 
-    cin >> n >> m >> p;
-    ve.resize(n+1);
-
-    for (int i = 1; i <= n; i++) {
-        cin >> ve[i];
-    }
-
-    //sort(ve.begin(), ve.end());
-    //ve.erase( unique(ve.begin(), ve.end()), ve.end());
-
-    mid = n / 2;
-    dfs_left(1, 0, 0);
-    dfs_left(1, ve[mid], 0);
-    if (1 <= m) dfs_left(1, fact(ve[mid]), 1);
-
-    dfs_right(1, 0, 0);
-    dfs_right(1, ve[mid+1], 0);
-    if (1 <= m) dfs_right(1, fact(ve[mid+1]), 1);
-
-    sort(ve_left.begin(), ve_left.end());
-    sort(ve_right.begin(), ve_right.end());
-
-/*
-    for (auto a : ve_left) {
-        cout << a.F << " ";
-    }
-    cout << endl;
-    for (auto a : ve_right) {
-        cout << a.F << " ";
-    }
-    cout << endl;
-*/
-    int ans = 0;
-    for (auto a : ve_left) {
-        int remain = p - a.F;
-        //cout <<remain << endl;
-        auto it = lower_bound(ve_right.begin(), ve_right.end(), (pair<int, int>) {remain, -2ll << 31} );
-        auto it2 = upper_bound(ve_right.begin(), ve_right.end(), (pair<int, int>) {remain, 2ll << 31} );
-        cout << (a.S) << " " << ( (*it).S ) << endl;
-        if ( a.S + (*it).S <= m) ans += distance(it, it2);
-    }
-    cout << ans << endl;
-
+    return;
 }
 
 signed main() {
