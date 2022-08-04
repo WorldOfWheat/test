@@ -30,9 +30,9 @@ class seg_tree {
         node query(int l, int r) {
             return query(l, r, 1, _size, 1);
         }
-        /*void update(int l, int r, int value) {
+        void update(int l, int r, int value) {
             update(l, r, 1, _size, value, 1);
-        }*/
+        }
     private:
         int _size;
         vector<int> input;
@@ -49,14 +49,14 @@ class seg_tree {
             x.sum = y.sum + z.sum;
             x.maxi = max(y.maxi, z.maxi);
         }
-        /*void push(int l, int r, int x) {
-            data[ data[x].lc ].tag = data[x].tag;
-            data[ data[x].rc ].tag = data[x].tag;
-            //cout << data[x].sum << endl;
-            data[x].sum += (r - l + 1) * data[x].tag;
-            //cout << data[x].sum << endl;
+        void push(int l, int r, int x) {
+            if (data[x].tag == 0) return;
+            int mid = (l + r) >> 1;
+            data[ data[x].lc ].sum = data[x].tag * (mid - l + 1);
+            data[ data[x].rc ].sum = data[x].tag * (r - mid + 1 + 1);
+            data[ data[x].lc ].tag = data[ data[x].lc ].tag = data[x].tag;
             data[x].tag = 0;
-        }*/
+        }
         void build(int l, int r, int x) {
             if (l == r) {
                 data[x].left = data[x].right = data[x].lc = data[x].rc = l;
@@ -75,7 +75,7 @@ class seg_tree {
             if (l == l2 && r == r2) {
                 return data[x];
             }
-            //push(l, r, x);
+            push(l, r, x);
             int mid = (l2 + r2) >> 1;
             if (r <= mid) {
                 return query(l, r, l2, mid, getLc(x));
@@ -91,9 +91,9 @@ class seg_tree {
                 return result;
             }
         }
-        /*void update(int l, int r, int l2, int r2, int value, int x) {
+        void update(int l, int r, int l2, int r2, int value, int x) {
             if (l == l2 && r == r2) {
-                //cout << l << " " <<r <<endl;
+                data[x].sum += (r - l + 1) * value;
                 data[x].tag += value;
                 return;
             }
@@ -110,25 +110,17 @@ class seg_tree {
             }
             pull(data[x], data[ data[x].lc ], data[ data[x].rc ]);
             return;
-        }*/
+        }
 };
 
-int n, m;
-vector<int> ve;
+vector<int> ve = {1, 2, 3, 4, 5};
 
 void solve() {
 
-    ve.resize(n);
-    for (int i = 0; i < n; i++) {
-        cin >> ve[i];
-    }
     seg_tree seg(ve);
-    cin >> m;
-    for (int i = 0; i < m; i++) {
-        int a, b;
-        cin >> a >> b;
-        cout << (seg.query( min(a, b), max(a, b) ).maxi) << "\n";
-    }
+    cout << (seg.query(1, 5).sum) << endl;
+    seg.update(1, 5, 50);
+    cout << (seg.query(1, 5).sum) << endl;
 
     return;
 }
@@ -137,7 +129,7 @@ signed main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    while (cin >> n) solve();
+    solve();
 
     return 0;
 }
