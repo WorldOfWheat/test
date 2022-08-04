@@ -16,7 +16,6 @@ struct node{
     int rc;
     int tag;
     int sum;
-    int maxi;
 };
 
 class seg_tree {
@@ -47,21 +46,19 @@ class seg_tree {
             x.left = y.left;
             x.right = z.right;
             x.sum = y.sum + z.sum;
-            x.maxi = max(y.maxi, z.maxi);
         }
         void push(int l, int r, int x) {
-            if (data[x].tag == 0) return;
             int mid = (l + r) >> 1;
-            data[ data[x].lc ].sum = data[x].tag * (mid - l + 1);
-            data[ data[x].rc ].sum = data[x].tag * (r - mid + 1 + 1);
-            data[ data[x].lc ].tag = data[ data[x].lc ].tag = data[x].tag;
+            data[ data[x].lc ].sum += data[x].tag * (mid - l + 1);
+            data[ data[x].rc ].sum += data[x].tag * (r - mid);
+            data[ data[x].lc ].tag += data[x].tag;
+            data[ data[x].rc ].tag += data[x].tag;
             data[x].tag = 0;
         }
         void build(int l, int r, int x) {
             if (l == r) {
                 data[x].left = data[x].right = data[x].lc = data[x].rc = l;
                 data[x].sum = input[l-1];
-                data[x].maxi = input[l-1];
                 return;
             }
             int mid = (l + r) / 2;
@@ -70,12 +67,13 @@ class seg_tree {
             data[x].lc = getLc(x);
             data[x].rc = getRc(x);
             pull(data[x], data[ data[x].lc ], data[ data[x].rc ]);
+            return;
         }
         node query(int l, int r, int l2, int r2, int x) {
             if (l == l2 && r == r2) {
                 return data[x];
             }
-            push(l, r, x);
+            push(l2, r2, x);
             int mid = (l2 + r2) >> 1;
             if (r <= mid) {
                 return query(l, r, l2, mid, getLc(x));
@@ -97,6 +95,7 @@ class seg_tree {
                 data[x].tag += value;
                 return;
             }
+            push(l2, r2, x);
             int mid = (l2 + r2) >> 1;
             if (r <= mid) {
                 update(l, r, l2, mid, value, getLc(x));
@@ -113,14 +112,32 @@ class seg_tree {
         }
 };
 
-vector<int> ve = {1, 2, 3, 4, 5};
+int n, m;
+vector<int> ve;
 
 void solve() {
 
+    cin >> n;
+    ve.resize(n);
+    for (int i = 0; i < n; i++) {
+        cin >> ve[i];
+    }
     seg_tree seg(ve);
-    cout << (seg.query(1, 5).sum) << endl;
-    seg.update(1, 5, 50);
-    cout << (seg.query(1, 5).sum) << endl;
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        int k;
+        cin >> k;
+        if ( k == 1 ) {
+            int a, b, c;
+            cin >> a >> b >> c;
+            seg.update(a, b, c);
+        }
+        if ( k == 2 ) {
+            int a, b;
+            cin >> a >> b;
+            cout << (seg.query(a, b).sum) << "\n";
+        }
+    }
 
     return;
 }
