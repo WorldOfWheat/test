@@ -1,14 +1,3 @@
-#include <bits/stdc++.h>
-#define int long long
-#define pii pair<int, int>
-#define tp tuple<int, int, int>
-#define mp(x, y) make_pair(x, y)
-#define F first
-#define S second
-
-using namespace std;
-__attribute__((optimize("-O3")))
-
 struct node{
     int left;
     int right;
@@ -31,6 +20,9 @@ class seg_tree {
         }
         void update(int l, int r, int value) {
             update(l, r, 1, _size, value, 1);
+        }
+        void update_single(int pos, int value) {
+            update_single(pos, 1, _size, value, 1);
         }
     private:
         int _size;
@@ -110,43 +102,18 @@ class seg_tree {
             pull(data[x], data[ data[x].lc ], data[ data[x].rc ]);
             return;
         }
+        void update_single(int pos, int l2, int r2, int value, int x) {
+            if (pos == l2 && pos == r2) {
+                data[x]._xor = value;
+                return;
+            }
+            int mid = (l2 + r2) >> 1;
+            if (pos <= mid) {
+                update_single(pos, l2, mid, value, data[x].lc);
+            }
+            else {
+                update_single(pos, mid+1, r2, value, data[x].rc);
+            }
+            pull(data[x], data[ data[x].lc ], data[ data[x].rc ]);
+        }
 };
-
-int n, m;
-vector<int> ve;
-
-void solve() {
-
-    cin >> n;
-    ve.resize(n);
-    for (int i = 0; i < n; i++) {
-        cin >> ve[i];
-    }
-    seg_tree seg(ve);
-    cin >> m;
-    for (int i = 0; i < m; i++) {
-        int k;
-        cin >> k;
-        if ( k == 1 ) {
-            int a, b, c;
-            cin >> a >> b >> c;
-            seg.update(a, b, c);
-        }
-        if ( k == 2 ) {
-            int a, b;
-            cin >> a >> b;
-            cout << (seg.query(a, b).sum) << "\n";
-        }
-    }
-
-    return;
-}
-
-signed main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-
-    solve();
-
-    return 0;
-}
