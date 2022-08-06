@@ -7,140 +7,219 @@
 #define S second
 
 using namespace std;
+using cd = complex<double>;
 __attribute__((optimize("-O3")))
 
-class bigCal {
+class bigIntegerCal{
     public:
-        string add(string x, string y) {
-            stringstream ss;
+        stack<int> add(vector<int> x, vector<int> y) {
+            const int len_x = x.size();
+            const int len_y = y.size();
+            int ptr_x = len_x - 1;
+            int ptr_y = len_y - 1;
+            stack<int> st_result;
             int carry = 0;
-            for (int i = max(x.length(), y.length()) - 1; i >= 0; i--) {
-                while (i >= x.length()) {
-                    x = "0" + x;
-                }
-                while (i >= y.length()) {
-                    y = "0" + y;
-                }
-                int a = x[i] - '0';
-                int b = y[i] - '0';
-                int c = a + b + carry;
-                ss << (c % 10);
-                carry = c / 10;
+            while (ptr_x >= 0 && ptr_y >= 0) {
+                int a = x[ptr_x] + y[ptr_y] + carry;
+                st_result.push(a % 10);
+                carry = a / 10;
+                ptr_x--;
+                ptr_y--;
             }
-            if (carry != 0) {
-                ss << carry;
+            while (ptr_x >= 0) {
+                int a = x[ptr_x] + carry;
+                st_result.push(a % 10);
+                carry = a / 10;
+                ptr_x--;
             }
-            string a = ss.str();
-            reverse(a.begin(), a.end());
-            return a;
+            while (ptr_y >= 0) {
+                int a = y[ptr_y] + carry;
+                st_result.push(a % 10);
+                carry = a / 10;
+                ptr_y--;
+            }
+            return st_result;
         }
-        string sub(string x, string y) {
-            stringstream ss;
-            for (int i = max(x.length(), y.length()) - 1; i >= 0; i--) {
-                while (i >= x.length()) {
-                    x = "0" + x;
-                }
-                while (i >= y.length()) {
-                    y = "0" + y;
-                }
-                int a = x[i] - '0';
-                int b = y[i] - '0';
-                if (a >= b) {
-                    ss << (a - b);
+        stack<int> sub(vector<int> x, vector<int> y) {
+            const int len_x = x.size();
+            const int len_y = y.size();
+            int ptr_x = len_x - 1;
+            int ptr_y = len_y - 1;
+            stack<int> st_result;
+            while (ptr_x >= 0 && ptr_y >= 0) {
+                int a = x[ptr_x] - y[ptr_y];
+                if (a >= 0) {
+                    st_result.push(a);
                 }
                 else {
-                    ss << (10 + a - b);
-                    x[i-1]--;
+                    st_result.push(a + 10);
+                    x[ptr_x - 1]--;
                 }
+                ptr_x--;
+                ptr_y--;
             }
-            string a = ss.str();
-            reverse(a.begin(), a.end());
-            return a;
+            while (ptr_x >= 0) {
+                if (x[ptr_x] < 0) {
+                    x[ptr_x-1]--;
+                    st_result.push(x[ptr_x] + 10);
+                }
+                else {
+                    if (ptr_x == 0 && x[ptr_x] == 0) {
+                        break;
+                    }
+                    st_result.push(x[ptr_x]);
+                }
+                ptr_x--;
+            }
+            return st_result;
         }
-        string multi(string x, string y) {
-            int a = x.length();
-            int b = y.length();
-            int len = max(a, b);
-            while (x.length() < len) {
-                x = "0" + x;
+        stack<int> mul(vector<int> x, vector<int> y) {
+            vector<cd> ve_cd(x.begin(), x.end());
+            vector<cd> ve_cd2(y.begin(), y.end());
+
+            int _size = 1;
+            while (_size < x.size() + y.size()) {
+                _size <<= 1;
             }
-            while (y.length() < len) {
-                y = "0" + y;
+
+            ve_cd.resize(_size);
+            ve_cd2.resize(_size);
+
+            fft(ve_cd);
+            fft(ve_cd2);
+
+            for (int i = 0; i < ve_cd.size(); i++) {
+                ve_cd[i] *= ve_cd2[i];
             }
-            return multi_cal(x, y);
+
+            reverse_fft(ve_cd);
+
+            int remain = ( _size - (x.size() + y.size()) ) + 1;
+            stack<int> st_result;
+            int carry = 0;
+            for (int i = _size - remain - 1; i >= 0 ; i--) {
+                int a = round(ve_cd[i].real());
+                int b = carry + a;
+                //cout << a << " " << b << endl;
+                st_result.push(b % 10);
+                carry = b / 10;
+                //ve_result[i] = round(ve_cd[i].real());
+            }
+            if (carry != 0) {
+                st_result.push(carry);
+            }
+            return st_result;
         }
-        void format(string &x) {
-            while (x.length() > 1 && x[0] == '0') {
-                x = x.substr(1, x.length());
-            }
-        }
+
     private:
-        string multi_cal(string x, string y) {
-            int len = x.length();
-            if (len == 0) {
-                return 0;
+        const double PI = acos(-1);
+
+        void fft(vector<cd> &x) {
+            const int _size = x.size();
+            if (_size == 1) {
+                return;
             }
-            if (len <= 2) {
-                int a = atoi(x.c_str());
-                int b = atoi(y.c_str());
-                return to_string(a*b);
+            int mid = _size >> 1;
+            vector<cd> left(mid);
+            vector<cd> right(mid);
+            for (int i = 0; i < mid; i++) {
+                left[i] = x[i << 1];
+                right[i] = x[(i << 1) + 1];
             }
-            int mid_f = len / 2;
-            int mid_r = len - mid_f;
-
-            string a_l = x.substr(0, mid_f);
-            string a_r = x.substr(mid_f, mid_r);
-
-            string b_l = y.substr(0, mid_f);
-            string b_r = y.substr(mid_f, mid_r);
-
-            string c1 = multi(a_l, b_l);
-            string c2 = multi(a_r, b_r);
-            string c3 = multi( add(a_l, a_r), add(b_l, b_r) );
-
-            string d1 = c1;
-            for (int i = 1; i <= 2*mid_r; i++) {
-                d1 += "0";
+            fft(left);
+            fft(right);
+            const double angle = PI / _size * 2;
+            cd w(1), wn(cos(angle), sin(angle));
+            for (int i = 0; i < mid; i++) {
+                x[i] = left[i] + w * right[i];
+                x[i + mid] = left[i] - w * right[i];
+                w *= wn;
             }
+        }
 
-            string d2 = sub(c3, add(c1, c2));
-            for (int i = 1; i <= mid_r; i++) {
-                d2 += "0";
+        void reverse_fft(vector<cd> &x) {
+            int _size = x.size();
+            if (_size == 1) {
+                return;
             }
-
-            string result = add(d1, add(d2, c2) );
-
-            return (result);
+            int mid = _size >> 1;
+            vector<cd> left(mid);
+            vector<cd> right(mid);
+            for (int i = 0; i < mid; i++) {
+                left[i] = x[i << 1];
+                right[i] = x[(i << 1) + 1];
+            }
+            reverse_fft(left);
+            reverse_fft(right);
+            const double angle = PI / _size * -1 * 2;
+            cd w(1), wn(cos(angle), sin(angle));
+            for (int i = 0; i < mid; i++) {
+                x[i] = left[i] + w * right[i];
+                x[i + mid] = left[i] - w * right[i];
+                x[i] /= 2;
+                x[i + mid] /= 2;
+                w *= wn;
+            }
         }
 };
 
+char input;
+vector<int> ve;
+vector<int> ve2;
+char symbol;
+
 void solve() {
 
-    bigCal bc;
-    string a;
-    string b;
-    char symbol;
-    cin >> a >> symbol >> b;
-    switch(symbol) {
+    bool flag = false;
+    while (input != EOF) {
+        input = getchar();
+        if (input != ' ') {
+            if ( isdigit(input) ) {
+                if (!flag) {
+                    ve.push_back(input - 48);
+                }
+                else {
+                    ve2.push_back(input - 48);
+                }
+            }
+            if ( ispunct(input) ) {
+                symbol = input;
+                flag = true;
+            }
+        }
+    }
+    bigIntegerCal big;
+    switch (symbol) {
         case '+': {
-            string c = bc.add(a, b);
-            bc.format(c);
-            cout << c << endl;
+            stack<int> st = big.add(ve, ve2);
+            while (!st.empty()) {
+                putchar(st.top() + 48);
+                //cout << (st.top());
+                st.pop();
+            }
             break;
         }
         case '-': {
-            string c = bc.sub(a, b);
-            bc.format(c);
-            cout << c << endl;
+            stack<int> st = big.sub(ve, ve2);
+            while (!st.empty()) {
+                putchar(st.top() + 48);
+                //cout << (st.top());
+                st.pop();
+            }
             break;
         }
         case '*': {
-            string c = bc.multi(a, b);
-            bc.format(c);
-            cout << c << endl;
+            stack<int> st = big.mul(ve, ve2);
+            while (!st.empty()) {
+                putchar(st.top() + 48);
+                //cout << (st.top());
+                st.pop();
+            }
             break;
         }
     }
+    cout << "\n";
+
 }
 
 signed main() {
