@@ -10,7 +10,6 @@ using namespace std;
 
 void solve() {
 
-    return;
 }
 
 signed main() {
