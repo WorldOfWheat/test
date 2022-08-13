@@ -1,14 +1,3 @@
-#include <bits/stdc++.h>
-#define int long long
-#define pii pair<int, int>
-#define tp tuple<int, int, int>
-#define F first
-#define S second
-
-using namespace std;
-
-void solve() {
-
     ifstream in;
     ofstream out;
     in.open("test_input.txt");
@@ -22,13 +11,3 @@ void solve() {
         return;
     }
   
-}
-
-signed main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
-
-    solve();
-
-    return 0;
-}
