@@ -1,13 +1,13 @@
-    ifstream in;
-    ofstream out;
-    in.open("test_input.txt");
-    if (in.fail()) {
-        cout << "ERROR - 1" << "\n";
+    ifstream cin;
+    ofstream cout;
+    cin.open("test_input.txt");
+    if (cin.fail()) {
+        cerr << "ERROR - 1" << "\n";
         return;
     }
-    out.open("test_output.txt");
-    if (out.fail()) {
-        cout << "ERROR - 2" << "\n";
+    cout.open("test_output.txt");
+    if (cout.fail()) {
+        cerr << "ERROR - 2" << "\n";
         return;
     }
   
