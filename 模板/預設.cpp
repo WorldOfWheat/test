@@ -4,6 +4,7 @@
 #define F first
 #define S second
 #define ln '\n'
+#define sp " "
 
 using namespace std;
 
