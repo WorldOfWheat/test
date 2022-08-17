@@ -2,28 +2,21 @@ class DSU {
     public:
         DSU(int x) {
             _size = x;
-            cnt = _size;
             data.resize(_size + 1);
             for (int i = 0; i <= _size; i++) {
                 data[i] = i;
             }
         }
-        void connect(int x, int y) {
-            int a = query(data[x]);
-            int b = query(data[y]);
-            data[a] = b;
+        void update(int pos, int pos2) {
+            data[query(pos)] = query(pos2);
         }
-        bool isConnected(int x, int y) {
-            return ( query(x) == query(y) );
+        int query(int pos) {
+            if (data[pos] == pos) {
+                return pos;
+            }
+            return data[pos] = query(data[pos]);
         }
     private:
         int _size;
-        int cnt;
         vector<int> data;
-        int query(int x) {
-            if (data[x] == x) {
-                return x;
-            }
-            return query(data[x]);
-        }
 };
