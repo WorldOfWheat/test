@@ -117,25 +117,24 @@ void solve() {
         }
     }
     bigIntegerCal bic;
-    
+
     vector<int> ans = bic.mul(ve, ve2);
     stringstream ss;
-    bool flag = false;
-    
+    bool flag2 = false;
+
     for (auto it = ans.rbegin(); it != ans.rend(); it++) {
         ss << (*it);
         if (*it != 0) {
-            flag = true;
+            flag2 = true;
         }
     }
-    if (flag) {
+    if (flag2) {
         cout << ss.str();
     }
     else {
         cout << 0;
     }
-    break;
-   
+
     cout << ln;
 
 }
