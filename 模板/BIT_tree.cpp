@@ -1,29 +1,25 @@
-class bit{
+class BIT_tree {
     public:
-        bit(int x) {
-            data.resize(x+1);
-            _size = x;
+        BIT_tree(int x) {
+            _size = x + 1;
+            data.resize(_size);
         }
-        void update(int x, int y) {
-            for (int i = x; i <= _size; i+=lowbit(i)) {
-                data[i] += y;
+        void update(int pos, int value) {
+            for (int i = pos; i <= _size; i+=getLowbit(i)) {
+                data[i] += value;
             }
         }
-        int query(int x) {
-            int result = 0;
-            for (int i = x; i >= 1; i-=lowbit(i)) {
-                result += data[i];
+        int query(int pos) {
+            int res = 0;
+            for (int i = pos; i >= 1; i-=getLowbit(i)) {
+                res += data[i];
             }
-            return result;
+            return res;
         }
-        void test(int x) {
-            cout << (lowbit(x)) << endl;
-        }
-
     private:
-        vector<int> data;
         int _size;
-        int lowbit(int x) {
+        vector<int> data;
+        int getLowbit(int x) {
             return (x & -x);
         }
 };
