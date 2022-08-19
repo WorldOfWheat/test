@@ -33,7 +33,6 @@ class bigIntegerCal {
             int l = x.size() - 1;
             int r = y.size() - 1;
             vector<int> res;
-            int carry = 0;
             while (l >= 0 && r >= 0) {
                 if (x[l] - y[r] < 0) {
                     int a = 10 + x[l] - y[r];
@@ -52,9 +51,6 @@ class bigIntegerCal {
                     res.push_back(10 + x[l]);
                 }
                 else {
-                    if (l == 0 && x[l] == 0) {
-                        break;
-                    }
                     res.push_back(x[l]);
                 }
                 l--;
@@ -96,7 +92,6 @@ class bigIntegerCal {
         }
 
     private:
-        //ntt
         const int G = 3, P = 998244353;
 
         int fastpow(int x, int y) {
@@ -141,37 +136,6 @@ class bigIntegerCal {
                 for (int i = 0; i < _size; i++) {
                     x[i] = 1ll * x[i] * inv % P;
                 }
-            }
-        }
-
-        //fft
-        using cd = complex<float>;
-        const float PI = acos(-1);
-
-        void fft(vector<cd> &x, bool oper) {
-            int _size = x.size();
-            if (_size == 1) {
-                return;
-            }
-            int mid = _size >> 1;
-            vector<cd> left(mid);
-            vector<cd> right(mid);
-            for (int i = 0; i < mid; i++) {
-                left[i] = x[i << 1];
-                right[i] = x[(i << 1) + 1];
-            }
-            fft(left, oper);
-            fft(right, oper);
-            float angle = PI / _size * 2 * (oper ? -1 : 1);
-            cd w(1), wn(cos(angle), sin(angle));
-            for (int i = 0; i < mid; i++) {
-                x[i] = left[i] + w * right[i];
-                x[i + mid] = left[i] - w * right[i];
-                if (oper) {
-                    x[i] /= 2;
-                    x[i + mid] /= 2;
-                }
-                w *= wn;
             }
         }
 };
