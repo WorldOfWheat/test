@@ -7,71 +7,9 @@ using namespace std;
 
 vector<int> ve;
 vector<int> ve2;
-char symbol;
 
 class bigIntegerCal {
     public:
-        vector<int> add(vector<int> x, vector<int> y) {
-            int l = x.size() - 1;
-            int r = y.size() - 1;
-            vector<int> res;
-            int carry = 0;
-            while (l >= 0 && r >= 0) {
-                int a = x[l] + y[r] + carry;
-                res.push_back(a % 10);
-                carry = a / 10;
-                l--;
-                r--;
-            }
-            while (l >= 0) {
-                int a = x[l] + carry;
-                res.push_back(a % 10);
-                carry = a / 10;
-                l--;
-            }
-            while (r >= 0) {
-                int a = y[r] + carry;
-                res.push_back(a % 10);
-                carry = a / 10;
-                r--;
-            }
-            if (carry != 0) {
-                res.push_back(carry);
-            }
-            return res;
-        }
-        vector<int> sub(vector<int> x, vector<int> y) {
-            int l = x.size() - 1;
-            int r = y.size() - 1;
-            vector<int> res;
-            int carry = 0;
-            while (l >= 0 && r >= 0) {
-                if (x[l] - y[r] < 0) {
-                    int a = 10 + x[l] - y[r];
-                    res.push_back(a);
-                    x[l-1]--;
-                }
-                else {
-                    res.push_back(x[l] - y[r]);
-                }
-                l--;
-                r--;
-            }
-            while (l >= 0) {
-                if (x[l] < 0) {
-                    x[l-1]--;
-                    res.push_back(10 + x[l]);
-                }
-                else {
-                    if (l == 0 && x[l] == 0) {
-                        break;
-                    }
-                    res.push_back(x[l]);
-                }
-                l--;
-            }
-            return res;
-        }
         vector<int> mul(vector<int> x, vector<int> y) {
             int _size = 1;
             int a = x.size();
@@ -179,43 +117,25 @@ void solve() {
         }
     }
     bigIntegerCal bic;
-    symbol = '*';
-    switch (symbol) {
-        case '+': {
-            vector<int> ans = bic.add(ve, ve2);
-            for (auto it = ans.rbegin(); it != ans.rend(); it++) {
-                cout << (*it);
-            }
-            break;
-        }
-
-        case '-': {
-            vector<int> ans = bic.sub(ve, ve2);
-            for (auto it = ans.rbegin(); it != ans.rend(); it++) {
-                cout << (*it);
-            }
-            break;
-        }
-
-        case '*': {
-            vector<int> ans = bic.mul(ve, ve2);
-            stringstream ss;
-            bool flag = false;
-            for (auto it = ans.rbegin(); it != ans.rend(); it++) {
-                ss << (*it);
-                if (*it != 0) {
-                    flag = true;
-                }
-            }
-            if (flag) {
-                cout << ss.str();
-            }
-            else {
-                cout << 0;
-            }
-            break;
+    
+    vector<int> ans = bic.mul(ve, ve2);
+    stringstream ss;
+    bool flag = false;
+    
+    for (auto it = ans.rbegin(); it != ans.rend(); it++) {
+        ss << (*it);
+        if (*it != 0) {
+            flag = true;
         }
     }
+    if (flag) {
+        cout << ss.str();
+    }
+    else {
+        cout << 0;
+    }
+    break;
+   
     cout << ln;
 
 }
