@@ -95,6 +95,20 @@ class bigIntegerCal {
             return res;
         }
 
+    private:
+        const int G = 3, P = 998244353;
+
+        int fastpow(int x, int y) {
+            int sum = 1;
+            while (y > 0) {
+                if (y & 1) {
+                    sum = 1ll * sum * x % P;
+                }
+                y >>= 1;
+                x = 1ll * x * x % P;
+            }
+            return sum;
+        }
         void ntt(vector<int> &x, int _size, bool oper) {
             for (int i = 1, o = 0; i < _size; i++) {
                 int p = _size >> 1;
@@ -128,20 +142,4 @@ class bigIntegerCal {
                 }
             }
         }
-
-    private:
-        const int G = 3, P = 998244353;
-
-        int fastpow(int x, int y) {
-            int sum = 1;
-            while (y > 0) {
-                if (y & 1) {
-                    sum = 1ll * sum * x % P;
-                }
-                y >>= 1;
-                x = 1ll * x * x % P;
-            }
-            return sum;
-        }
-
 };
