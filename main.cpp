@@ -18,7 +18,7 @@ void solve() {
     }
 
     for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= n; j++) {
+        for (int j = 1; j <= i; j++) {
             if (dp[i-1][j-1] + ve[i-1] < 0) {
                 dp[i][j] = dp[i-1][j];
                 continue;
@@ -26,14 +26,6 @@ void solve() {
             dp[i][j] = max( dp[i-1][j], dp[i-1][j-1] + ve[i-1] );
         }
     }
-    //cout << (dp[n][n]) << ln;
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= n; j++) {
-            cerr << dp[i][j] << sp;
-        }
-        cerr << ln;
-    }
-
 
 }
 
