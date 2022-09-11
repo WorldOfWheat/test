@@ -1,6 +1,6 @@
 cd "D:\Code\test"
 git add .
-git commit -a --allow-empty-message -m ""
+git commit -S -a --allow-empty-message -m ""
 
 pause
 
