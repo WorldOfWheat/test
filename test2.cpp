@@ -15,29 +15,40 @@
 
 using namespace std;
 
-VV ve;
-VV pf;
+V ve;
+V pf;
+V sf;
+
+int dfs(int l, int r) {
+
+    if (l >= r) {
+        return ve[l];
+    }
+
+    int mid = (l + r) / 2;
+    int res = max(dfs(l, mid), dfs(mid+1, r));
+
+    
+
+}
 
 void solve() {
+	
+    int n;
+    cin >> n;
 
-	int n, m;
-	cin >> n >> m;
+    ve.resize(n);
+    rep (i, 0, n) {
+        cin >> ve[i];
+    }
 
-	ve.resize(n, V(m));
-	rep (i, 0, n) {
-		rep (j, 0, m) {
-			cin >> ve[i][j];
-		}
-	}
+    pf.resize(n+1);
+    sf.resize(n+1);
 
-	pf.resize(n+1, V(m+1));
-	rep2 (i, 1, n) {
-		rep2 (j, 1, m) {
-			pf[i][j] = ve[i-1][j-1] + (pf[i-1][j] + pf[i][j-1]) - pf[i-1][j-1];
-		}
-	}
-
-
+    rep2 (i, 1, n) {
+        pf[i] = pf[i-1] + ve[i-1];
+        sf[i] = sf[i-1] + ve[n-i];
+    }
 
 
 }
