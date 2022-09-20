@@ -15,51 +15,70 @@
 
 using namespace std;
 
+string str, str2;
 VV dp;
+VV status;
 
 void solve() {
 
-	string str, str2;
-	cin >> str >> str2;
+	dp.clear();
+	status.clear();
+
+	cout << str << sp << str2 << " = ";
 
 	int len = str.length();
 	int len2 = str2.length();
-
+	
 	dp.resize(len+1, V(len2+1));
-	int sum = 0;
-	rep2 (i, 0, len) {
-		dp[i][0] = sum;
-		sum -= 3;
-	}
-	sum = 0;
-	rep2 (i, 0, len2) {
-		dp[0][i] = sum;
-		sum -= 3;
-	}
+	status.resize(len+1, V(len2+1));
 
 	rep2 (i, 1, len) {
 		rep2 (j, 1, len2) {
 			char top = str[i-1];
 			char top2 = str2[j-1];
 
-			if (top != top2) {
-				dp[i][j] = max({dp[i-1][j] - 3, max(dp[i-1][j], dp[i][j-1]) - 5});
+			if (top == top2) {
+				dp[i][j] = dp[i-1][j-1] + 1;
+				status[i][j] = 1;
 				continue;
 			}
 
-			dp[i][j] = dp[i-1][j-1] + 8;
+			if (dp[i-1][j] > dp[i][j-1]) {
+				dp[i][j] = dp[i-1][j];
+				status[i][j] = 2;
+			}
+			else {
+				dp[i][j] = dp[i][j-1];
+				status[i][j] = 3;
+			}
 		}
 	}
 
-	/*cerr << ln;
-	rep2 (i, 0, len2) {
-		rep2 (j, 0, len) {
-			cerr << (dp[j][i]) << sp;
-		}
-		cerr << ln;
-	}*/
+	stringstream ss;
 
-	cout << (dp[len][len2]) << ln;
+	int nowX = len;
+	int nowY = len2;
+	
+	while (nowX != 0 && nowY != 0) {
+		switch (status[nowX][nowY]) {
+		case 1:			
+			nowX--;
+			nowY--;
+			ss << str[nowX-1];
+			break;
+		case 2:
+			nowX--;
+		case 3:
+			nowY--;
+		}
+	}
+
+	str = ss.str();
+
+	for (auto i = str.rbegin(); i != str.rend(); i++) {
+		cout << (*i);
+	}
+	cout << ln;
 
 }
 
@@ -68,7 +87,7 @@ signed main() {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	solve();
+	while (cin >> str >> str2) solve();
 
 	return 0;
 
