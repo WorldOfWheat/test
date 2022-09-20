@@ -28,14 +28,27 @@ void solve() {
 	dp.resize(len+1, V(len2+1));
 	rep2 (i, 1, len) {
 		rep2 (j, 1, len2) {
-			if (str[i-1] != str2[j-1]) {
-				dp[i][j] = max(dp[i-1][j], dp[i][j-1]) - 5;
+			char top = str[i-1];
+			char top2 = str2[j-1];
+
+			if (top != top2) {
+				dp[i][j] = max({dp[i-1][j-1] - 3, max(dp[i-1][j], dp[i][j-1]) - 5, 0ll});
 				continue;
 			}
 
 			dp[i][j] = dp[i-1][j-1] + 8;
 		}
 	}
+
+	/*cerr << ln;
+	rep2 (i, 1, len) {
+		rep2 (j, 1, len2) {
+			cerr << (dp[i][j]) << sp;
+		}
+		cerr << ln;
+	}*/
+
+	//cout << (dp[len][len2]) << ln;
 
 }
 
