@@ -26,13 +26,24 @@ void solve() {
 	int len2 = str2.length();
 
 	dp.resize(len+1, V(len2+1));
+	int sum = 0;
+	rep2 (i, 0, len) {
+		dp[i][0] = sum;
+		sum -= 3;
+	}
+	sum = 0;
+	rep2 (i, 0, len2) {
+		dp[0][i] = sum;
+		sum -= 3;
+	}
+
 	rep2 (i, 1, len) {
 		rep2 (j, 1, len2) {
 			char top = str[i-1];
 			char top2 = str2[j-1];
 
 			if (top != top2) {
-				dp[i][j] = max({dp[i-1][j-1] - 3, max(dp[i-1][j], dp[i][j-1]) - 5, 0ll});
+				dp[i][j] = max({dp[i-1][j] - 3, max(dp[i-1][j], dp[i][j-1]) - 5});
 				continue;
 			}
 
@@ -41,14 +52,14 @@ void solve() {
 	}
 
 	/*cerr << ln;
-	rep2 (i, 1, len) {
-		rep2 (j, 1, len2) {
-			cerr << (dp[i][j]) << sp;
+	rep2 (i, 0, len2) {
+		rep2 (j, 0, len) {
+			cerr << (dp[j][i]) << sp;
 		}
 		cerr << ln;
 	}*/
 
-	//cout << (dp[len][len2]) << ln;
+	cout << (dp[len][len2]) << ln;
 
 }
 
