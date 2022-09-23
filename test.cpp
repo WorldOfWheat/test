@@ -2,7 +2,7 @@
 #define int long long
 #define V vector<int>
 #define VP vector<pii>
-#define vv vector<vector<int>>
+#define VV vector<vector<int>>
 #define pii pair<int, int>
 #define F first
 #define S second
@@ -15,39 +15,14 @@
 
 using namespace std;
 
-V ve;
-V dp;
-deque<int> de;
+VP ve;
+VV dp;
 
 void solve() {
 	
 	int n, m;
+	
 	cin >> n >> m;
-
-	m++;
-
-	ve.resize(n);
-	dp.resize(n+1);
-
-	rep (i, 0, n) {
-		cin >> ve[i];
-	}
-
-	
-
-	rep (i, 0, n) {						
-		while (de.size() && de.front() < i - 2*m) {
-			de.pop_front();
-		}		
-
-		while (de.size() && ve[de.back()] >= ve[i]) {
-			de.pop_back();
-		}
-
-		de.push_back(i);
-	
-
-	}
 
 }
 
