@@ -15,14 +15,11 @@
 
 using namespace std;
 
-VP ve;
-VV dp;
+
 
 void solve() {
+
 	
-	int n, m;
-	
-	cin >> n >> m;
 
 }
 
