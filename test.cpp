@@ -15,44 +15,53 @@
 
 using namespace std;
 
-V ve;
+struct player {
+	int start;
+	int end;
+	int value;
+};
+
+vector<player> ve;
 V dp;
-deque<int> de;
 
 void solve() {
 
-	int n, m;
+	int n;
 
-	cin >> n >> m;	
+	cin >> n;
 
-	ve.resize(n);
+	ve.resize(n+1);
 	dp.resize(n+1);
 
-	rep (i, 0, n) {
-		cin >> ve[i];
+	rep2 (i, 1, n) {
+		cin >> ve[i].start >> ve[i].end >> ve[i].value;
 	}
+
+	ve[0].end = -1;
+
+	sort(ve.begin(), ve.end(), [](player x, player y) {
+		return x.end < y.end;
+	});
+
+	dp[0] = 0;
 
 	rep2 (i, 1, n) {
-		int top = ve[i-1];
+		player top = ve[i];
 
-		if (i <= m + 1) {
-			dp[i] = top;
-		}
-		else {
-			while (de.front() < i - 2 * m - 1) {
-				de.pop_front();
+		int j = 0;
+		for (int jump = i / 2; jump >= 1; jump /= 2) {
+			while (j + jump < i && ve[j+jump].end < top.start) {
+				j += jump;
 			}
-			dp[i] = dp[de.front()] + top;
 		}
+	
+		cerr << j << ln;
 
-		while (de.size() && dp[de.back()] >= dp[i]) {
-			de.pop_back();
-		}
-
-		de.push_back(i);
+		dp[i] = dp[j] + top.value;
+		dp[i] = max(dp[i], dp[i-1]);
 	}
 
-	cout << (*min_element(dp.begin() + n - m, dp.end())) << ln;
+	cout << (dp[n]) << ln;
 
 }
 
