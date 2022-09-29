@@ -15,15 +15,13 @@
 
 using namespace std;
 
-
+int n;
+string str;
+VV dp;
 
 void solve() {
 
-	int n, m;
 	
-	cin >> n >> m;
-
-	cout << "Do you want to say " << n << " and " << m << " ??" << ln;
 
 }
 
