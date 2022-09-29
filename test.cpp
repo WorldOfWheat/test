@@ -15,53 +15,48 @@
 
 using namespace std;
 
-struct player {
-	int start;
-	int end;
-	int value;
-};
+V ve;
+VV dp;
 
-vector<player> ve;
-V dp;
+int dfs(int l, int r) { 
+
+	if (dp[l][r] >= 0) {
+		return dp[l][r];
+	}
+
+	int res = INF;
+
+	rep (i, l+1, r) {
+		res = min(1ll * dfs(i, r) + dfs(l, i), res);
+	}
+
+	res += ve[r] - ve[l];
+
+	return (dp[l][r] = res);
+
+}
 
 void solve() {
 
-	int n;
+	int n, m;
 
-	cin >> n;
+	cin >> n >> m;
 
-	ve.resize(n+1);
-	dp.resize(n+1);
+	ve.resize(n+2);
+	dp.resize(n+2, V(n+2, -1));
 
-	rep2 (i, 1, n) {
-		cin >> ve[i].start >> ve[i].end >> ve[i].value;
-	}
-
-	ve[0].end = -1;
-
-	sort(ve.begin(), ve.end(), [](player x, player y) {
-		return x.end < y.end;
-	});
-
-	dp[0] = 0;
+	ve[0] = 0;
+	ve[n+1] = m;
 
 	rep2 (i, 1, n) {
-		player top = ve[i];
-
-		int j = 0;
-		for (int jump = i / 2; jump >= 1; jump /= 2) {
-			while (j + jump < i && ve[j+jump].end < top.start) {
-				j += jump;
-			}
-		}
-	
-		cerr << j << ln;
-
-		dp[i] = dp[j] + top.value;
-		dp[i] = max(dp[i], dp[i-1]);
+		cin >> ve[i];
 	}
 
-	cout << (dp[n]) << ln;
+	rep (i, 0, n+1) {
+		dp[i][i+1] = 0;
+	}
+
+	cout << (dfs(0, n+1)) << ln;
 
 }
 
