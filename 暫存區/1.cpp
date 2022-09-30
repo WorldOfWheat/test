@@ -16,37 +16,31 @@
 using namespace std;
 
 V ve;
-V dp;
+vector<VV> dp;
 
 void solve() {
 
-	int n;
+	int n, m;
 
-	cin >> n;
+	cin >> n >> m;
 
 	ve.resize(n);
+	dp.resize(n+1, VV(2, V(m+1)));
 
 	rep (i, 0, n) {
 		cin >> ve[i];
 	}
 
-	int ans = -INF;
+	rep2 (i, 1, n) {
+		rep2 (j, 1, m) {
+			int top = ve[i-1];
 
-	dp.push_back(ve[0]);
-
-	rep (i, 1, n) {
-		if (ve[i] > dp.back()) {
-			dp.push_back(ve[i]);
+			dp[i][0][m] = max(dp[i-1][0][m], dp[i-1][1][m-1] + top);
+			dp[i][1][m] = max(dp[i-1][1][m], dp[i-1][0][m-1] - top);
 		}
-		else {
-			auto it = lower_bound(dp.begin(), dp.end(), ve[i]);
-			*it = ve[i];
-		}
-
-		ans = max(ans, (int) dp.size());
 	}
 
-	cout << ans << ln;
+	cout << (dp[n][0][m]) << ln;
 
 }
 
