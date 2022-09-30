@@ -15,38 +15,11 @@
 
 using namespace std;
 
-V ve;
-V dp;
+
 
 void solve() {
 
-	int n;
-
-	cin >> n;
-
-	ve.resize(n);
-
-	rep (i, 0, n) {
-		cin >> ve[i];
-	}
-
-	int ans = -INF;
-
-	dp.push_back(ve[0]);
-
-	rep (i, 1, n) {
-		if (ve[i] > dp.back()) {
-			dp.push_back(ve[i]);
-		}
-		else {
-			auto it = lower_bound(dp.begin(), dp.end(), ve[i]);
-			*it = ve[i];
-		}
-
-		ans = max(ans, (int) dp.size());
-	}
-
-	cout << ans << ln;
+	
 
 }
 
