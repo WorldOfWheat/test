@@ -25,22 +25,35 @@ void solve() {
 	cin >> n >> m;
 
 	ve.resize(n);
-	dp.resize(n+1, VV(2, V(m+1)));
+	dp.resize(2, VV(2, V(m+1)));
 
 	rep (i, 0, n) {
 		cin >> ve[i];
 	}
 
-	rep2 (i, 1, n) {
-		rep2 (j, 1, m) {
-			int top = ve[i-1];
-
-			dp[i][0][m] = max(dp[i-1][0][m], dp[i-1][1][m-1] + top);
-			dp[i][1][m] = max(dp[i-1][1][m], dp[i-1][0][m-1] - top);
-		}
+	rep2 (i, 0, m) {
+		dp[0][1][i] = -INF;
 	}
 
-	cout << (dp[n][0][m]) << ln;
+	int sw = 0;
+	int sw2 = 1;
+
+	rep2 (i, 1, n) {
+		int top = ve[i-1];
+
+		rep (j, 0, m) {
+			dp[sw2][1][j] = max(dp[sw][0][j] - top, dp[sw][1][j]);
+		}
+
+		rep2 (j, 1, m) {
+			dp[sw2][0][j] = max(dp[sw][1][j-1] + top, dp[sw][0][j]);
+		}
+
+		sw = 1 - sw;
+		sw2 = 1 - sw2;
+	}
+
+	cout << (*max_element(dp[sw][0].begin(), dp[sw][0].end())) << ln;
 
 }
 
