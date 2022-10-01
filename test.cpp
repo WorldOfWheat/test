@@ -72,11 +72,11 @@ void solve() {
 
 	int ans = 0;
 
-	rep2 (i, 0, ve.back() - 1) {
+	/*rep2 (i, 0, ve.back() - 1) {
 		ans += dfs(ve.size() - 1, i);
-	}
+	}*/
 
-	//ans += dfs2(1, ve.back());
+	ans += dfs2(1, ve.back());
 
 	cout << (ans) << ln;
 
