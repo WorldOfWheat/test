@@ -15,33 +15,32 @@
 
 using namespace std;
 
-int n, m;
-V ve(3);
-VV dp;
+vector<int> ve;
+V dp;
+int bin;
 
 int dfs(int x, int y) {
-	if (y > m) {
-		return 0;
-	}
 
-	if (x == -1) {
-		return 1;
-	}
+	
 
-	return dfs(x-1, y + ve[0]) + dfs(x-1, y + ve[1]) + dfs(x-1, y + ve[2]);
 }
 
 void solve() {
 
+	int n;
+
 	cin >> n;
-	rep (i, 0, 3) {
+
+	bin = 1 << n;
+
+	ve.resize(bin);
+	dp.resize(bin + 1, -1);
+
+	rep (i, 0, bin) {
 		cin >> ve[i];
 	}
-	cin >> m;
 
-	dp.resize(n + 1, V())
-
-	cout << dfs(n - 1, 0) << ln;
+	cout << (dfs(bin-1, n));
 
 }
 
