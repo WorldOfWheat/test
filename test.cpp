@@ -15,11 +15,33 @@
 
 using namespace std;
 
+int n, m;
+V ve(3);
+VV dp;
 
+int dfs(int x, int y) {
+	if (y > m) {
+		return 0;
+	}
+
+	if (x == -1) {
+		return 1;
+	}
+
+	return dfs(x-1, y + ve[0]) + dfs(x-1, y + ve[1]) + dfs(x-1, y + ve[2]);
+}
 
 void solve() {
 
+	cin >> n;
+	rep (i, 0, 3) {
+		cin >> ve[i];
+	}
+	cin >> m;
 
+	dp.resize(n + 1, V())
+
+	cout << dfs(n - 1, 0) << ln;
 
 }
 
