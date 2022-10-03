@@ -15,32 +15,11 @@
 
 using namespace std;
 
-int n, m;
-V ve(3);
 
-int dfs(int sum, int level) {
-
-	if (sum > m) {
-		return 0;
-	}
-
-	if (level == n) {
-		return 1;
-	}
-
-	return (dfs(sum + ve[0], level + 1)) + (dfs(sum + ve[1], level + 1)) + (dfs(sum + ve[2], level + 1));
-
-}
 
 void solve() {
 
-	cin >> n;
-	rep (i, 0, 3) {
-		cin >> ve[i];
-	}
-	cin >> m;
 
-	cout << (dfs(0, 0)) << ln;
 
 }
 
