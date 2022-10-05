@@ -5,7 +5,6 @@ p12, p10, p8, p6, p16, p14);
 	input f4m, p3, p2, p4;
 	output p12, p10, p8, p6, p16, p14;
 	
-
 	reg[15:0] cnt;
 	reg[1:0] sel;
 	reg flag, flag2;
