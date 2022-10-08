@@ -15,71 +15,60 @@
 using namespace std;
 
 int n, m;
-int start, goal;
-vector<vector<pii>> graph;
-V dp;
-V dp2;
-V indeg;
+VV graph;
+V vis;
 
-void bfs() {
+bool dfs(int x, int color) {
 
-	queue<int> qu;
+	for (auto i : graph[x]) {
+		if (vis[i] == color) {
+			return false;
+		}	
+		if (vis[i]) {
+			continue;
+		}
+		vis[i] = 3 ^ color;
 
-	rep (i, 0, n) {
-		if (indeg[i] == 0) {
-			qu.push(i);
+		if (!dfs(i, 3 ^ color)) {
+			return false;
 		}
 	}
 
-	while (qu.size()) {
-		int top = qu.front();
-		qu.pop();
-
-		for (auto i : graph[top]) {
-			int f = i.F;
-			int s = i.S;
-
-			if (dp[top] < INF) {
-				dp[f] = min(dp[f], dp[top] + s);
-				dp2[f] = max(dp2[f], dp2[top] + s);
-			}
-
-			indeg[f]--;
-			if (indeg[f] == 0) {
-				qu.push(f);
-			}
-		}
-	}
-
-	if (dp[goal] == INF) {
-		cout << "No path" << ln << "No path" << ln;
-	}
-	else {
-		cout << dp[goal] << ln << dp2[goal] << ln;
-	}
+	return true;
 
 }
 
 void solve() {
 
-	cin >> n >> m >> start >> goal;
+	graph.clear();
+	vis.clear();
+
+	cin >> n >> m;
 
 	graph.resize(n);
-	indeg.resize(n);
-	dp.resize(n, INF);
-	dp2.resize(n, -INF);
-	dp[start] = 0;
-	dp2[start] = 0;
+	vis.resize(n);
 
 	rep (i, 0, m) {
-		int a, b, c;
-		cin >> a >> b >> c;
+		int a, b;
+		cin >> a >> b;
 
-		graph[a].push_back({b, c});
-		indeg[b]++;
+		graph[a].push_back(b);
+		graph[b].push_back(a);
 	}
 
-	bfs();
+	rep (i, 0, n) {
+		if (vis[i]) {
+			continue;
+		}
+		vis[i] = 1;
+
+		if (!dfs(i, 1)) {
+			cout << "no" << ln;
+			return;
+		}
+	}
+
+	cout << "yes" << ln;
 
 }
 
@@ -88,7 +77,10 @@ signed main() {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	solve();
+	int t;
+	cin >> t;
+
+	while (t--) solve();
 
 	return 0;
 	
