@@ -14,61 +14,54 @@
 
 using namespace std;
 
-int n, m;
-VV graph;
-V vis;
+int cnt;
+V dsu;
+V ve;
 
-bool dfs(int x, int color) {
-
-	for (auto i : graph[x]) {
-		if (vis[i] == color) {
-			return false;
-		}	
-		if (vis[i]) {
-			continue;
-		}
-		vis[i] = 3 ^ color;
-
-		if (!dfs(i, 3 ^ color)) {
-			return false;
-		}
+int query(int x) {
+	if (x == dsu[x]) {
+		return x;
 	}
 
-	return true;
+	return dsu[x] = query(dsu[x]); 
+}
 
+void update(int x, int y) {
+	int a = query(x);
+	int b = query(y);
+
+	if (a != b) {
+		cnt++;
+	}
+
+	dsu[a] = b;
 }
 
 void solve() {
 
-	graph.clear();
-	vis.clear();
-
+	int n, m;
 	cin >> n >> m;
 
-	graph.resize(n);
-	vis.resize(n);
+	dsu.resize(n);
+	ve.resize(n);
 
-	rep (i, 0, m) {
-		int a, b;
-		cin >> a >> b;
-
-		graph[a].push_back(b);
-		graph[b].push_back(a);
+	rep (i, 0, n) {
+		dsu[i] = i;
 	}
 
 	rep (i, 0, n) {
-		if (vis[i]) {
+		cin >> ve[i];
+
+		if (ve[i] == 0) {
 			continue;
 		}
-		vis[i] = 1;
 
-		if (!dfs(i, 1)) {
-			cout << "no" << ln;
-			return;
-		}
+		if (i >= 0 && (ve[i-1] == 1)) {
+			update(i-1, i);
+		} 
 	}
 
-	cout << "yes" << ln;
+	cout << cnt << ln;
 
 }
 
@@ -77,10 +70,7 @@ signed main() {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
 
-	int t;
-	cin >> t;
-
-	while (t--) solve();
+	solve();
 
 	return 0;
 	
