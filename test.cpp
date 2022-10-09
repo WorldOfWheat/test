@@ -15,11 +15,30 @@
 
 using namespace std;
 
-
+int n, m;
+V ve;
+V vis;
 
 void solve() {
 
-	
+	cin >> n >> m;
+
+	ve.resize(n);
+	vis.resize(n);
+
+	rep (i, 0, n) {
+		cin >> ve[i];
+	}
+
+	rep (i, 0, m) {
+		int a;
+		cin >> a;
+
+		a--;
+
+		
+		
+	}
 
 }
 
