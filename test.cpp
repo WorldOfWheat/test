@@ -2,6 +2,7 @@
 #define int long long
 #define V vector<int>
 #define VV vector<V>
+#define VP vector<pii>
 #define pii pair<int, int>
 #define F first
 #define S second
@@ -14,54 +15,11 @@
 
 using namespace std;
 
-int cnt;
-V dsu;
-V ve;
 
-int query(int x) {
-	if (x == dsu[x]) {
-		return x;
-	}
-
-	return dsu[x] = query(dsu[x]); 
-}
-
-void update(int x, int y) {
-	int a = query(x);
-	int b = query(y);
-
-	if (a != b) {
-		cnt++;
-	}
-
-	dsu[a] = b;
-}
 
 void solve() {
 
-	int n, m;
-	cin >> n >> m;
 
-	dsu.resize(n);
-	ve.resize(n);
-
-	rep (i, 0, n) {
-		dsu[i] = i;
-	}
-
-	rep (i, 0, n) {
-		cin >> ve[i];
-
-		if (ve[i] == 0) {
-			continue;
-		}
-
-		if (i >= 0 && (ve[i-1] == 1)) {
-			update(i-1, i);
-		} 
-	}
-
-	cout << cnt << ln;
 
 }
 
