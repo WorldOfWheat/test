@@ -3,6 +3,7 @@
 #define V vector<int>
 #define VV vector<V>
 #define VP vector<pii>
+#define VVP vector<VP>
 #define pii pair<int, int>
 #define F first
 #define S second
@@ -15,30 +16,46 @@
 
 using namespace std;
 
-int n, m;
-V ve;
-V vis;
+int n;
+VVP graph;
+V cnt;
+int ans, sum;
+bool flag = true;
+
+void dfs(int now) {
+
+	for (auto i : graph[now]) {
+		int top = i.F;
+		dfs(top);
+		sum += min(cnt[top], n - cnt[top]) * i.S;
+		cnt[now] += cnt[top];
+	}
+
+	cnt[now]++;
+	if (cnt[now] >= n / 2 && flag) {
+		ans = now;
+		flag = false;
+	}
+
+}
 
 void solve() {
 
-	cin >> n >> m;
+	cin >> n;
 
-	ve.resize(n);
-	vis.resize(n);
+	graph.resize(n);
+	cnt.resize(n);
 
-	rep (i, 0, n) {
-		cin >> ve[i];
+	rep (i, 0, n-1) {
+		int a, b;
+		cin >> a >> b;
+
+		graph[a].push_back({i+1, b});
 	}
 
-	rep (i, 0, m) {
-		int a;
-		cin >> a;
+	dfs(0);
 
-		a--;
-
-		
-		
-	}
+	cout << ans << ln << sum << ln;
 
 }
 
