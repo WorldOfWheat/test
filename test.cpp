@@ -16,9 +16,25 @@
 
 using namespace std;
 
-
+int n;
+VP graph;
 
 void solve() {
+
+	cin >> n;
+
+	graph.resize(n+1);
+
+	rep2 (i, 2, n) {
+		int a;
+		cin >> a;
+		graph[i] = {a, 0};
+		graph[a] = {i, 0};
+	}
+
+	rep2 (i, 2, n) {
+		cin >> graph[i].S;
+	}
 
 	
 
