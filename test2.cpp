@@ -6,10 +6,10 @@ using namespace std;
 
 int main() {
 
-    int a = system("wmic logicaldisk get name");
+    int a;
+    cin >> a;
 
-    cout << a << ln;
-    
+    cout << (a % 12 * 5 + a / 12 * 50);
 
     return 0;
 
