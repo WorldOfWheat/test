@@ -77,6 +77,8 @@ signed main() {
 
 	solve();
 
+	system("pause");
+
 	return 0;
 	
 }
