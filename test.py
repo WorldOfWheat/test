@@ -1,24 +1,23 @@
 def solve():
-    arr = [int(i) for i in input().split(' ')]
-    arr2 = [int(i) for i in input().split(' ')]
+    n, m = [int(i) for i in input().split()]
+    k = int(input())
+    ans = 0
+    for i in range(k):
+        cnt = 0
+        cnt2 = 0
+        arr = [int(i) for i in input().split()]
+        for i in range(0, len(arr) - 1):
+            if (arr[i] == n):
+                cnt = cnt + 1
+            if (arr[i] == m):
+                cnt2 = cnt2 + 1
+            if (arr[i] == -n):
+                cnt = cnt - 1
+            if (arr[i] == -m):
+                cnt2 = cnt2 - 1
+        if (cnt >= 1 and cnt2 >= 1):
+            ans = ans + 1
 
-    flag = True
-    if (not (arr[1] != arr[3] and arr2[1] != arr2[3] and 
-        arr[1] == arr[5] and arr2[1] != arr2[5])):
-        print("A")
-        flag = False
-    if (not (arr[len[arr] - 1] == 1 and arr2[len[arr2] - 1] == 0)):
-        print("B")
-        flag = False
-    return
-    if (not (arr[1] != arr2[1] and arr[3] != arr2[3] and arr[5] != arr2[5])):
-        print("C")
-        flag = False
+    print(ans)
     
-    if (flag):
-        print("None")
-
-t = int(input())
-while t > 0:
-    t = t - 1
-    solve()
+solve()
