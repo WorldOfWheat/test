@@ -16,11 +16,56 @@
 
 using namespace std;
 
+int n;
+V ve;
+VVP graph;
+V cnt;
+V dp;
 
+void dfs(int parent, int now) {
+
+	cnt[now] = 1;
+
+	for (auto i : graph[now]) {
+		int f = i.F;
+		int s = i.S;
+
+		if (f == parent) {
+			continue;
+		}
+		
+		dfs(now, f);
+
+		cnt[now] += cnt[f];
+		dp[now] += (dp[f] + cnt[f] * (n - cnt[f]) * s);
+	}
+}
 
 void solve() {
 
-	
+	cin >> n;
+
+	ve.resize(n+1);
+	graph.resize(n+1);
+	cnt.resize(n+1);
+	dp.resize(n+1);
+
+	rep (i, 2, 5) {
+		cin >> ve[i];
+	}
+
+	rep (i, 2, 5) {
+		int a;
+		cin >> a;
+		graph[ve[i]].push_back({i, a});
+		graph[i].push_back({ve[i], a});
+	}
+
+	dfs(0, 1);
+
+	rep2 (i, 1, n) {
+		cerr << dp[i] << ln;
+	}
 
 }
 
