@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <bits>
 #define ln "\n"
 #define sp " "
 
