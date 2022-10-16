@@ -16,11 +16,37 @@
 
 using namespace std;
 
-;
+int n;
+VP graph;
+V outdeg;
+V cnt;
+int res;
+
+void bfs() {
+
+
+
+}
 
 void solve() {
 
+	cin >> n;
 
+	graph.resize(n+1);
+	outdeg.resize(n+1);
+	cnt.resize(n+1);
+
+	rep2 (i, 2, n) {
+		cin >> graph[i].F;
+		outdeg[graph[i].F]++;
+	}
+	rep2 (i, 2, n) {
+		cin >> graph[i].S;
+	}
+
+	bfs();
+
+	cout << (res) << ln;
 
 }
 
