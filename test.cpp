@@ -18,22 +18,47 @@ using namespace std;
 
 int n;
 VV graph;
-V outdeg;
+V vis;
+
+void dfs(int parent, int now) {
+
+	for (auto i : graph[now]) {
+		if (i == parent) {
+			continue;
+		}
+
+		dfs(now, i);
+	}
+
+	if (vis[now] == 0) {
+		vis[parent] = 1;
+	}
+
+}
 
 void solve() {
 
 	cin >> n;
 
-	graph.resize(n + 1);
-	outdeg.resize(n + 1);
+	graph.resize(n+1);
+	vis.resize(n+1);
 
-	rep (i, 0, n) {
+	rep (i, 1, n) {
 		int a, b;
 		cin >> a >> b;
 
 		graph[a].push_back(b);
 		graph[b].push_back(a);
-	}	
+	}
+
+	dfs(0, 1);
+
+	int ans = 0;
+	rep2 (i, 2, n) {
+		ans += vis[i];
+	}
+
+	cout << ans << ln;
 
 }
 
