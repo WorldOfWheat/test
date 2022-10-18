@@ -16,9 +16,40 @@
 
 using namespace std;
 
+int n;
+VV graph;
+V vis;
+int res;
 
+void dfs(int parent, int now) {
+
+	for (auto i : graph[now]) {
+		if (i == parent) {
+			continue;
+		}
+
+		dfs(now, i);
+	}
+
+	if (!vis[now]) {
+		vis[parent] = true;
+	}	
+
+}
 
 void solve() {
+
+	cin >> n;
+
+	graph.resize(n);
+	vis.resize(n);
+
+	rep (i, 1, n) {
+		int a, b;
+
+		graph[a].push_back(b);
+		graph[b].push_back(a);
+	}
 
 
 
