@@ -18,7 +18,8 @@ using namespace std;
 
 int n;
 VV graph;
-V vis;
+V mark;
+int ans;
 
 void dfs(int parent, int now) {
 
@@ -26,12 +27,16 @@ void dfs(int parent, int now) {
 		if (i == parent) {
 			continue;
 		}
-
+		
 		dfs(now, i);
 	}
-
-	if (vis[now] == 0) {
-		vis[parent] = 1;
+	
+	if (mark[parent] == 0) {
+		ans++;
+		mark[parent] = 1;
+		for (auto i : graph[parent]) {
+			mark[i] = 1;
+		}
 	}
 
 }
@@ -40,23 +45,18 @@ void solve() {
 
 	cin >> n;
 
-	graph.resize(n+1);
-	vis.resize(n+1);
+	graph.resize(n);
+	mark.resize(n);
 
 	rep (i, 1, n) {
-		int a, b;
-		cin >> a >> b;
+		int a;
+		cin >> a;
 
-		graph[a].push_back(b);
-		graph[b].push_back(a);
+		graph[i].push_back(a);
+		graph[a].push_back(i);
 	}
 
-	dfs(0, 1);
-
-	int ans = 0;
-	rep2 (i, 2, n) {
-		ans += vis[i];
-	}
+	dfs(-1, 0);
 
 	cout << ans << ln;
 
