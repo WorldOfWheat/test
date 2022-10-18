@@ -19,7 +19,6 @@ using namespace std;
 int n;
 VV graph;
 V vis;
-int res;
 
 void dfs(int parent, int now) {
 
@@ -31,9 +30,9 @@ void dfs(int parent, int now) {
 		dfs(now, i);
 	}
 
-	if (!vis[now]) {
-		vis[parent] = true;
-	}	
+	if (vis[now] == 0) {
+		vis[parent] = 1;
+	}
 
 }
 
@@ -41,17 +40,25 @@ void solve() {
 
 	cin >> n;
 
-	graph.resize(n);
-	vis.resize(n);
+	graph.resize(n+1);
+	vis.resize(n+1);
 
 	rep (i, 1, n) {
 		int a, b;
+		cin >> a >> b;
 
 		graph[a].push_back(b);
 		graph[b].push_back(a);
 	}
 
+	dfs(0, 1);
 
+	int ans = 0;
+	rep2 (i, 2, n) {
+		ans += vis[i];
+	}
+
+	cout << ans << ln;
 
 }
 
