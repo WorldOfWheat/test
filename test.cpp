@@ -16,11 +16,24 @@
 
 using namespace std;
 
-
+int n;
+VV graph;
+V outdeg;
 
 void solve() {
 
+	cin >> n;
 
+	graph.resize(n + 1);
+	outdeg.resize(n + 1);
+
+	rep (i, 0, n) {
+		int a, b;
+		cin >> a >> b;
+
+		graph[a].push_back(b);
+		graph[b].push_back(a);
+	}	
 
 }
 
