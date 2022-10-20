@@ -16,49 +16,11 @@
 
 using namespace std;
 
-int n;
-VV graph;
-V mark;
-int ans;
 
-void dfs(int parent, int now) {
-
-	for (auto i : graph[now]) {
-		if (i == parent) {
-			continue;
-		}
-		
-		dfs(now, i);
-	}
-	
-	if (mark[parent] == 0) {
-		ans++;
-		mark[parent] = 1;
-		for (auto i : graph[parent]) {
-			mark[i] = 1;
-		}
-	}
-
-}
 
 void solve() {
 
-	cin >> n;
 
-	graph.resize(n);
-	mark.resize(n);
-
-	rep (i, 1, n) {
-		int a;
-		cin >> a;
-
-		graph[i].push_back(a);
-		graph[a].push_back(i);
-	}
-
-	dfs(-1, 0);
-
-	cout << ans << ln;
 
 }
 
