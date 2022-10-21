@@ -19,12 +19,12 @@ using namespace std;
 int n;
 V weight;
 VV graph;
-V dp;
-V dp2;
+VV dp;
 
 void dfs(int parent, int now) {
 
-    dp[now] = weight[now];
+    dp[0][now] = weight[now];
+    dp[1][now] = INF;
 
     for (auto i : graph[now]) {
         if (i == parent) {
@@ -33,20 +33,19 @@ void dfs(int parent, int now) {
 
         dfs(now, i);
 
-        dp[now] = max(dp[now], dp[now] + dp[i]);
-        dp2[now] = max(dp[i], dp2[now]);
+        dp[0][now] += min(dp[0][now], dp[1][now]);
+        dp[1][now] += min(dp[1][now], dp)
     }
 
 }
 
 void solve() {
 
-	cin >> n;
+    cin >> n;
 
-	weight.resize(n + 1);
-	graph.resize(n + 1);
-	dp.resize(n + 1);
-	dp2.resize(n + 1);
+    weight.resize(n + 1);
+    graph.resize(n + 1);
+    dp.resize(3, n + 1);
 
     rep2 (i, 1, n) {
         cin >> weight[i];
@@ -60,8 +59,6 @@ void solve() {
     }
 
     dfs(-1, 1);
-
-    cout << (max(dp[1], dp2[1])) << ln;
 
 }
 
