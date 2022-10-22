@@ -16,56 +16,12 @@
 
 using namespace std;
 
-<<<<<<< HEAD:test.cpp
-int n;
-V weight;
-VV graph;
-V dp;
-
-void dfs(int parent, int now) {
-
-	dp[now] = weight[now];
-
-	for (auto i : graph[now]) {
-		if (i == parent) {
-			continue;
-		}
-
-		dfs(now, i);
-		dp[now] = max(dp[now], dp[now] + dp[i]);
-	}
-
-}
-
-void solve() {
-
-	cin >> n;
-	
-	weight.resize(n + 1);
-	graph.resize(n + 1);
-	dp.resize(n + 1);
-
-	rep2 (i, 1, n) {
-		cin >> weight[i];
-	}
-	rep2 (i, 1, n - 1) {
-		int a, b;
-		cin >> a >> b;
-
-		graph[a].push_back(b);
-		graph[b].push_back(a);
-	}
-
-	dfs(-1, 1);
-
-	cout << (dp[1]) << ln;
-=======
 
 
 void solve() {
 
 
->>>>>>> 2d8fa7a0c9a02c4658c0e248315472be9aa354d2:CodeBlocks/main.cpp
+
 
 }
 
