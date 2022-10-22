@@ -16,49 +16,11 @@
 
 using namespace std;
 
-int n;
-V weight;
-VV graph;
-VV dp;
 
-void dfs(int parent, int now) {
-
-    dp[0][now] = weight[now];
-    dp[1][now] = INF;
-
-    for (auto i : graph[now]) {
-        if (i == parent) {
-            continue;
-        }
-
-        dfs(now, i);
-
-        dp[0][now] += min(dp[0][now], dp[1][now]);
-        dp[1][now] += min(dp[1][now], dp)
-    }
-
-}
 
 void solve() {
 
-    cin >> n;
 
-    weight.resize(n + 1);
-    graph.resize(n + 1);
-    dp.resize(3, n + 1);
-
-    rep2 (i, 1, n) {
-        cin >> weight[i];
-    }
-    rep2 (i, 1, n - 1) {
-        int a, b;
-        cin >> a >> b;
-
-        graph[a].push_back(b);
-        graph[b].push_back(a);
-    }
-
-    dfs(-1, 1);
 
 }
 
