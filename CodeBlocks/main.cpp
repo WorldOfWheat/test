@@ -16,6 +16,7 @@
 
 using namespace std;
 
+<<<<<<< HEAD:test.cpp
 int n;
 V weight;
 VV graph;
@@ -58,6 +59,13 @@ void solve() {
 	dfs(-1, 1);
 
 	cout << (dp[1]) << ln;
+=======
+
+
+void solve() {
+
+
+>>>>>>> 2d8fa7a0c9a02c4658c0e248315472be9aa354d2:CodeBlocks/main.cpp
 
 }
 
@@ -69,5 +77,5 @@ signed main() {
 	solve();
 
 	return 0;
-	
+
 }
