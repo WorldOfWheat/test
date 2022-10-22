@@ -17,26 +17,21 @@
 using namespace std;
 
 int n;
+V weight;
 VV graph;
-V mark;
-int ans;
+V dp;
 
 void dfs(int parent, int now) {
+
+	dp[now] = weight[now];
 
 	for (auto i : graph[now]) {
 		if (i == parent) {
 			continue;
 		}
-		
+
 		dfs(now, i);
-	}
-	
-	if (mark[parent] == 0) {
-		ans++;
-		mark[parent] = 1;
-		for (auto i : graph[parent]) {
-			mark[i] = 1;
-		}
+		dp[now] = max(dp[now], dp[now] + dp[i]);
 	}
 
 }
@@ -44,21 +39,25 @@ void dfs(int parent, int now) {
 void solve() {
 
 	cin >> n;
+	
+	weight.resize(n + 1);
+	graph.resize(n + 1);
+	dp.resize(n + 1);
 
-	graph.resize(n);
-	mark.resize(n);
+	rep2 (i, 1, n) {
+		cin >> weight[i];
+	}
+	rep2 (i, 1, n - 1) {
+		int a, b;
+		cin >> a >> b;
 
-	rep (i, 1, n) {
-		int a;
-		cin >> a;
-
-		graph[i].push_back(a);
-		graph[a].push_back(i);
+		graph[a].push_back(b);
+		graph[b].push_back(a);
 	}
 
-	dfs(-1, 0);
+	dfs(-1, 1);
 
-	cout << ans << ln;
+	cout << (dp[1]) << ln;
 
 }
 
