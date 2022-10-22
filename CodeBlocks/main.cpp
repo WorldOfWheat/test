@@ -16,12 +16,102 @@
 
 using namespace std;
 
+int n, m, o, p;
+VVP ve;
+VV backup;
+vector<bool> fatal;
+V color;
 
+bool dfs(int now, int _color) {
+
+    if(color[now]) {
+        return 1;
+    }
+
+    bool res = 1;
+    color[now] = _color;
+    for(int i : backup[now]){
+        if(color[i] == _color) return 0;
+        res &= dfs(i, 3 - _color);
+    }
+    return res;
+
+}
+
+bool check(int x) {
+
+    rep (i, 0, n) {
+        backup[i].clear();
+        color[i] = 0;
+    }
+
+    rep2 (i, 0, x) {
+        for (auto i : ve[i]) {
+            backup[i.F].push_back(i.S);
+            backup[i.S].push_back(i.F);
+        }
+    }
+
+    bool res = 1;
+    rep (i, 0, n) {
+        res &= dfs(i, 1);
+    }
+
+    return res;
+
+}
+
+void bs(int l, int r) {
+
+    if (check(r)) {
+        return;
+    }
+
+    while(l != r){
+        int mid = (l + r) / 2;
+        if(check(mid)) l = mid + 1;
+        else r = mid;
+    }
+    fatal[l] = 1;
+    ve[l].clear();
+
+}
 
 void solve() {
 
+    cin >> n >> m;
 
+    ve.resize(n);
+    fatal.resize(n);
+    backup.resize(n);
+    color.resize(n);
 
+    rep (i, 0, m) {
+        int a, b;
+        cin >> a >> b;
+
+        ve[0].push_back({a, b});
+    }
+
+    cin >> o >> p;
+    rep2 (i, 1, o) {
+        rep (j, 0, p) {
+            int a, b;
+            cin >> a >> b;
+
+            ve[i].push_back({a, b});
+        }
+    }
+
+    rep (i, 0, 3) {
+        bs(0, o);
+    }
+
+    rep2 (i, 1, o) {
+        if (fatal[i]) {
+            cout << i << ln;
+        }
+    }
 
 }
 
