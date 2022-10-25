@@ -15,53 +15,20 @@
 
 using namespace std;
 
-struct node {
-
-    int left;
-    int right;
-    int sum;
-
-};
-
-int n;
-V ve;
-vector<node> seg;
-
-int getLc(int x) {
-    return (x << 1);
-}
-
-int getRc(int x) {
-    return (x << 1 + 1);
-}
-
-void build(int l, int r, int pos) {
-
-    if (l == r) {
-        seg[l].sum = ve[pos];
-        return;
-    }
-
-    int mid = (l + r) >> 1;
-    build(l, mid, getLc(pos));
-    build(mid + 1, r, getRc(pos));
-
-    seg[pos] += 
-
-}
+int a, b;
 
 void solve() {
-
-    cin >> n;
     
-    ve.resize(n);
-    seg.resize(4 * n + 1);
+	a = 50000000;
+	b = 2500005;
+	
+	cout << a << sp << b << ln;
 
-    rep (i, 0, n) {
-        cin >> ve[i];
-    }
+	int c = a ^ b;
+	a ^= c;
+	b ^= c;
 
-    
+	cout << a << sp << b << ln;
 
 }
 
