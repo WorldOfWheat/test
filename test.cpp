@@ -19,7 +19,7 @@ using namespace std;
 
 void solve() {
 
-    string str;
+    
 
 
 }
