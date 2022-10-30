@@ -81,7 +81,13 @@ void solve() {
             ans++;
             rep (j, 0, m) {
                 if (graph[nowX][nowY] == ve[j]) {
+                    int maxi = 0;
+                    rep (k, 0, 4) {
+                        int moveX = nowX + dx[k];
+                        int moveY = nowY + dy[k];
 
+                    }
+                    continue;
                 }
             }
             if (dir == 0) {
