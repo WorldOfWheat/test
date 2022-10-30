@@ -15,20 +15,11 @@
 
 using namespace std;
 
-int a, b;
+
 
 void solve() {
     
-	a = 50000000;
-	b = 2500005;
-	
-	cout << a << sp << b << ln;
 
-	int c = a ^ b;
-	a ^= c;
-	b ^= c;
-
-	cout << a << sp << b << ln;
 
 }
 
