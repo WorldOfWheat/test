@@ -19,10 +19,6 @@ using namespace std;
 
 void solve() {
 
-    cout << "test" << ln;
-    rep (i, 0, 5) {
-        cout << i << ln;
-    }
 
 }
 
