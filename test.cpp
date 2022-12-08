@@ -15,11 +15,33 @@
 
 using namespace std;
 
-
+int n, m;
+V ve;
+V pf;
 
 void solve() {
+    
+    cin >> n;
+    
+    ve.resize(n);
+    pf.resize(n + 1);
 
+    rep (i, 0, n) {
+        cin >> ve[i];
+    }
 
+    rep2 (i, 1, n) {
+        pf[i] = pf[i-1] + ve[i-1];
+    }
+
+   cin >> m;
+
+   rep (i, 0, m) {
+        int a, b;
+        cin >> a >> b;
+        cout << (pf[b] - pf[a-1]) << ln;
+    }
+        
 }
 
 signed main() {
