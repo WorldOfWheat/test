@@ -4,31 +4,63 @@ using namespace std;
 
 /*
 ┏━┳━┳━┓
-┃O┃O┃O┃
+┃ ┃ ┃ ┃
 ┃━╋━╋━┃
-┃O┃O┃O┃
+┃ ┃ ┃ ┃
 ┃━╋━╋━┃
-┃O┃O┃O┃
+┃ ┃ ┃ ┃
 ┗━┻━┻━┛
 */
 
-vector<bool> filled;
+vector<bool> filled(9, false);
+int playerNow;
+int table;
 
+bool draw(int decimal);
+int getInput();
 string getBinary(int decimal);
 int getDecimal(string binary); 
-void printTable(string binary); 
 void gameJudge(string binary);
+void printTable(string binary); 
 
 int main() {
-    
-    filled.resize(9, 1);
-    for (auto i : filled) {
-        cerr << i << '\n';
-    }
-    printTable("101010101");
-
+   
+    while (true) {
+        if (draw(getInput())) {
+            printTable(getBinary(table));
+            gameJudge(getBinary(table));
+        }
+    } 
     return 0;
 
+}
+
+bool draw(int place) {
+    if (filled[place-1]) {
+        cout << "Has been drawen!!!" << '\n';
+        return false;
+    }
+
+    if (playerNow == 1) {
+        table |= (256 >> (place - 1));
+    }
+    filled[place-1] = true;   
+    playerNow = 1 - playerNow;
+
+    return true;
+}
+
+int getInput() {
+    int in;
+    cin >> in;
+    
+    if (in == 0) {
+        exit(0);
+    }
+
+    in = in % 9;
+
+    return in;
 }
 
 string getBinary(int decimal) {
@@ -52,6 +84,48 @@ int getDecimal(string binary) {
     return (bs.to_ulong()); 
 }
 
+void gameJudge(string binary) {
+    bool flag = false;
+
+    for (auto i : {0, 3, 6}) {
+        bool row = 
+            (binary[i] == binary[i + 1] && binary[i + 1] == binary[i + 2]) &&
+            (filled[i] == filled[i + 1] && filled[i + 1] == filled[i + 2] && filled[i]);
+        if (row) {
+            flag = true;
+        }
+    }
+       
+    for (auto i : {0, 1, 2}) {
+        bool column =
+            (binary[i] == binary[i + 3] && binary[i + 3] == binary[i + 6]) &&
+            (filled[i] == filled[i + 3] && filled[i + 3] == filled[i + 6] && filled[i]);
+        if (column) {
+            flag = true;
+        }
+    }
+
+    if (
+        (binary[0] == binary[4] && binary[4] == binary[8]) &&
+        (filled[0] == filled[4] && filled[4] == filled[8] && filled[0])
+    ) {
+        flag = true;
+    }
+
+    if (
+        (binary[2] == binary[4] && binary[4] == binary[6]) &&
+        (filled[2] == filled[4] && filled[4] == filled[6] && filled[2])
+    ) {
+        flag = true;
+    }
+    
+
+    if (flag) {
+        cout << "GGGGGGGGGGG " << (1 - playerNow) << '\n';
+        exit(0);
+    }
+}
+
 void printTable(string binary) {
     cout << "┏━┳━┳━┓" << '\n';
 
@@ -61,6 +135,7 @@ void printTable(string binary) {
             cout << ' ';
             continue;
         }
+        //cout << binary[i];
         cout << (binary[i] == '1' ? "O" : "X");
     }
     cout << "┃" << '\n';
@@ -73,6 +148,7 @@ void printTable(string binary) {
             cout << ' ';
             continue;
         }
+        //cout << binary[i];
         cout << (binary[i] == '1' ? "O" : "X");
     }
     cout << "┃" << '\n';
@@ -85,6 +161,7 @@ void printTable(string binary) {
             cout << ' ';
             continue;
         }
+        //cout << binary[i];
         cout << (binary[i] == '1' ? "O" : "X");
     }
     cout << "┃" << '\n';
@@ -93,6 +170,4 @@ void printTable(string binary) {
 
 }
 
-void gameJudge(string binary) {
-    
-}
+
