@@ -12,9 +12,11 @@
 #define rrep(x, y, z) for(int x = y; x >= z; x--)
 #define sp " "
 #define ln "\n"
+#define INF (int) 1e18
 
 using namespace std;
 
+<<<<<<< HEAD
 int n, m;
 V ve;
 V pf;
@@ -41,6 +43,13 @@ void solve() {
 
         cout << (pf[max(a, b)] - pf[min(a, b) - 1]) << ln;
     }
+=======
+int n;
+
+void solve() {
+
+    
+>>>>>>> f4ed1a3a9ddc1dc54b714d1e53588e803f6ee4fb
 
 }
 
