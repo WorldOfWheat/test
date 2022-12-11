@@ -13,7 +13,7 @@ using namespace std;
 */
 
 vector<bool> filled(9, false);
-int playerNow;
+int playerNow = 1;
 int table;
 
 bool draw(int decimal);
@@ -26,9 +26,14 @@ void printTable(string binary);
 int main() {
    
     while (true) {
-        if (draw(getInput())) {
-            printTable(getBinary(table));
-            gameJudge(getBinary(table));
+        if (playerNow == 1) {
+            if (draw(getInput())) {
+                printTable(getBinary(table));
+                gameJudge(getBinary(table));
+            }
+        }
+        else {
+            //Todo
         }
     } 
     return 0;
