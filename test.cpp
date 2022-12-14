@@ -16,40 +16,11 @@
 
 using namespace std;
 
-<<<<<<< HEAD
-int n, m;
-V ve;
-V pf;
 
-void solve() {
-
-    cin >> n;
-
-    ve.resize(n);
-    pf.resize(n + 1);
-
-    rep (i, 0, n) {
-        cin >> ve[i];
-    }
-    rep2 (i, 1, n) {
-        pf[i] = pf[i-1] + ve[i-1];
-    }
-
-    cin >> m;
-
-    rep (i, 0, m) {
-        int a, b;
-        cin >> a >> b;
-
-        cout << (pf[max(a, b)] - pf[min(a, b) - 1]) << ln;
-    }
-=======
-int n;
 
 void solve() {
 
     
->>>>>>> f4ed1a3a9ddc1dc54b714d1e53588e803f6ee4fb
 
 }
 
