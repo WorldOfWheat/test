@@ -1,22 +1,37 @@
 #include <bits/stdc++.h>
-#define int long long
+
 using namespace std;
-int n,k,arr[1000000];
-signed main() {
-    cin>>n>>k;
-    for(int i=1,j;i<=n;i++){
-        cin>>j;
-        arr[i]=arr[i-1]+j;
+
+int _gcd(int a, int b, int &x, int &y) {
+    if (b > a) {
+        return _gcd(b, a, x, y);
     }
-    int sum=-1000,ans=-1e5,l=0;
-    for(int i=1;i<=n;i++){
-        sum=arr[i]-arr[l];
-        if(sum>k){
-            l++;
-            i--;
-            continue;
-        }
-        ans=max(ans,sum);
+
+    if (b == 0) {
+        x = 1;
+        y = 0;
+
+        return a;
     }
-    cout<<ans;
+
+    int res = _gcd(b, a % b, x, y); 
+
+    int temp = x; 
+    x = y;
+    y = temp - (a / b) * y;
+
+    cout << x << ' '<< y << '\n';
+
+    return res;
+}
+
+int main() {
+
+    int a = 0, b = 0;
+    cout << _gcd(193, 17, a, b) << '\n';
+   
+    //cout << a << ' ' << b << '\n';
+
+    return 0;
+
 }
