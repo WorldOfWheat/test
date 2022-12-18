@@ -16,7 +16,20 @@ using namespace std;
 
 void solve() {
 
+<<<<<<< HEAD
     
+=======
+    cin >> n;
+
+    int k = 5;
+    int ans = 0;
+    while (k <= n) {
+        ans += (n / k);
+        k *= 5;
+    }
+>>>>>>> 492307b758afcbfc064cbcb4f496a3e154559f14
+
+    cout << ans << '\n';
 
 }
 
