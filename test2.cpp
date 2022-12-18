@@ -3,6 +3,7 @@
 using namespace std;
 
 int _gcd(int a, int b, int &x, int &y) {
+    //
     if (b > a) {
         return _gcd(b, a, x, y);
     }
@@ -15,12 +16,9 @@ int _gcd(int a, int b, int &x, int &y) {
     }
 
     int res = _gcd(b, a % b, x, y); 
-
     int temp = x; 
     x = y;
     y = temp - (a / b) * y;
-
-    cout << x << ' '<< y << '\n';
 
     return res;
 }
@@ -28,9 +26,8 @@ int _gcd(int a, int b, int &x, int &y) {
 int main() {
 
     int a = 0, b = 0;
-    cout << _gcd(193, 17, a, b) << '\n';
-   
-    //cout << a << ' ' << b << '\n';
+    cout << _gcd(29, 13, a, b) << '\n';
+    cout << b << '\n';
 
     return 0;
 
