@@ -14,28 +14,9 @@
 
 using namespace std;
 
-int n;
-
 void solve() {
 
-    cin >> n;
-
-    rep (i, 0, n) {
-        int a, b;
-        cin >> a >> b;
-
-        int maxi = max(a, b);
-        int k;
-
-        if ((maxi % 2) == 0) {
-            k = maxi * maxi - (a - 1);
-        }
-        else {
-            k = maxi * maxi - (b - 1);
-        }
-
-        cout << k << '\n';
-    }
+    
 
 }
 
