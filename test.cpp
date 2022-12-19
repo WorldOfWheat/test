@@ -11,25 +11,45 @@
 #define rep2(x, y, z) for(int x = y; x <= z; x++)
 #define rrep(x, y, z) for(int x = y; x >= z; x--)
 #define INF (int) 1e18
+#define ln '\n'
 
 using namespace std;
 
+int n, m;
+multiset<int> ms;
+
 void solve() {
 
-<<<<<<< HEAD
-    
-=======
-    cin >> n;
+    cin >> n >> m;
 
-    int k = 5;
-    int ans = 0;
-    while (k <= n) {
-        ans += (n / k);
-        k *= 5;
+    rep (i, 0, n) {
+        int in;
+        cin >> in;
+
+        ms.insert(in);
     }
->>>>>>> 492307b758afcbfc064cbcb4f496a3e154559f14
 
-    cout << ans << '\n';
+    int ans = 0;
+    while (ms.size()) {
+        int k = *ms.rbegin();
+        ms.erase(ms.find(k));
+
+        ans++;
+
+        if (ms.empty()) {
+            break;
+        }
+
+        auto it = ms.upper_bound(m - k);
+        if (it == ms.begin()) {
+            continue;
+        }
+        it--;
+
+        ms.erase(it);
+    }
+
+    cout << ans << ln;
 
 }
 
@@ -37,9 +57,10 @@ signed main() {
 
     ios::sync_with_stdio(0);
     cin.tie(0);
-
+    
     solve();
 
     return 0;
 
 }
+
