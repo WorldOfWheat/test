@@ -16,40 +16,13 @@
 using namespace std;
 
 int n, m;
-multiset<int> ms;
+set<int> se;
 
 void solve() {
 
-    cin >> n >> m;
+    cin >> n >> m; 
 
-    rep (i, 0, n) {
-        int in;
-        cin >> in;
-
-        ms.insert(in);
-    }
-
-    int ans = 0;
-    while (ms.size()) {
-        int k = *ms.rbegin();
-        ms.erase(ms.find(k));
-
-        ans++;
-
-        if (ms.empty()) {
-            break;
-        }
-
-        auto it = ms.upper_bound(m - k);
-        if (it == ms.begin()) {
-            continue;
-        }
-        it--;
-
-        ms.erase(it);
-    }
-
-    cout << ans << ln;
+    
 
 }
 
