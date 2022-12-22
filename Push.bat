@@ -1,8 +1,8 @@
 git add .
 git commit -a --allow-empty-message -m ""
 
-pause
+@echo #########################################
 
 git push origin main
 
-pause
+@timeout /t 3

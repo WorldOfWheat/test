@@ -1,3 +1,4 @@
 git pull origin main
 
-pause
+@timeout /t 3
+
