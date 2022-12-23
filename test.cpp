@@ -17,12 +17,36 @@ using namespace std;
 
 int n, m;
 set<int> se;
+multiset<int> ms;
 
 void solve() {
 
     cin >> n >> m; 
 
-    
+    se.insert(0);
+    se.insert(n);
+    ms.insert(n);
+
+    rep (i, 0, m) {
+        int in;
+        cin >> in;
+
+        auto it = prev(se.lower_bound(in));
+        auto it2 = se.lower_bound(in);
+        int k = *it2 - *it;
+
+        ms.erase(ms.lower_bound(k));
+
+        int middleToLeft = in - (*it);
+        int middleToRight = (*it2) - in;
+
+        se.insert(in);
+        ms.insert(middleToLeft);
+        ms.insert(middleToRight);
+
+        cout << *(ms.rbegin()) << ln;
+
+    }
 
 }
 
