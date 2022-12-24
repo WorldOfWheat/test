@@ -16,50 +16,21 @@
 using namespace std;
 
 int n, m;
-<<<<<<< HEAD
 V ve;
-=======
-set<int> se;
-multiset<int> ms;
->>>>>>> afcfd5c6542d89e24fa7b91167f7cd98496cb515
+V ve2;
 
 void solve() {
 
     cin >> n >> m;
 
-<<<<<<< HEAD
     ve.resize(n);
+    ve2.resize(n);
+
     rep (i, 0, n) {
         int in;
         cin >> in;
-=======
-    se.insert(0);
-    se.insert(n);
-    ms.insert(n);
-
-    rep (i, 0, m) {
-        int in;
-        cin >> in;
-
-        auto it = prev(se.lower_bound(in));
-        auto it2 = se.lower_bound(in);
-        int k = *it2 - *it;
-
-        ms.erase(ms.lower_bound(k));
-
-        int middleToLeft = in - (*it);
-        int middleToRight = (*it2) - in;
-
-        se.insert(in);
-        ms.insert(middleToLeft);
-        ms.insert(middleToRight);
-
-        cout << *(ms.rbegin()) << ln;
-
-    }
->>>>>>> afcfd5c6542d89e24fa7b91167f7cd98496cb515
-
         ve[--in] = i;
+        ve2[i] = in;
     }
 
     int ans = 1;
@@ -69,56 +40,9 @@ void solve() {
         }
     }
 
-    rep (i, 0, m) {
-        int in, in2;
-        cin >> in >> in2;
-        in--;
-        in2--;
-        
-        int a = 0;
-        if (in2 + 1 < n) {
-            if (ve[in2] < ve[in2 + 1]) {
-                a++;
-            }
-            else {
-                a--;
-            }
-        }
-        if (in - 1 >= 0) {
-            if (ve[in - 1] < ve[in]) {
-                a++;
-            }
-            else {
-                a--;
-            }
-        }
+    
 
-        swap(ve[in], ve[in2]);
-
-        int b = 0;
-        if (in2 + 1 < n) {
-            if (ve[in2] < ve[in2 + 1]) {
-                b++;
-            }
-            else {
-                b--;
-            }
-        }
-        if (in - 1 >= 0) {
-            if (ve[in - 1] < ve[in]) {
-                b++;
-            }
-            else {
-                b--;
-            }
-        }
-
-        int diff = a - b;
-
-        cout << a << ' ' << b << ' ' << diff << ln;
-    }
-
-    cout << ans << ln;
+    //cout << ans << ln;
 }
 
 signed main() {
