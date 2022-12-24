@@ -16,16 +16,48 @@
 using namespace std;
 
 int n, m;
+<<<<<<< HEAD
 V ve;
+=======
+set<int> se;
+multiset<int> ms;
+>>>>>>> afcfd5c6542d89e24fa7b91167f7cd98496cb515
 
 void solve() {
 
     cin >> n >> m;
 
+<<<<<<< HEAD
     ve.resize(n);
     rep (i, 0, n) {
         int in;
         cin >> in;
+=======
+    se.insert(0);
+    se.insert(n);
+    ms.insert(n);
+
+    rep (i, 0, m) {
+        int in;
+        cin >> in;
+
+        auto it = prev(se.lower_bound(in));
+        auto it2 = se.lower_bound(in);
+        int k = *it2 - *it;
+
+        ms.erase(ms.lower_bound(k));
+
+        int middleToLeft = in - (*it);
+        int middleToRight = (*it2) - in;
+
+        se.insert(in);
+        ms.insert(middleToLeft);
+        ms.insert(middleToRight);
+
+        cout << *(ms.rbegin()) << ln;
+
+    }
+>>>>>>> afcfd5c6542d89e24fa7b91167f7cd98496cb515
 
         ve[--in] = i;
     }
