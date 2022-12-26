@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/media/sf_D_DRIVE/Git/test/C#/C#.csproj": {}
+    "D:\\Git\\test\\c#\\C#.csproj": {}
   },
   "projects": {
-    "/media/sf_D_DRIVE/Git/test/C#/C#.csproj": {
+    "D:\\Git\\test\\c#\\C#.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/media/sf_D_DRIVE/Git/test/C#/C#.csproj",
+        "projectUniqueName": "D:\\Git\\test\\c#\\C#.csproj",
         "projectName": "C#",
-        "projectPath": "/media/sf_D_DRIVE/Git/test/C#/C#.csproj",
-        "packagesPath": "/home/kali/.nuget/packages/",
-        "outputPath": "/media/sf_D_DRIVE/Git/test/C#/obj/",
+        "projectPath": "D:\\Git\\test\\c#\\C#.csproj",
+        "packagesPath": "C:\\Users\\a3028\\.nuget\\packages\\",
+        "outputPath": "D:\\Git\\test\\c#\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/kali/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\a3028\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -53,7 +53,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -16,27 +16,9 @@
 
 using namespace std;
 
-int n;
-VS ve;
 
 void solve() {
-    cin >> n;
     
-    int maxiLen = -INF;
-    rep (i, 0, n) {
-        string in;
-        cin >> in;
-        ve.push_back(in);
-        maxiLen = max(maxiLen, (int) in.length()); 
-    }
-
-    rep (i, 0, maxiLen) {
-        rep (j, 0, n) {
-            if (ve[j].length() > i && !isdigit(ve[j][i])) {
-                 cout << ve[j][i];
-            }
-        }
-    }
 }
 
 signed main() {
