@@ -1,0 +1,15 @@
+/media/sf_D_DRIVE/Git/test/C#/bin/Debug/net7.0/C#
+/media/sf_D_DRIVE/Git/test/C#/bin/Debug/net7.0/C#.deps.json
+/media/sf_D_DRIVE/Git/test/C#/bin/Debug/net7.0/C#.runtimeconfig.json
+/media/sf_D_DRIVE/Git/test/C#/bin/Debug/net7.0/C#.dll
+/media/sf_D_DRIVE/Git/test/C#/bin/Debug/net7.0/C#.pdb
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/C#.csproj.AssemblyReference.cache
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/C#.GeneratedMSBuildEditorConfig.editorconfig
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/C#.AssemblyInfoInputs.cache
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/C#.AssemblyInfo.cs
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/C#.csproj.CoreCompileInputs.cache
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/C#.dll
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/refint/C#.dll
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/C#.pdb
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/C#.genruntimeconfig.cache
+/media/sf_D_DRIVE/Git/test/C#/obj/Debug/net7.0/ref/C#.dll
