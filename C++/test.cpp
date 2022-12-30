@@ -4,6 +4,7 @@
 #define VV vector<V>
 #define VP vector<pii>
 #define VVP vector<VP>
+#define VS vector<string>
 #define pii pair<int, int>
 #define F first
 #define S second
@@ -15,17 +16,13 @@
 
 using namespace std;
 
-int n, m;
-V ve;
-V ve2;
+
 
 void solve() {
 
-    cin >> n >> m;
 
-    ve.resize(n);
-    ve2.resize(n);
 
+<<<<<<< HEAD:test.cpp
     rep (i, 0, n) {
         int in;
         cin >> in;
@@ -42,16 +39,15 @@ void solve() {
 
 
 
+=======
+>>>>>>> 5e3847d19c8f3e9df4e74403c25636c558b8d0ad:C++/test.cpp
 }
 
 signed main() {
-
     ios::sync_with_stdio(0);
     cin.tie(0);
     
     solve();
 
     return 0;
-
 }
-
