@@ -40,9 +40,8 @@ void solve() {
         }
     }
 
-    
 
-    //cout << ans << ln;
+
 }
 
 signed main() {
