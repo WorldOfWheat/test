@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Git\\test\\c#\\c#.csproj": {}
+    "d:\\Git\\test\\C#\\c#.csproj": {}
   },
   "projects": {
-    "D:\\Git\\test\\c#\\c#.csproj": {
+    "d:\\Git\\test\\C#\\c#.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Git\\test\\c#\\c#.csproj",
+        "projectUniqueName": "d:\\Git\\test\\C#\\c#.csproj",
         "projectName": "c#",
-        "projectPath": "D:\\Git\\test\\c#\\c#.csproj",
-        "packagesPath": "C:\\Users\\a3028\\.nuget\\packages\\",
-        "outputPath": "D:\\Git\\test\\c#\\obj\\",
+        "projectPath": "d:\\Git\\test\\C#\\c#.csproj",
+        "packagesPath": "C:\\Users\\小麥\\.nuget\\packages\\",
+        "outputPath": "d:\\Git\\test\\C#\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\a3028\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\小麥\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
