@@ -1,31 +1,31 @@
-﻿class test 
+﻿using System.Security.Cryptography;
+
+class test 
 {
     static void Main() 
     {
-        string path = "C:\\Users\\a3028\\Desktop\\input.txt";
-        string[] input = File.ReadAllLines(path);
+        string path = @"C:\Users\a3028\Desktop\新增資料夾";
+        SHA512 sha512 = new SHA512Managed();        
+        string[] files = Directory.GetFiles(path);
+        int len = files.Length;
 
-        foreach (var i in input)
+        for (int i = 0; i < len; i++) 
         {
-            string[] splited = i.Split(',');
-            string temp = @"C:\Users\a3028\Desktop\old\" + splited[0];
-            string temp2 = "T" + splited[1].Substring(1, splited[1].Length-1);
-            //string temp2 = 
-            //@"C:\Users\a3028\Desktop\new" + 
-            //splited[1].Substring(2, splited[1].Length - 3) + 
-            //@"\";
-
-            Console.WriteLine(temp + " " + temp2);
-            
-            if (!Directory.Exists(temp2))
+            for (int j = i + 1; j < len; j++) 
             {
-                Directory.CreateDirectory(temp2);
+                byte[] b1 = File.ReadAllBytes(files[i]);
+                byte[] b2 = File.ReadAllBytes(files[j]);
+                string h1 = Convert.ToHexString(sha512.ComputeHash(b1));
+                string h2 = Convert.ToHexString(sha512.ComputeHash(b2));
+                
+                Console.WriteLine(h1 + " " + h2);
+                
+                if (h1 == h2) 
+                {
+                    File.Delete(files[i]);
+                    break;
+                }
             }
-            if (File.Exists(temp)) 
-            {
-                Console.WriteLine("test");
-                File.Move(temp, temp2 + splited[0], true);
-            }
-        }
+        } 
     }
 }
