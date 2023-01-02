@@ -26,7 +26,7 @@ class test
     }
     public static void Main() 
     {
-        string path = @"C:\Users\a3028\Desktop\test";
+        string path = @"C:\Users\小麥\Desktop\test";
         string[] files = Directory.GetFiles(path);
         List<string> hashs = new List<string>();
         Dictionary<string, List<string>> hashToFilePath = new Dictionary<string, List<string>>();
