@@ -1,5 +1,11 @@
-﻿class test {
-    static void Main() {
-        Console.WriteLine("test");
+﻿namespace test
+{
+    class Program
+    {
+        public static int a = 0;
+        static void Main(string[] args) 
+        {
+            Console.WriteLine(a); 
+        }
     }
 }
