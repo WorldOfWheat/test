@@ -8,19 +8,19 @@
     "net7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\小麥\\.nuget\\packages\\": {}
+    "C:\\Users\\a3028\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Git\\test\\C#\\Project2\\Project2.csproj",
+      "projectUniqueName": "d:\\Git\\test\\C#\\Project2\\Project2.csproj",
       "projectName": "Project2",
-      "projectPath": "D:\\Git\\test\\C#\\Project2\\Project2.csproj",
-      "packagesPath": "C:\\Users\\小麥\\.nuget\\packages\\",
-      "outputPath": "D:\\Git\\test\\C#\\Project2\\obj\\",
+      "projectPath": "d:\\Git\\test\\C#\\Project2\\Project2.csproj",
+      "packagesPath": "C:\\Users\\a3028\\.nuget\\packages\\",
+      "outputPath": "d:\\Git\\test\\C#\\Project2\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\小麥\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\a3028\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"

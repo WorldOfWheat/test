@@ -10,11 +10,11 @@
         "projectUniqueName": "d:\\Git\\test\\C#\\Project2\\Project2.csproj",
         "projectName": "Project2",
         "projectPath": "d:\\Git\\test\\C#\\Project2\\Project2.csproj",
-        "packagesPath": "C:\\Users\\小麥\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\a3028\\.nuget\\packages\\",
         "outputPath": "d:\\Git\\test\\C#\\Project2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\小麥\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\a3028\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
