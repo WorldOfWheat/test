@@ -34,13 +34,10 @@ class test
 
         foreach (var i in files) 
         {
-            byte[] fileByte = File.ReadAllBytes(i);
-            List<byte> temp = new List<byte>(fileByte);
-            if (temp.Count >= 512)
-            {
-                temp = temp.GetRange(0, 512);
-            }
-            fileByte = temp.ToArray();
+            FileStream fs = new FileStream(i, FileMode.Open, FileAccess.Read);
+            byte[] fileByte = new byte[512];
+            fs.Read(fileByte, 0, 512);
+            fs.Close();
             byte[] hash = SHA1.Create().ComputeHash(fileByte);
             string hex = Convert.ToHexString(hash);
             
