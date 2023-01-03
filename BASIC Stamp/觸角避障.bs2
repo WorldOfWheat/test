@@ -1,0 +1,74 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+i VAR Byte
+j VAR Byte
+
+DO
+
+GOSUB F
+IF (IN3 = 0) AND (IN4 = 0) THEN
+    HIGH 7
+    HIGH 8
+    FOR j = 0 TO 2
+        GOSUB B
+    NEXT
+
+    GOSUB L
+ELSE
+    LOW 7
+    LOW 8
+ENDIF
+
+IF (IN3 = 0) AND (IN4 = 1) THEN
+    HIGH 8
+    GOSUB R
+ELSE
+    LOW 8
+ENDIF
+
+IF (IN3 = 1) AND (IN4 = 0) THEN
+    HIGH 7
+    GOSUB l
+ELSE
+    LOW 7
+ENDIF
+
+LOOP
+
+F:
+FOR i = 0 TO 20
+    PULSOUT 13, 850
+    PULSOUT 12, 650
+    PAUSE 20
+NEXT
+
+RETURN
+
+B:
+FOR i = 0 TO 20
+    PULSOUT 13, 650
+    PULSOUT 12, 850
+    PAUSE 20
+NEXT
+
+RETURN
+
+L:
+FOR i = 0 TO 30
+    PULSOUT 13, 650
+    PULSOUT 12, 650
+    PAUSE 20
+NEXT
+
+RETURN
+
+R:
+FOR i = 0 TO 30
+    PULSOUT 13, 850
+    PULSOUT 12, 850
+    PAUSE 20
+NEXT
+
+RETURN
+
