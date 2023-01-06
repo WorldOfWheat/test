@@ -8,21 +8,6 @@
             File.Create(path);
         }
         
-        using (StreamWriter sw = new StreamWriter(path))
-        {
-            sw.Write('0');
-            sw.
-             
-            sw.Close();
-        }
-
-        using (StreamReader sr = new StreamReader(path))
-        {
-            Console.WriteLine(sr.Read());
-
-            sr.Close();
-        }
-
 
     }
 }
