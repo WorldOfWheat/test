@@ -7,7 +7,6 @@ class test
         if (left > right) 
         {
             return false;
-            Console.WriteLine("test");
         }
 
         int mid = (left + right) >> 1;
@@ -25,31 +24,30 @@ class test
             return _binarySearch(list, target, mid + 1, right);
         }
     }
-    public static void Main() 
+    public static void fileUnique(string path)
     {
-        string path = @"C:\Users\小麥\Desktop\test";
         string[] files = Directory.GetFiles(path);
         List<string> hashs = new List<string>();
-        Dictionary<string, List<string>> hashToFilePath = new Dictionary<string, List<string>>();
+        Dictionary<string, List<string>> byteToFilePath = new Dictionary<string, List<string>>();
 
         foreach (var i in files) 
         {
-            FileStream fs = new FileStream(i, FileMode.Open, FileAccess.Read);
             byte[] fileByte = new byte[512];
+            FileStream fs = new FileStream(i, FileMode.Open, FileAccess.Read);
             fs.Read(fileByte, 0, 512);
             fs.Close();
-            byte[] hash = SHA1.Create().ComputeHash(fileByte);
-            string hex = Convert.ToHexString(hash);
             
-            if (!hashToFilePath.ContainsKey(hex))
+            string hex = Convert.ToHexString(fileByte);
+            
+            if (!byteToFilePath.ContainsKey(hex))
             {
                 List<string> temp2 = new List<string>();
                 temp2.Add(i);
-                hashToFilePath.Add(hex, temp2);
+                byteToFilePath.Add(hex, temp2);
             }
             else
             {
-                hashToFilePath[hex].Add(i);
+                byteToFilePath[hex].Add(i);
             }
 
             hashs.Add(hex);
@@ -61,10 +59,39 @@ class test
         {
             if (_binarySearch(hashs, hashs[i], i + 1, hashs.Count - 1))
             {
-                List<string> temp = hashToFilePath[hashs[i]];
+                List<string> temp = byteToFilePath[hashs[i]];
                 File.Delete(temp.Last());
-                hashToFilePath[hashs[i]].Remove(temp.Last());
+                byteToFilePath[hashs[i]].Remove(temp.Last());
             }
         }
+    }
+    public static void Main() 
+    {
+
+
+
+        return;
+        Console.WriteLine(
+        """
+        #####################################
+        Please enter the path to be uniqued. 
+        """);
+        
+        string path = Console.ReadLine();
+
+        Console.WriteLine(
+        """
+        #####################################
+        """
+        );
+        if (path == null)
+        {
+            Console.WriteLine(
+            """
+            Invalid input.
+            """
+            );
+        }
+        fileUnique(path);       
     }
 }
