@@ -7,6 +7,7 @@ class test
         if (left > right) 
         {
             return false;
+            Console.WriteLine("test");
         }
 
         int mid = (left + right) >> 1;
