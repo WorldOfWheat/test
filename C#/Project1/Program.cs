@@ -67,10 +67,6 @@ class test
     }
     public static void Main() 
     {
-
-
-
-        return;
         Console.WriteLine(
         """
         #####################################
