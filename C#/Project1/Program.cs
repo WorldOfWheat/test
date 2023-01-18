@@ -36,7 +36,6 @@ class test
             FileStream fs = new FileStream(i, FileMode.Open, FileAccess.Read);
             fs.Read(fileByte, 0, 512);
             fs.Close();
-            
             string hex = Convert.ToHexString(fileByte);
             
             if (!byteToFilePath.ContainsKey(hex))
@@ -55,7 +54,7 @@ class test
 
         hashs.Sort();
         
-        for (int i = 0; i <= hashs.Count - 1; i++)
+        for (int i = 0; i < hashs.Count; i++)
         {
             if (_binarySearch(hashs, hashs[i], i + 1, hashs.Count - 1))
             {
@@ -67,10 +66,6 @@ class test
     }
     public static void Main() 
     {
-
-
-
-        return;
         Console.WriteLine(
         """
         #####################################
@@ -84,7 +79,7 @@ class test
         #####################################
         """
         );
-        if (path == null)
+        if (String.IsNullOrEmpty(path))
         {
             Console.WriteLine(
             """
