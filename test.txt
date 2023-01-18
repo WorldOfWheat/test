@@ -1,0 +1,43 @@
+IF trigger THEN
+    FOR ii := 0 TO 9 BY 1 DO
+        scoreStack[ii] := 0;
+    END_FOR;
+
+    CopyBoard := board;
+    CopyBoardCounter := BoardCounter;
+    CopyBoardStack := BoardStack;
+
+    WHILE TRUE DO
+        currentPlayer := 1 + CopyBoardCounter MOD 2;
+
+        IF judge(TRUE, board) <> 0 THEN
+            scoreStack[CopyBoardCounter] := -(10 - CopyBoardCounter) * currentPlayer;
+        ELSIF CopyBoardCounter = 9 THEN
+            scoreStack[CopyBoardCounter] := 0;
+        ELSE (*為下面的計算做初始化*)
+            CopyBoardStack[CopyBoardCounter] := -1;
+            IF currentPlayer = 1 THEN
+                scoreStack[CopyBoardCounter] := -10;
+            ELSE
+                scoreStack[CopyBoardCounter] := 10;
+            END_IF;
+            CopyBoardCounter := CopyBoardCounter + 1;
+        END_IF:
+            
+        flag1 := TRUE;
+        WHILE flag1 OR (move == 9) DO
+            CopyBoardCounter := CopyBoardCounter - 1;
+            if CopyBoardCounter < BoardCounter THEN
+                EXIT;
+            END_IF;
+
+            move = CopyBoardStack[CopyBoardCounter];
+            IF move >= 0 THEN
+
+            END_IF;
+            
+            flag1 := FALSE;
+        END_WHILE;
+    END_WHILE;  
+END_IF;
+
