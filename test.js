@@ -2,7 +2,7 @@ function gameWon(board) {
     /* Looks at all possible lines of 3,
      * to see if they are occupied by three of the same symbols
      * board: is a 1D array with 9 integers: 
-     * 1 = "X" (first player), 0 = free, 1 = "O"
+     * -1 = "X" (first player), 0 = free, 1 = "O"
      * Returns boolean.
      */
     let value;

@@ -25,19 +25,46 @@ IF trigger THEN
         END_IF:
             
         flag1 := TRUE;
-        WHILE flag1 OR (move == 9) DO
+        WHILE flag1 OR (move1 = 9) DO
             CopyBoardCounter := CopyBoardCounter - 1;
-            if CopyBoardCounter < BoardCounter THEN
+            IF CopyBoardCounter < BoardCounter THEN
                 EXIT;
             END_IF;
 
-            move = CopyBoardStack[CopyBoardCounter];
-            IF move >= 0 THEN
+            move1 = CopyBoardStack[CopyBoardCounter];
+            IF move1 >= 0 THEN
+                score = scoreStack[CopyBoardCounter + 1];
 
+                IF NOT ((CopyBoard[CopyBoardCounter] == 1) XOR (score > scoreStack[CopyBoardCounter])) THEN
+                    scoreStack[CopyBoardCounter] := score;
+
+                    IF CopyBoardCounter = BoardCounter THEN
+                        result := move1;
+                    END_IF;
+                END_IF;
+
+                CopyBoard[move1] := 0;
             END_IF;
             
+            flag2 := TRUE;
+            WHILE flag2 OR ((move1 < 9) AND (CopyBoard[move1] <> 0)) DO
+                move1 := move1 + 1;
+                flag2 := FALSE;
+            }
+
             flag1 := FALSE;
         END_WHILE;
+        
+        IF CopyBoardCounter < BoardCounter THEN
+            EXIT;
+        END_IF;
+
+        CopyBoard[move1] := currentPlayer;
+        CopyBoardStack[CopyBoardCounter] := move1;
+        CopyBoardCounter := CopyBoardCounter + 1;
     END_WHILE;  
 END_IF;
+
+
+findBestmove1 := result;
 
