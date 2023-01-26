@@ -10,8 +10,6 @@ class MainWindow_controller(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__() 
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
-        self.ui.tableView.setRowHeight
         
 
 if __name__ == '__main__':
