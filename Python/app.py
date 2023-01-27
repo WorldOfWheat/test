@@ -8,7 +8,7 @@ def home():
     return "<html><body><h1>Hello World</h1></body></html>"
 
 def main():
-    app.run()
+    app.run(debug = False, host = '0.0.0.0')
 
 if __name__ == '__main__':
     main()
