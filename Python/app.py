@@ -1,14 +1,10 @@
 import flask
 
 app = flask.Flask(__name__)
-@app.route('/data/appInfo/<name>', methods=['GET'])
 
-#def hello():
-#    return "Hello,aweawawaweawe World!"
-
-def queryDataMessageByName(name):
-    print("type(name) : ", type(name))
-    return 'String => {}'.format(name)
+@app.route('/home', methods=['GET'])
+def home():
+    return "<html><body><h1>Hello World</h1></body></html>"
 
 def main():
     app.run()
