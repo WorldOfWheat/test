@@ -4,11 +4,13 @@ app = flask.Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    print('test')
-    return "<html><body><h1>Hello World</h1></body></html>"
+    homePage = open('D:\\Git\\test\\Python\\home.html', 'r')
+    data = homePage.read()
+    homePage.close()
+    return data
 
 def main():
-    app.run()
+    app.run( port = 80)
 
 if __name__ == '__main__':
     main()
