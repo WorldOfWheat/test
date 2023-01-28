@@ -10,7 +10,7 @@ def home():
     return data
 
 def main():
-    app.run( port = 80)
+    app.run(host = '192.168.20.100', port = 80)
 
 if __name__ == '__main__':
     main()
