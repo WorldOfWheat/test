@@ -1,18 +1,19 @@
+from decimal import Decimal, getcontext
+from random import randrange
 import sys
 
 def main():
-    prefixSum = []
-    n, m = map(int(), input().split(' '))
-    prefixSum.extend(n + 1)
-    for _ in range(m):
-        a, b, c = map(int(), input().split(' '))
-        a -= 1
-        prefixSum[a] += c
-        prefixSum[b] -= c
-
-
+    return
+    a, b = '', ''
+    for i in range(90):
+        a += str(randrange(1, 9))
+        b += str(randrange(1, 9))
+    
+    k = str('{:f}'.format(Decimal(a) / Decimal(b)))
+    print(k)
 
 if __name__ == '__main__':
     sys.setrecursionlimit(100000)
+    print(getcontext().prec)
 
     main()
