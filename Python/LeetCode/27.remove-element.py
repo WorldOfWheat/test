@@ -22,15 +22,5 @@ class Solution(object):
         
         return len(result)
         
-        result = []
-        for i in range(len(nums)):
-            if nums[i] == val:
-                continue
-            result.append(nums[i])
-        for i in range(len(result)):
-            nums[i] = result[i]
-
-        return len(result)
-        
 # @lc code=end
 
