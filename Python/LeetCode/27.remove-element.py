@@ -12,6 +12,15 @@ class Solution(object):
         :type val: int
         :rtype: int
         """
+
+        result = []
+        for i in nums:
+            if i != val:
+                result.append(i)
+        for i in range(len(result)):
+            nums[i] = result[i]
+        
+        return len(result)
         
         result = []
         for i in range(len(nums)):
