@@ -9,7 +9,8 @@ GitHub： https://github.com/WorldOfWheat/BatchGit
 pathFileNotExistMsg = '''找不到 path.txt，因此系統以自動創建，請於 path.txt 內寫入於自動處理的Git路徑
 -----------------------------------------------------------'''
 
-successfulMsg = '''執行完成
+successfulMsg = '''-----------------------------------------------------------
+執行完成
 -----------------------------------------------------------'''
 
 def gitPull(path):
