@@ -1,5 +1,7 @@
 import os
 
+TEST = True
+
 def printTitle():
     print('---------------------------------------')
     print('')
@@ -7,16 +9,18 @@ def printTitle():
 def gitPull(path):
     try:
         os.chdir(path)
-        os.system('git pull origin main')
+        if not TEST:
+            os.system('git pull origin main')
     except:
         raise
 
 def gitPush(path):
     try:
         os.chdir(path)
-        os.system('git add .')
-        os.system('git commit -a --allow-empty-message -m ""')
-        os.system('git push origin main')
+        if not TEST:
+            os.system('git add .')
+            os.system('git commit -a --allow-empty-message -m ""')
+            os.system('git push origin main')
     except:
         raise   
 
