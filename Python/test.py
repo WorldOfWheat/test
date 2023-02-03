@@ -1,5 +1,9 @@
 import os
 
+def printTitle():
+    print('---------------------------------------')
+    print('')
+
 def gitPull(path):
     try:
         os.chdir(path)
@@ -21,6 +25,7 @@ def main():
     allPath = f.readlines()
     f.close()
 
+    printTitle()
     if allPath[-1][-1] != '\n':
         allPath[-1] += '\n'
 
