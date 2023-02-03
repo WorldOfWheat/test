@@ -19,7 +19,7 @@ def main():
         if (m >> i) & 1:
             result += score[pos][i]
             pos = go[pos][i]
-    print(result)
+    print(pos)
 
     
 if __name__ == '__main__':
