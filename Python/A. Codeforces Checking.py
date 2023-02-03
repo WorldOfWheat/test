@@ -8,7 +8,7 @@ def main():
     for _ in range(n):
         k = input()
         index = bisect_left(alphabat, k)
-        if index == n:
+        if index == len(alphabat):
             print('no')
             continue
         if k == alphabat[index]:
