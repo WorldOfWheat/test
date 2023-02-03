@@ -18,7 +18,7 @@ def gitPull(path):
         os.chdir(path)
         os.system('git pull origin main')
     except:
-        raise
+        pass
 
 def gitPush(path):
     try:
@@ -27,7 +27,7 @@ def gitPush(path):
         os.system('git commit -a --allow-empty-message -m ""')
         os.system('git push origin main')
     except:
-        raise   
+        pass   
 
 def main():
     print(welcomeMsg) # 印出歡迎訊息
@@ -51,14 +51,9 @@ def main():
             if path[0] == '#' or path[0] == '\n': # 註解或無資料行跳過
                 continue
             path = path[:-1] # 去掉路徑資料結尾的換行號
-
-            print(str((i + 1)) + ': ', end='') # 印出編號
-            try:
-                gitPull(path)
-                gitPush(path)
-            except:
-                print('路徑無效', path)
-    
+            
+            gitPull(path)
+            gitPush(path)
 
 if __name__ == '__main__':
     try:
