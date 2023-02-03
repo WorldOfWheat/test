@@ -35,7 +35,6 @@ def main():
         try:
             gitPull(path)
             gitPush(path)
-            print(path.split('\\')[-1])
         except:
             print('路徑無效', path)
 
