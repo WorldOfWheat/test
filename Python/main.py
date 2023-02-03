@@ -1,65 +1,65 @@
+from collections import defaultdict
+from sortedcontainers import SortedList
 import os
 
 welcomeMsg = '''-----------------------------------------------------------
-歡迎使用批量Git工具 v1.0
+歡迎使用去重工具 v1.0
 作者：小麥 WorldOfWheat
-GitHub： https://github.com/WorldOfWheat/BatchGit
------------------------------------------------------------'''
-
-pathFileNotExistMsg = '''找不到 path.txt，因此系統以自動創建，請於 path.txt 內寫入於自動處理的Git路徑
+GitHub： https://github.com/WorldOfWheat/FilesUniqueTool
 -----------------------------------------------------------'''
 
 successfulMsg = '''-----------------------------------------------------------
 執行完成
 -----------------------------------------------------------'''
 
-def gitPull(path):
-    try:
-        os.chdir(path)
-        os.system('git pull origin main')
-    except:
-        pass
+def getInput():
+    result = [] 
 
-def gitPush(path):
-    try:
-        os.chdir(path)
-        os.system('git add .')
-        os.system('git commit -a --allow-empty-message -m ""')
-        os.system('git push origin main')
-    except:
-        pass   
+    while True:
+        _input = input('請輸入要去重的路徑: ')
+        try:
+            os.chdir(_input)
+            break
+        except:
+            print('路徑無效')
+    result.append(_input)
+
+    while True:
+        _input = input('是否去重路徑內的所有資料夾 true/false: ')
+        if (_input.lower() == 'true') or (_input.lower() == 'false') or (_input == '1') or (_input == '0'):
+            break
+        print('輸入格式錯誤')
+    result.append(True if (_input.lower() == 'true') or (_input == 1) else False)
+            
+    return result
+
+def uniquePath(path, withDir):
+    allFiles = os.listdir(path)
+    _map = {}
+    for i in allFiles:
+        fullPath = path + '\\' + i
+        if os.path.isdir(fullPath):
+            if withDir:
+                uniquePath(fullPath, True)
+            continue
+        fileBytes = open(fullPath, 'rb')
+        data = fileBytes.read(512)
+        fileBytes.close()
+        if _map.get(data.hex(), None) == None:
+            _map[data.hex()] = SortedList()
+        _map.setdefault
+        _map[data.hex()].add(fullPath)
+    for i in _map:
+        for j in _map[i][:-1]:
+            print(j)
+            os.remove(j)
 
 def main():
-    print(welcomeMsg) # 印出歡迎訊息
-
-    if not os.path.exists('path.txt'): # 找不到 path.txt
-        open('path.txt', 'x') # 新建檔案
-        print(pathFileNotExistMsg) # 印找不到檔案的訊息
-        raise
-
-    with open('path.txt', 'r') as file:
-        allPath = file.readlines()
-
-        if len(allPath) == 0: # 找不到資料
-            return
-        if allPath[-1][-1] != '\n': # 結尾無換行
-            allPath[-1] += '\n' # 補上換行號
-
-        LENGTH = len(allPath)
-        for i in range(LENGTH):
-            path = allPath[i]
-            if path[0] == '#' or path[0] == '\n': # 註解或無資料行跳過
-                continue
-            path = path[:-1] # 去掉路徑資料結尾的換行號
-            
-            gitPull(path)
-            gitPush(path)
+    print(welcomeMsg)
+    _input = getInput()
+    uniquePath(_input[0], _input[1])
+    print(successfulMsg)
 
 if __name__ == '__main__':
-    try:
-        main()
-        print(successfulMsg) # 印出執行完成訊息
-    except:
-        pass
-
+    main()
     os.system('pause')
