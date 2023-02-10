@@ -14,11 +14,22 @@ int main()
             break;
         }
         int* arr;
-        arr = (int*) malloc(sizeof(n - 1)/sizeof(int));
+        arr = (int*) malloc(sizeof(n)*sizeof(int));
         *arr = firstNum;
         for (int i = 1; i < n; i++)
         {
             scanf("%d", (arr + i));
+        }
+
+        int* stack;
+        stack = (int*) malloc(sizeof(n)*sizeof(int));
+        int tail = 0;
+        int now = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            *(stack + tail) = i;
+            tail++;
+            while (tail >0 && *(arr + now) == )
         }
     }
 
