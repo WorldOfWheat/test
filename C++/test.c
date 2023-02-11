@@ -21,7 +21,6 @@ int* merge(int* arr1, int* arr2, int left1, int right1, int left2, int right2)
     int ptrResult = 0;
     while (1)
     {
-        printf("%d %d\n", arr1[ptrL], arr2[ptrR]);
         if (ptrL >= right1 || ptrR >= right2)
         {
             break;
@@ -55,46 +54,36 @@ int* merge(int* arr1, int* arr2, int left1, int right1, int left2, int right2)
     return result;
 }
 
-void mergeSort(int* arr, int left, int right)
+int* mergeSort(int* arr, int left, int right)
 {
     if (left + 1 >= right)
     {
-        return;
+        return arr + left;
     }
 
     int mid = (right + left) / 2;
     mergeSort(arr, left, mid);
     mergeSort(arr, mid, right);
-    merge(arr, arr, left, mid, mid, right);
+    int* result = merge(arr, arr, left, mid, mid, right);
+    for (int i = left; i < right; i++)
+    {
+        printf("%i ", i);
+        arr[i] = *(result + i - left);
+    }
+    printf("\n");
 }
 
 int main()
 {
-    int arr[] = {1, 3, 5, 7, 9, 2, 4, 6, 8, 10};
-    &arr = merge(arr, arr, 0, 5, 5, 10);
-    for (int i = 0; i < 10; i++)
+    srand(time(0));
+
+    int testSize = 50000;
+    int* arr;
+    arr = (int*) malloc(sizeof(int) * testSize);
+    for (int i = 0; i < testSize; i++)
     {
-        printf("%d ", *(arr + i));
+        *(arr + i) = (rand() + 100) % 200;
     }
 
-    // srand(time(0));
-
-    // int arr[10] = {0};
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     *(arr + i) = (rand() + 100) % 100;
-    // }
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     printf("%d ", *(arr + i));
-    // }
-    // printf("\n");
-
-    // printf("%p\n", arr);
-    // mergeSort(arr, 0, 10);
-
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     printf("%d ", *(arr + i));
-    // }
+    mergeSort(arr, 0, testSize);
 }
