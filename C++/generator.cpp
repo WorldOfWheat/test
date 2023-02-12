@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <random>
-#include <sys\time.h>
+#include <time.h>
 #include <vector>
 
 using namespace std;

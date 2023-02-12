@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
+#include <time.h>
 
 void swap(int* numA, int* numB)
 {
@@ -67,7 +67,7 @@ void quickSort(int* arr, int left, int right)
 
 int main()
 {
-    int testSize = (int) 1e5;
+    int testSize = (int) 1e3;
     int* arr;
     int* _arr;
     arr = (int*) malloc(sizeof(int) * testSize);
