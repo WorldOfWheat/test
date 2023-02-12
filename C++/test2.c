@@ -67,7 +67,7 @@ void quickSort(int* arr, int left, int right)
 
 int main()
 {
-    int testSize = (int) 1e4;
+    int testSize = (int) 1e5;
     int* arr;
     int* _arr;
     arr = (int*) malloc(sizeof(int) * testSize);
@@ -91,7 +91,7 @@ int main()
     bubbleSort(_arr, 0, testSize);
     endTime = clock();
     printf("%lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
-    /*-----------------------------------------------------------*/
+    
     for (int i = 0; i < testSize; i++)
     {
         *(_arr + i) = *(arr + i);
