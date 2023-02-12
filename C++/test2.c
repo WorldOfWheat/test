@@ -1,4 +1,3 @@
-#include <random>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -8,6 +7,23 @@ void swap(int* numA, int* numB)
     int ptrTemp = *numA;
     *numA = *numB;
     *numB = ptrTemp;
+}
+
+void bubbleSort(int* arr, int left, int right)
+{
+    int flag = 1;
+    while (flag)
+    {
+        flag = 0;
+        for (int i = left; i < right - 1; i++)
+        {
+            if (*(arr + i) > *(arr + i + 1))
+            {
+                swap(arr + i, arr + i + 1);
+                flag = 1;
+            }
+        }
+    }
 }
 
 void quickSort(int* arr, int left, int right)
@@ -51,7 +67,7 @@ void quickSort(int* arr, int left, int right)
 
 int main()
 {
-    int testSize = (int) 1e5;
+    int testSize = (int) 1e6;
     int* arr;
     arr = (int*) malloc(sizeof(int) * testSize);
     FILE* file = fopen("input.txt", "r");
@@ -61,7 +77,7 @@ int main()
     }
 
     double startTime = clock();
-    quickSort(arr, 0, testSize);
+    bubbleSort(arr, 0, testSize);
     double endTime = clock();
     printf("%lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
 }

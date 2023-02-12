@@ -40,11 +40,13 @@ int main()
         swap(arr[placeA], arr[placeB]);
     }
 
-    fstream fileOut("input.txt");
+    ofstream fileOut;
+    fileOut.open("input.txt");
     for (auto i : arr)
     {
         fileOut << i << '\n';
     }
+    fileOut.close();
 
     return 0;
 }
