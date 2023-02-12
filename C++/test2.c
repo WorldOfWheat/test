@@ -67,17 +67,37 @@ void quickSort(int* arr, int left, int right)
 
 int main()
 {
-    int testSize = (int) 1e6;
+    int testSize = (int) 1e4;
     int* arr;
+    int* _arr;
     arr = (int*) malloc(sizeof(int) * testSize);
+    _arr = (int*) malloc(sizeof(int) * testSize);
     FILE* file = fopen("input.txt", "r");
     for (int i = 0; i < testSize; i++)
     {
         fscanf(file, "%i", arr + i);
     }
 
-    double startTime = clock();
-    bubbleSort(arr, 0, testSize);
-    double endTime = clock();
+    // for (int i = 0; i < testSize; i++)
+    // {
+    //     printf("%i ", *(arr + i));
+    // }
+    for (int i = 0; i < testSize; i++)
+    {
+        *(_arr + i) = *(arr + i);
+    }
+    double startTime, endTime;
+    startTime = clock();
+    bubbleSort(_arr, 0, testSize);
+    endTime = clock();
+    printf("%lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
+    /*-----------------------------------------------------------*/
+    for (int i = 0; i < testSize; i++)
+    {
+        *(_arr + i) = *(arr + i);
+    }
+    startTime = clock();
+    quickSort(_arr, 0, testSize);
+    endTime = clock();
     printf("%lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
 }
