@@ -2,7 +2,6 @@
 #include <fstream>
 #include <iostream>
 #include <random>
-#include <time.h>
 #include <vector>
 
 using namespace std;
@@ -26,19 +25,14 @@ int main()
     string dataInput;
     cin >> dataInput;
     int testCount = (dataInput[0] - '0') * qpow(10, dataInput[2] - '0');
-    
     vector<int> arr;
     for (int i = 1; i <= testCount; i++)
     {
         arr.emplace_back(i);
     }
-    mt19937_64 mt(time(NULL));
-    for (int i = 0; i < testCount; i++)
-    {
-        int placeA = mt() % testCount;
-        int placeB = mt() % testCount;
-        swap(arr[placeA], arr[placeB]);
-    }
+    random_device rd;
+    mt19937 mt(rd());
+    shuffle(arr.begin(), arr.end(), mt);
 
     ofstream fileOut;
     fileOut.open("input.txt");

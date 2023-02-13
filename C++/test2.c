@@ -28,52 +28,39 @@ void bubbleSort(int* arr, int left, int right)
 
 void quickSort(int* arr, int left, int right)
 {
-    if (left + 1 >= right)
+    int middle = arr[(left + right) / 2];
+    int ptrL = left;
+    int ptrR = right;
+    while (ptrL <= ptrR)
     {
-        return;
-    }
-
-    int* less = (int*) malloc(sizeof(int) * (right - left));
-    int* greater = (int*) malloc(sizeof(int) * (right - left));
-    int ptrLess = 0;
-    int ptrGreater = 0;
-    int mid = (right + left) / 2;
-    printf("%i\n", *(arr + mid));
-    for (int i = left; i < right; i++)
-    {
-        if (i == mid)
+        while (arr[ptrL] < middle)
         {
-            continue;
+            ptrL++;
         }
-        if (arr[i] < arr[mid])
+        while (arr[ptrR] > middle)
         {
-            *(less + ptrLess) = arr[i];
-            ptrLess++;
+            ptrR--;
         }
-        else
+        if (ptrL <= ptrR)
         {
-            *(greater + ptrGreater) = arr[i];
-            ptrGreater++;
+            swap(arr + ptrL, arr + ptrR);
+            ptrL++;
+            ptrR--;
         }
     }
-
-    quickSort(less, 0, ptrLess);
-    quickSort(greater, 0, ptrGreater);
-
-    for (int i = 0; i < ptrLess; i++)
+    if (left < ptrR)
     {
-        *(arr + i) = *(less + i);
+        quickSort(arr, left, ptrR);
     }
-    *(arr + ptrLess) = arr[mid];
-    for (int i = 0; i < ptrGreater; i++)
+    if (ptrL < right)
     {
-        *(arr + i + mid + 1) = *(greater + i);
+        quickSort(arr, ptrL, right);
     }
 }
 
 int main()
 {
-    int testSize = (int) 1e1;
+    int testSize = (int) 1e6;
     int* arr;
     int* _arr;
     arr = (int*) malloc(sizeof(int) * testSize);
@@ -90,24 +77,20 @@ int main()
     }
 
     double startTime, endTime;
-    // /*------------------------------------------------------------------*/
-    // startTime = clock();
-    // bubbleSort(_arr, 0, testSize);
-    // endTime = clock();
-    // printf("BubbleSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
-    // /*------------------------------------------------------------------*/
-    // for (int i = 0; i < testSize; i++)
-    // {
-    //     *(_arr + i) = *(arr + i);
-    // }
-    // /*------------------------------------------------------------------*/
+    /*------------------------------------------------------------------*/
+    startTime = clock();
+    bubbleSort(_arr, 0, testSize);
+    endTime = clock();
+    printf("BubbleSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
+    /*------------------------------------------------------------------*/
+    for (int i = 0; i < testSize; i++)
+    {
+        *(_arr + i) = *(arr + i);
+    }
+    /*------------------------------------------------------------------*/
     startTime = clock();
     quickSort(_arr, 0, testSize);
     endTime = clock();
     printf("QuickSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
     /*------------------------------------------------------------------*/
-    for (int i = 0; i < testSize; i++)
-    {
-        printf("%i ", *(_arr + i));
-    }
 }
