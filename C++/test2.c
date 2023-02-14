@@ -26,18 +26,28 @@ void bubbleSort(int* arr, int left, int right)
     }
 }
 
+void mergeSort(int* arr, int left, int right)
+{
+    if (left + 1 > right)
+    {
+        return;
+    }
+
+    int middle = (left + right) / 2;
+}
+
 void quickSort(int* arr, int left, int right)
 {
-    int middle = arr[(left + right) / 2];
+    int middle = (left + right) / 2;
     int ptrL = left;
     int ptrR = right;
     while (ptrL <= ptrR)
     {
-        while (arr[ptrL] < middle)
+        while (arr[ptrL] < arr[middle])
         {
             ptrL++;
         }
-        while (arr[ptrR] > middle)
+        while (arr[ptrR] > arr[middle])
         {
             ptrR--;
         }
