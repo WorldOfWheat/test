@@ -3,11 +3,6 @@
 
 using namespace std;
 
-int binarySearch(vector<int> arr, int left, int right)
-{
-
-}
-
 int main()
 {
     vector<int> arr;

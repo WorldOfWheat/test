@@ -28,12 +28,46 @@ void bubbleSort(int* arr, int left, int right)
 
 void mergeSort(int* arr, int left, int right)
 {
-    if (left + 1 > right)
+    if (left + 1 >= right)
     {
         return;
     }
 
     int middle = (left + right) / 2;
+
+    mergeSort(arr, left, middle);
+    mergeSort(arr, middle, right);
+
+    int ptrL = left;
+    int ptrR = middle;
+    int ptr = 0;
+    int* result = (int*) malloc((right - left) * 5);
+    while (ptrL < middle && ptrR < right)
+    {
+        while (ptrL < middle && arr[ptrL] < arr[ptrR])
+        {
+            result[ptr++] = arr[ptrL];
+            ptrL++;
+        }
+        while (ptrR < right && arr[ptrL] >= arr[ptrR])
+        {
+            result[ptr++] = arr[ptrR];
+            ptrR++;
+        }
+    }
+    while (ptrL < middle)
+    {
+        result[ptr++] = arr[ptrL++];
+    }
+    while (ptrR < right)
+    {
+        result[ptr++] = arr[ptrR++];
+    }
+
+    for (int i = left; i < right; i++)
+    {
+        arr[i] = result[i];
+    }
 }
 
 void quickSort(int* arr, int left, int right)
@@ -41,7 +75,7 @@ void quickSort(int* arr, int left, int right)
     int middle = (left + right) / 2;
     int ptrL = left;
     int ptrR = right;
-    while (ptrL <= ptrR)
+    while (ptrL + 1 < ptrR)
     {
         while (arr[ptrL] < arr[middle])
         {
@@ -70,7 +104,7 @@ void quickSort(int* arr, int left, int right)
 
 int main()
 {
-    int testSize = (int) 1e6;
+    int testSize = (int) 2e1;
     int* arr;
     int* _arr;
     arr = (int*) malloc(sizeof(int) * testSize);
@@ -83,24 +117,31 @@ int main()
 
     for (int i = 0; i < testSize; i++)
     {
-        *(_arr + i) = *(arr + i);
+        _arr[i] = arr[i];
     }
 
-    double startTime, endTime;
-    /*------------------------------------------------------------------*/
-    startTime = clock();
-    bubbleSort(_arr, 0, testSize);
-    endTime = clock();
-    printf("BubbleSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
-    /*------------------------------------------------------------------*/
+    mergeSort(arr, 0, testSize);
+
     for (int i = 0; i < testSize; i++)
     {
-        *(_arr + i) = *(arr + i);
+        printf("%i ", _arr[i]);
     }
-    /*------------------------------------------------------------------*/
-    startTime = clock();
-    quickSort(_arr, 0, testSize);
-    endTime = clock();
-    printf("QuickSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
-    /*------------------------------------------------------------------*/
+
+    // double startTime, endTime;
+    // /*------------------------------------------------------------------*/
+    // startTime = clock();
+    // bubbleSort(_arr, 0, testSize);
+    // endTime = clock();
+    // printf("BubbleSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
+    // /*------------------------------------------------------------------*/
+    // for (int i = 0; i < testSize; i++)
+    // {
+    //     *(_arr + i) = *(arr + i);
+    // }
+    // /*------------------------------------------------------------------*/
+    // startTime = clock();
+    // quickSort(_arr, 0, testSize);
+    // endTime = clock();
+    // printf("QuickSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
+    // /*------------------------------------------------------------------*/
 }
