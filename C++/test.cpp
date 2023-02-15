@@ -1,19 +1,15 @@
 #include <iostream>
-#include <random>
+#include <numeric>
+#include <vector>
 
 using namespace std;
 
 int main()
 {
-    vector<int> arr;
-    random_device rd;
-    mt19937 mt(rd());
-    for (int i = 0; i < 5; i++)
-    {
-        arr.emplace_back(mt() % 100);
-    }
-
-    for (auto i : arr)
+    vector<int> arr = {1, 3, 5, 7, 9};
+    vector<int> difference(arr.size());
+    adjacent_difference(arr.begin(), arr.end(), difference.begin());
+    for (auto i : difference)
     {
         cout << i << ' ';
     }
