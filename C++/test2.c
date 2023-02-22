@@ -87,34 +87,33 @@ void mergeSort(int* arr, int left, int right)
 
 void quickSort(int* arr, int left, int right)
 {
-    int middle = (left + right) / 2;
+    int middle = arr[(left + right) / 2];   
     int ptrL = left;
-    int ptrR = right;
-    while (ptrL + 1 < ptrR)
+    int ptrR = right - 1;
+    // printf("%i\n", arr[middle]);
+    while (ptrL <= ptrR)
     {
-        while (arr[ptrL] < arr[middle])
+        // printf("%i %i\n", ptrL, ptrR);
+        while (arr[ptrL] < middle)
         {
             ptrL++;
         }
-        while (arr[ptrR] > arr[middle])
+        while (arr[ptrR] > middle)
         {
             ptrR--;
         }
         if (ptrL <= ptrR)
         {
-            swap(arr + ptrL, arr + ptrR);
+            swap(&arr[ptrL], &arr[ptrR]);
             ptrL++;
             ptrR--;
         }
     }
+    printf("%i %i %i %i\n", left, ptrL, ptrR, right);
     if (left < ptrR)
-    {
         quickSort(arr, left, ptrR);
-    }
     if (ptrL < right)
-    {
         quickSort(arr, ptrL, right);
-    }
 }
 
 int main()
@@ -128,33 +127,30 @@ int main()
         fscanf(file, "%i", &arr[i]);
     }
 
-    for (int i = 0; i < testSize; i++)
-    {
-        _arr[i] = arr[i];
-    }
-
-    mergeSort(_arr, 0, testSize);
-
-    for (int i = 0; i < testSize; i++)
-    {
-        printf("%i ", _arr[i]);
-    }
-
-    // double startTime, endTime;
+    double startTime, endTime;
     // /*------------------------------------------------------------------*/
+    // for (int i = 0; i < testSize; i++)
+    // {
+    //     _arr[i] = arr[i];
+    // }
     // startTime = clock();
     // bubbleSort(_arr, 0, testSize);
     // endTime = clock();
     // printf("BubbleSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
     // /*------------------------------------------------------------------*/
-    // for (int i = 0; i < testSize; i++)
-    // {
-    //     *(_arr + i) = *(arr + i);
-    // }
-    // /*------------------------------------------------------------------*/
-    // startTime = clock();
-    // quickSort(_arr, 0, testSize);
-    // endTime = clock();
-    // printf("QuickSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
-    // /*------------------------------------------------------------------*/
+    for (int i = 0; i < testSize; i++)
+    {
+        _arr[i] = arr[i];
+        printf("%i ", _arr[i]);
+    }
+    printf("\n");
+    startTime = clock();
+    quickSort(_arr, 0, testSize - 1);
+    endTime = clock();
+    printf("QuickSort %lf\n", (endTime - startTime) / CLOCKS_PER_SEC);
+    /*------------------------------------------------------------------*/
+    for (int i = 0; i < testSize; i++)
+    {
+        printf("%i ", _arr[i]);
+    }
 }
