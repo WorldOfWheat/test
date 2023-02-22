@@ -9,6 +9,15 @@ void swap(int* numA, int* numB)
     *numB = ptrTemp;
 }
 
+int max(int x, int y)
+{
+    if (x > y)
+    {
+        return x;
+    }
+    return y;
+}
+
 void bubbleSort(int* arr, int left, int right)
 {
     int flag = 1;
@@ -26,6 +35,37 @@ void bubbleSort(int* arr, int left, int right)
     }
 }
 
+int* merge(int* arr, int left1, int right1, int* arr2, int left2, int right2)
+{
+    int result_size = max(right1 - left1, right2 - left2) * 2;
+    int* result = (int*) malloc(sizeof(int) * result_size);
+    int ptr = 0;
+    int ptrL = left1;
+    int ptrR = left2; 
+    while (ptrL < right1 && ptrR < right2)
+    {
+        while (ptrL < right1 && arr[ptrL] < arr2[ptrR])
+        {
+            result[ptr++] = arr[ptrL++];
+        }
+        while (ptrR < right2 && arr2[ptrR] <= arr[ptrL])
+        {
+            result[ptr++] = arr2[ptrR];
+            ptrR++;
+        }
+    }
+    while (ptrL < right1)
+    {
+        result[ptr++] = arr[ptrL++];
+    }
+    while (ptrR < right2)
+    {
+        result[ptr++] = arr2[ptrR++];
+    }
+
+    return result;
+}
+
 void mergeSort(int* arr, int left, int right)
 {
     if (left + 1 >= right)
@@ -38,35 +78,10 @@ void mergeSort(int* arr, int left, int right)
     mergeSort(arr, left, middle);
     mergeSort(arr, middle, right);
 
-    int ptrL = left;
-    int ptrR = middle;
-    int ptr = 0;
-    int* result = (int*) malloc((right - left) * 5);
-    while (ptrL < middle && ptrR < right)
-    {
-        while (ptrL < middle && arr[ptrL] < arr[ptrR])
-        {
-            result[ptr++] = arr[ptrL];
-            ptrL++;
-        }
-        while (ptrR < right && arr[ptrL] >= arr[ptrR])
-        {
-            result[ptr++] = arr[ptrR];
-            ptrR++;
-        }
-    }
-    while (ptrL < middle)
-    {
-        result[ptr++] = arr[ptrL++];
-    }
-    while (ptrR < right)
-    {
-        result[ptr++] = arr[ptrR++];
-    }
-
+    int* result = (int*) merge(arr, left, middle, arr, middle, right);
     for (int i = left; i < right; i++)
     {
-        arr[i] = result[i];
+        arr[i] = result[i - left];
     }
 }
 
@@ -105,14 +120,12 @@ void quickSort(int* arr, int left, int right)
 int main()
 {
     int testSize = (int) 2e1;
-    int* arr;
-    int* _arr;
-    arr = (int*) malloc(sizeof(int) * testSize);
-    _arr = (int*) malloc(sizeof(int) * testSize);
+    int* arr = (int*) malloc(sizeof(int) * testSize);
+    int* _arr = (int*) malloc(sizeof(int) * testSize);
     FILE* file = fopen("input.txt", "r");
     for (int i = 0; i < testSize; i++)
     {
-        fscanf(file, "%i", arr + i);
+        fscanf(file, "%i", &arr[i]);
     }
 
     for (int i = 0; i < testSize; i++)
@@ -120,7 +133,7 @@ int main()
         _arr[i] = arr[i];
     }
 
-    mergeSort(arr, 0, testSize);
+    mergeSort(_arr, 0, testSize);
 
     for (int i = 0; i < testSize; i++)
     {
