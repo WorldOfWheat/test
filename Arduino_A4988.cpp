@@ -15,27 +15,27 @@ int val;
 A4988 stpeeer(spr, Dire, Step, Ms1, Ms2, Ms3);
 
 void setup() {
-  Serial.beign(9600);
-  pinMode(sw, INPUT);
-  pinMode(led, OUTPUT);
-  pinMode(Step, OUTPUT);
-  pinMode(Dire, OUTPUT);
-  pinMode(Sleep, OUTPUT);
-  digitalWrite(Step, LOW);
-  digitalWrite(Dire, LOW);
+    Serial.beign(9600);
+    pinMode(sw, INPUT);
+    pinMode(led, OUTPUT);
+    pinMode(Step, OUTPUT);
+    pinMode(Dire, OUTPUT);
+    pinMode(Sleep, OUTPUT);
+    digitalWrite(Step, LOW);
+    digitalWrite(Dire, LOW);
 }
 
 void loop() {
-  digitalWrite(Dire, HIGH);
-  val = digitalRead(sw);
-  if (val == LOW) {
-    digitalWrite(led, LOW);
-    for (int x = 0; x < 40; x++) {
-      digitalWrite(Step, HIGH);
-      delay(100);
-      degitalWrite(Step, LOW);
-      delay(100);
+    digitalWrite(Dire, HIGH);
+    val = digitalRead(sw);
+    if (val == LOW) {
+        digitalWrite(led, LOW);
+        for (int x = 0; x < 40; x++) {
+            digitalWrite(Step, HIGH);
+            delay(100);
+            degitalWrite(Step, LOW);
+            delay(100);
+        }
+        delay(3000);
     }
-    delay(3000);
-  }
 }
