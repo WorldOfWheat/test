@@ -52,52 +52,5 @@ int main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
 
-    int seed = time(0);
-    mt19937 mt(seed);
-
-    while (true) {
-        for (auto &i : arr) {
-            i = mt() % 5000;
-        }
-        
-        sort(arr.begin(), arr.end());
-
-        int a = binarySearch(300, 0, arr.size());
-        int b = binarySearch2(300, 0, arr.size());
-        int c = binarySearch3(300, 0, arr.size());
-        // cout << a << ' ' << b << ' ' << c << '\n';
-        if (a != b || a != c || b != c) {
-            for (auto i : arr) {
-                cout << i << ' ';
-            }
-            cout << '\n';
-
-            cout << a << ' ' << b << ' ' << c << '\n';
-            cout << (arr[a]) << ' ' << (arr[b]) << ' ' << (arr[c]) << '\n';
-
-            exit(0);
-        } 
-    }  
-
-    // for (int i = 0; i < 1; i++) {
-
-    //     for (auto &i : arr) {
-    //         i = mt() % 5000;
-    //     }
-    //     
-    //     sort(arr.begin(), arr.end());
-
-    //     int a = binarySearch(300, 0, arr.size());
-    //     int b = binarySearch2(300, 0, arr.size());
-    //     int c = binarySearch3(300, 0, arr.size());
-    //     cout << a << ' ' << b << ' ' << c << '\n';
-    //     if (a != b || a != c || b != c) {
-    //         cout << "No" << '\n';
-    //         exit(0);
-    //     } 
-    // }
-
-    // cout << "Yes" << '\n';
-
     return 0;
 }
