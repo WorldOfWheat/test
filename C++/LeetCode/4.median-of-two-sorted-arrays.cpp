@@ -19,7 +19,7 @@ public:
         int size = merged.size();
         if (((int) size) % 2 == 0) {
             size /= 2;
-            double result = (merged[size] + merged[size + 1]) / 2;
+            double result = ((double) merged[size - 1] + (double) merged[size]) / 2.0;
             return result;
         }
         return merged[size / 2];
