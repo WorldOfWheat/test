@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-04-07T16:07:54.984Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0" etag="c4K3qtTuXPHsd8rw0qzS" version="21.1.5" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-07T16:13:58.751Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0" etag="_8SOOu-tD2cVvMavnLsA" version="21.1.5" type="github">
   <diagram name="Page-1" id="FfktOeWRyp9ujqmmOqWU">
-    <mxGraphModel dx="459" dy="294" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+    <mxGraphModel dx="381" dy="243" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -105,16 +105,25 @@
           <mxGeometry x="415" y="910" width="90" height="80" as="geometry" />
         </mxCell>
         <mxCell id="i0ZCOKutsMT3ZvhEn7sT-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-5" target="i0ZCOKutsMT3ZvhEn7sT-15">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="611" y="1070" />
+            </Array>
+          </mxGeometry>
         </mxCell>
-        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-19" value="是" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="i0ZCOKutsMT3ZvhEn7sT-16">
-          <mxGeometry x="-0.8687" relative="1" as="geometry">
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-28" value="否" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="i0ZCOKutsMT3ZvhEn7sT-16">
+          <mxGeometry x="-0.8273" y="1" relative="1" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-5">
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-5" target="i0ZCOKutsMT3ZvhEn7sT-23">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="460.02857142857135" y="1140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-29" value="是" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="i0ZCOKutsMT3ZvhEn7sT-21">
+          <mxGeometry x="-0.6889" y="-1" relative="1" as="geometry">
+            <mxPoint x="1" y="4" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="i0ZCOKutsMT3ZvhEn7sT-5" value="按鈕[ii] 被按下 且 該格未被佔用" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
@@ -126,14 +135,20 @@
         <mxCell id="i0ZCOKutsMT3ZvhEn7sT-15" value="&lt;div&gt;ii = ii + 1&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="581" y="940" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-22" value="按鈕 [boardButtonFt] 是否被放開" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="340" y="1240" width="240" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-23" target="i0ZCOKutsMT3ZvhEn7sT-22">
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-23" target="i0ZCOKutsMT3ZvhEn7sT-30">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="i0ZCOKutsMT3ZvhEn7sT-23" value="&lt;div&gt;令&lt;/div&gt;&lt;div&gt;boardButtonFt = ii&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="400" y="1140" width="120" height="60" as="geometry" />
+          <mxGeometry x="400" y="1150" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-25" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1380" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-32" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-30" target="i0ZCOKutsMT3ZvhEn7sT-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-30" value="等待按鈕 [boardButtonFt] 放開" style="shape=or;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="373.5" y="1260" width="173" height="80" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
