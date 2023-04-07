@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-04-07T16:01:50.653Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0" etag="L2XrObolhA7xXZOksNuO" version="21.1.5" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-07T16:07:54.984Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0" etag="c4K3qtTuXPHsd8rw0qzS" version="21.1.5" type="github">
   <diagram name="Page-1" id="FfktOeWRyp9ujqmmOqWU">
-    <mxGraphModel dx="512" dy="328" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+    <mxGraphModel dx="459" dy="294" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -77,7 +77,7 @@
         <mxCell id="i0ZCOKutsMT3ZvhEn7sT-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="ru_nYEevjtxVmv5qjt3C-25" target="ru_nYEevjtxVmv5qjt3C-28">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="ru_nYEevjtxVmv5qjt3C-25" value="設 ii = 0" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="ru_nYEevjtxVmv5qjt3C-25" value="&lt;div&gt;令&lt;br&gt;&lt;/div&gt;&lt;div&gt;ii = 0&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="400" y="730" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="ru_nYEevjtxVmv5qjt3C-29" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="ru_nYEevjtxVmv5qjt3C-28" target="ru_nYEevjtxVmv5qjt3C-25" edge="1">
@@ -90,20 +90,50 @@
         </mxCell>
         <mxCell id="i0ZCOKutsMT3ZvhEn7sT-4" value="&lt;div&gt;是&lt;/div&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="ru_nYEevjtxVmv5qjt3C-29">
           <mxGeometry x="-0.8884" y="2" relative="1" as="geometry">
-            <mxPoint x="-3" y="-2" as="offset" />
+            <mxPoint y="-2" as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="i0ZCOKutsMT3ZvhEn7sT-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="ru_nYEevjtxVmv5qjt3C-28" target="i0ZCOKutsMT3ZvhEn7sT-5">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-18" value="否" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="i0ZCOKutsMT3ZvhEn7sT-6">
+          <mxGeometry x="-0.4239" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="ru_nYEevjtxVmv5qjt3C-28" value="ii == 8" style="rhombus;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="415" y="910" width="90" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-5" value="按鈕[ii]被按下 且 該格未被佔用" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="352" y="1030" width="216" height="80" as="geometry" />
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-16" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-5" target="i0ZCOKutsMT3ZvhEn7sT-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-19" value="是" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="i0ZCOKutsMT3ZvhEn7sT-16">
+          <mxGeometry x="-0.8687" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="460.02857142857135" y="1140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-5" value="按鈕[ii] 被按下 且 該格未被佔用" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="346" y="1030" width="228" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-15" target="ru_nYEevjtxVmv5qjt3C-28">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="i0ZCOKutsMT3ZvhEn7sT-15" value="&lt;div&gt;ii = ii + 1&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="540" y="1000" width="60" height="30" as="geometry" />
+          <mxGeometry x="581" y="940" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-22" value="按鈕 [boardButtonFt] 是否被放開" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="1240" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="i0ZCOKutsMT3ZvhEn7sT-23" target="i0ZCOKutsMT3ZvhEn7sT-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="i0ZCOKutsMT3ZvhEn7sT-23" value="&lt;div&gt;令&lt;/div&gt;&lt;div&gt;boardButtonFt = ii&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1140" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
