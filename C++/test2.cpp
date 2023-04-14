@@ -3,6 +3,7 @@
 
 using namespace std;
 
+<<<<<<< HEAD
 int n;
 vector<int> arr;
 vector<int> psum;
@@ -36,6 +37,13 @@ signed main() {
     cin.tie(0);
 
     solve();
+=======
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+
+
+>>>>>>> c5f61d271f7867de660abaf7104eac9a361127dc
 
     return 0;
 }
