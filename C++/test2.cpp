@@ -1,35 +1,15 @@
 #include <bits/stdc++.h>
-#define int long long
 
 using namespace std;
 
-<<<<<<< HEAD
-int n;
-vector<int> arr;
-vector<int> psum;
-map<int, int> ma;
 
 void solve() {
-    cin >> n;
-    arr.resize(n);
-    for (auto &i : arr) {
-        cin >> i;
+    string str = "taest";
+    int length = str.length();
+    for (int i = 0; i < length / 2; i++) {
+        cout << str[i] << ' ' << str[length - 1 - i];
     }
-
-    psum.resize(n + 1);
-    partial_sum(arr.begin(), arr.end(), psum.begin() + 1);
-    
-    for (auto i : psum) {
-        ma[(i % n + n) % n]++;
-    }
-
-    int ans = 0;
-    for (auto i : ma) {
-        int temp = i.second;
-        ans += (temp) * (temp - 1) / 2;
-    }
-
-    cout << ans << '\n';
+    cout << '\n';
 }
 
 signed main() {
@@ -37,13 +17,6 @@ signed main() {
     cin.tie(0);
 
     solve();
-=======
-int main() {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-
-
->>>>>>> c5f61d271f7867de660abaf7104eac9a361127dc
 
     return 0;
 }
