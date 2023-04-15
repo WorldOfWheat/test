@@ -2,8 +2,10 @@
 
 using namespace std;
 
+int n;
+vector<int> arr;
+
 void solve() {
-    
 }
 
 signed main() {
