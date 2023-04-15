@@ -19,6 +19,29 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
+        private void shuffle_number_board()
+        {
+            Random rand = new Random();
+            List<int> numbers = new List<int>();
+            for (int i = 0; i <= 9; i++)
+            {
+                numbers.Add(i);
+            }
+            for (int i = 0; i < 20; i++)
+            {
+                int place1 = rand.Next(0, 100) % 10;
+                int place2 = rand.Next(0, 100) % 10;
+                int temp = numbers[place1];
+                numbers[place1] = numbers[place2];
+                numbers[place2] = temp;
+            }
+
+            int index = 0;
+            foreach (Button i in number_board)
+            {
+                i.Text = numbers[index++].ToString();
+            }
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -33,27 +56,17 @@ namespace WinFormsApp1
             number_board.Add(button8);
             number_board.Add(button9);
 
-            Random rand = new Random();
-            List<int> numbers = new List<int>();
-            for (int i = 0; i <= 9; i++)
-            {
-                numbers.Add(i);
-            }
-            for (int i = 0; i < 20; i++)
-            {
-                int place1 = rand.Next(0, 100);
-                int place2 = rand.Next(0, 100);
-                
-            }
-            foreach (Button i in number_board)
-            {
-                i.Text = rand.Next(0, 9).ToString();
-            }
+            shuffle_number_board();
         }
 
         private void button0_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonShuffle_Click(object sender, EventArgs e)
+        {
+            shuffle_number_board();
         }
     }
 }

@@ -69,125 +69,149 @@
             tableLayoutPanel1.Controls.Add(button8, 1, 0);
             tableLayoutPanel1.Controls.Add(button7, 0, 0);
             tableLayoutPanel1.Controls.Add(buttonShuffle, 2, 3);
-            tableLayoutPanel1.Location = new Point(90, 33);
+            tableLayoutPanel1.Location = new Point(116, 42);
+            tableLayoutPanel1.Margin = new Padding(4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 4;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel1.Size = new Size(303, 372);
+            tableLayoutPanel1.Size = new Size(390, 471);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // button0
             // 
             tableLayoutPanel1.SetColumnSpan(button0, 2);
-            button0.Location = new Point(3, 282);
+            button0.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button0.Location = new Point(4, 355);
+            button0.Margin = new Padding(4);
             button0.Name = "button0";
-            button0.Size = new Size(192, 87);
+            button0.Size = new Size(247, 110);
             button0.TabIndex = 9;
             button0.Text = "button10";
             button0.UseVisualStyleBackColor = true;
-            button0.Click += button0_Click;
             // 
             // button3
             // 
-            button3.Location = new Point(201, 189);
+            button3.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button3.Location = new Point(260, 238);
+            button3.Margin = new Padding(4);
             button3.Name = "button3";
-            button3.Size = new Size(99, 87);
+            button3.Size = new Size(126, 109);
             button3.TabIndex = 8;
             button3.Text = "button9";
             button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            button2.Location = new Point(102, 189);
+            button2.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button2.Location = new Point(132, 238);
+            button2.Margin = new Padding(4);
             button2.Name = "button2";
-            button2.Size = new Size(93, 87);
+            button2.Size = new Size(120, 109);
             button2.TabIndex = 7;
             button2.Text = "button8";
             button2.UseVisualStyleBackColor = true;
             // 
             // button1
             // 
-            button1.Location = new Point(3, 189);
+            button1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button1.Location = new Point(4, 238);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
-            button1.Size = new Size(93, 87);
+            button1.Size = new Size(120, 109);
             button1.TabIndex = 6;
             button1.Text = "button7";
             button1.UseVisualStyleBackColor = true;
             // 
             // button6
             // 
-            button6.Location = new Point(201, 96);
+            button6.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button6.Location = new Point(260, 121);
+            button6.Margin = new Padding(4);
             button6.Name = "button6";
-            button6.Size = new Size(99, 87);
+            button6.Size = new Size(126, 109);
             button6.TabIndex = 5;
             button6.Text = "button6";
             button6.UseVisualStyleBackColor = true;
             // 
             // button5
             // 
-            button5.Location = new Point(102, 96);
+            button5.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button5.Location = new Point(132, 121);
+            button5.Margin = new Padding(4);
             button5.Name = "button5";
-            button5.Size = new Size(93, 87);
+            button5.Size = new Size(120, 109);
             button5.TabIndex = 4;
             button5.Text = "button5";
             button5.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
-            button4.Location = new Point(3, 96);
+            button4.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button4.Location = new Point(4, 121);
+            button4.Margin = new Padding(4);
             button4.Name = "button4";
-            button4.Size = new Size(93, 87);
+            button4.Size = new Size(120, 109);
             button4.TabIndex = 3;
             button4.Text = "button4";
             button4.UseVisualStyleBackColor = true;
             // 
             // button9
             // 
-            button9.Location = new Point(201, 3);
+            button9.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button9.Location = new Point(260, 4);
+            button9.Margin = new Padding(4);
             button9.Name = "button9";
-            button9.Size = new Size(99, 87);
+            button9.Size = new Size(126, 109);
             button9.TabIndex = 2;
             button9.Text = "button3";
             button9.UseVisualStyleBackColor = true;
             // 
             // button8
             // 
-            button8.Location = new Point(102, 3);
+            button8.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button8.Location = new Point(132, 4);
+            button8.Margin = new Padding(4);
             button8.Name = "button8";
-            button8.Size = new Size(93, 87);
+            button8.Size = new Size(120, 109);
             button8.TabIndex = 1;
             button8.Text = "button2";
             button8.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
-            button7.Location = new Point(3, 3);
+            button7.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            button7.Location = new Point(4, 4);
+            button7.Margin = new Padding(4);
             button7.Name = "button7";
-            button7.Size = new Size(93, 87);
+            button7.Size = new Size(120, 109);
             button7.TabIndex = 0;
             button7.Text = "button1";
             button7.UseVisualStyleBackColor = true;
             // 
             // buttonShuffle
             // 
-            buttonShuffle.Location = new Point(201, 282);
+            buttonShuffle.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonShuffle.Location = new Point(260, 355);
+            buttonShuffle.Margin = new Padding(4);
             buttonShuffle.Name = "buttonShuffle";
-            buttonShuffle.Size = new Size(99, 87);
+            buttonShuffle.Size = new Size(126, 110);
             buttonShuffle.TabIndex = 10;
             buttonShuffle.Text = "button11";
             buttonShuffle.UseVisualStyleBackColor = true;
+            buttonShuffle.Click += buttonShuffle_Click;
             // 
             // labelDataShow
             // 
             labelDataShow.AutoSize = true;
             tableLayoutPanel2.SetColumnSpan(labelDataShow, 2);
             labelDataShow.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            labelDataShow.Location = new Point(3, 0);
+            labelDataShow.Location = new Point(4, 0);
+            labelDataShow.Margin = new Padding(4, 0, 4, 0);
             labelDataShow.Name = "labelDataShow";
-            labelDataShow.Size = new Size(85, 30);
+            labelDataShow.Size = new Size(107, 38);
             labelDataShow.TabIndex = 1;
             labelDataShow.Text = "輸入：";
             // 
@@ -195,9 +219,10 @@
             // 
             tableLayoutPanel2.SetColumnSpan(textBox1, 3);
             textBox1.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(3, 69);
+            textBox1.Location = new Point(4, 88);
+            textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(280, 28);
+            textBox1.Size = new Size(359, 33);
             textBox1.TabIndex = 2;
             // 
             // tableLayoutPanel2
@@ -209,29 +234,32 @@
             tableLayoutPanel2.Controls.Add(buttonCopy, 0, 2);
             tableLayoutPanel2.Controls.Add(buttonClear, 1, 2);
             tableLayoutPanel2.Controls.Add(labelDataShow, 0, 0);
-            tableLayoutPanel2.Location = new Point(455, 57);
+            tableLayoutPanel2.Location = new Point(585, 72);
+            tableLayoutPanel2.Margin = new Padding(4);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 3;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333359F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333359F));
-            tableLayoutPanel2.Size = new Size(286, 201);
+            tableLayoutPanel2.Size = new Size(368, 255);
             tableLayoutPanel2.TabIndex = 3;
             // 
             // buttonCopy
             // 
-            buttonCopy.Location = new Point(3, 136);
+            buttonCopy.Location = new Point(4, 173);
+            buttonCopy.Margin = new Padding(4);
             buttonCopy.Name = "buttonCopy";
-            buttonCopy.Size = new Size(137, 62);
+            buttonCopy.Size = new Size(176, 78);
             buttonCopy.TabIndex = 3;
             buttonCopy.Text = "button10";
             buttonCopy.UseVisualStyleBackColor = true;
             // 
             // buttonClear
             // 
-            buttonClear.Location = new Point(146, 136);
+            buttonClear.Location = new Point(188, 173);
+            buttonClear.Margin = new Padding(4);
             buttonClear.Name = "buttonClear";
-            buttonClear.Size = new Size(137, 62);
+            buttonClear.Size = new Size(176, 78);
             buttonClear.TabIndex = 4;
             buttonClear.Text = "button12";
             buttonClear.UseVisualStyleBackColor = true;
@@ -240,9 +268,10 @@
             // 
             labelClearSecond.AutoSize = true;
             labelClearSecond.Font = new Font("Microsoft JhengHei UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            labelClearSecond.Location = new Point(540, 315);
+            labelClearSecond.Location = new Point(694, 399);
+            labelClearSecond.Margin = new Padding(4, 0, 4, 0);
             labelClearSecond.Name = "labelClearSecond";
-            labelClearSecond.Size = new Size(81, 30);
+            labelClearSecond.Size = new Size(102, 38);
             labelClearSecond.TabIndex = 4;
             labelClearSecond.Text = "label1";
             // 
@@ -252,12 +281,13 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1029, 570);
             Controls.Add(labelClearSecond);
             Controls.Add(tableLayoutPanel2);
             Controls.Add(tableLayoutPanel1);
+            Margin = new Padding(4);
             Name = "Form1";
             Text = "安全數字鍵盤";
             Load += Form1_Load;
