@@ -9,8 +9,11 @@ using EasyModbus;
 
 namespace WindowsFormsApp1
 {
+
+    
     public partial class Form1 : Form
     {
+        ModbusClient modbusClient;
 
         public Form1()
         {
@@ -19,7 +22,9 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            modbusClient = new ModbusClient();
         }
+
+
     }
 }

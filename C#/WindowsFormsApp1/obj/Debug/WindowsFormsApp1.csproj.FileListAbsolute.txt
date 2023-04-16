@@ -7,3 +7,7 @@ D:\Git\test\C#\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe
 D:\Git\test\C#\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.pdb
 D:\Git\test\C#\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 D:\Git\test\C#\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+D:\Git\test\C#\WindowsFormsApp1\bin\Debug\WindowsFormsApp1.exe.config
+D:\Git\test\C#\WindowsFormsApp1\bin\Debug\EasyModbus.dll
+D:\Git\test\C#\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.SuggestedBindingRedirects.cache
+D:\Git\test\C#\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CopyComplete
