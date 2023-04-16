@@ -61,30 +61,30 @@
             // labelIP
             // 
             this.labelIP.AutoSize = true;
-            this.labelIP.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelIP.Font = new System.Drawing.Font("新細明體", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelIP.Location = new System.Drawing.Point(3, 0);
             this.labelIP.Name = "labelIP";
-            this.labelIP.Size = new System.Drawing.Size(29, 23);
+            this.labelIP.Size = new System.Drawing.Size(33, 25);
             this.labelIP.TabIndex = 0;
             this.labelIP.Text = "IP";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label2.Font = new System.Drawing.Font("新細明體", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label2.Location = new System.Drawing.Point(3, 47);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 23);
+            this.label2.Size = new System.Drawing.Size(52, 25);
             this.label2.TabIndex = 1;
             this.label2.Text = "Port";
             // 
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Font = new System.Drawing.Font("新細明體", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelStatus.Font = new System.Drawing.Font("新細明體", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelStatus.Location = new System.Drawing.Point(3, 94);
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(63, 23);
+            this.labelStatus.Size = new System.Drawing.Size(70, 25);
             this.labelStatus.TabIndex = 2;
             this.labelStatus.Text = "Status";
             // 
