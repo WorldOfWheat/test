@@ -10,20 +10,32 @@ using System.Windows.Forms;
 
 public class PID 
 {
-    private double P, I, D, Max, Min;
+    private const double SampleTime = 1;
+    private readonly double Kp, Ki, Kd, Maximum, Minimum;
+    private double I_Error, D_Error;
+    private double LastError;
     
-    public PID(double P, double I, double D, double Max, double Min)
+    public PID(double P, double I, double D, double Maximum, double Minimum)
     {
-        this.P = P;
-        this.I = I;
-        this.D = D;
-        this.Max = Max;
-        this.Min = Min;
+        Kp = P;
+        Ki = I;
+        Kd = D;
+        this.Maximum = Maximum;
+        this.Minimum = Minimum;
     }
 
-    public int Calculate(int Goal, int ValueNow)
+    public double Calculate(int Goal, int ValueNow)
     {
-        return 0;
+        double Error = Goal - ValueNow;
+        I_Error += Error * SampleTime;
+        D_Error = (Error - LastError) / SampleTime;
+        LastError = Error;
+        double Result = Kp * Error + Ki * I_Error + Kd * D_Error;
+
+        Result = Math.Min(Maximum, Result);
+        Result = Math.Max(Minimum, Result);
+
+        return Result;
     }
 }
 
@@ -31,6 +43,7 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        PID pid = new PID(2, 2, 2, 1000, 1);
 
         public Form1()
         {
@@ -58,6 +71,7 @@ namespace WindowsFormsApp1
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
+            trackBarShow.Value = (int) pid.Calculate(trackBarControl.Value, trackBarShow.Value);
         }
     }
 }
