@@ -8,11 +8,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+public class PID 
+{
+    private double P, I, D, Max, Min;
+    
+    public PID(double P, double I, double D, double Max, double Min)
+    {
+        this.P = P;
+        this.I = I;
+        this.D = D;
+        this.Max = Max;
+        this.Min = Min;
+    }
+
+    public int Calculate(int Goal, int ValueNow)
+    {
+        return 0;
+    }
+}
+
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
-        Random rand = new Random();
 
         public Form1()
         {
@@ -21,22 +39,25 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            trackBar1.SetRange(0, 100);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void TrackBarControl_ValueChanged(object sender, EventArgs e)
         {
-            trackBar1.Value = rand.Next(0, 100);
+            buttonSet.Enabled = true;
         }
 
-        private void button2_MouseHover(object sender, EventArgs e)
+        private void ButtonSet_Click(object sender, EventArgs e)
         {
-            button2.Location = new Point(rand.Next(0, 900), rand.Next(0, 400));
+            buttonSet.Enabled = false;
         }
 
-        private void button2_MouseMove(object sender, MouseEventArgs e)
+        private void ButtonReset_Click(object sender, EventArgs e)
         {
-            button2.Location = new Point(rand.Next(0, 900), rand.Next(0, 400));
+            trackBarControl.Value = 50;
+        }
+
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
         }
     }
 }
