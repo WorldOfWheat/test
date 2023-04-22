@@ -2,10 +2,11 @@
 
 using namespace std;
 
-int n;
-vector<int> arr;
 
 void solve() {
+    int n;
+    n = 'A';
+    cout << n << '\n';
 }
 
 signed main() {

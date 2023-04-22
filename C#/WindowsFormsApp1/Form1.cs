@@ -3,16 +3,47 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using EasyModbus;
+
+public class PID 
+{
+    private const double SampleTime = 1;
+    private readonly double Kp, Ki, Kd, Maximum, Minimum;
+    private double I_Error, D_Error;
+    private double LastError;
+    
+    public PID(double P, double I, double D, double Maximum, double Minimum)
+    {
+        Kp = P;
+        Ki = I;
+        Kd = D;
+        this.Maximum = Maximum;
+        this.Minimum = Minimum;
+    }
+
+    public double Calculate(int Goal, int ValueNow)
+    {
+        double Error = Goal - ValueNow;
+        I_Error += Error * SampleTime;
+        D_Error = (Error - LastError) / SampleTime;
+        LastError = Error;
+        double Result = Kp * Error + Ki * I_Error + Kd * D_Error;
+
+        Result = Math.Min(Maximum, Result);
+        Result = Math.Max(Minimum, Result);
+
+        return Result;
+    }
+}
 
 namespace WindowsFormsApp1
 {
-    
     public partial class Form1 : Form
     {
-        ModbusClient modbusClient;
+        PID pid = new PID(2, 2, 2, 1000, 1);
 
         public Form1()
         {
@@ -21,53 +52,26 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            modbusClient = new ModbusClient();
         }
 
-        private void buttonConnect_Click(object sender, EventArgs e)
+        private void TrackBarControl_ValueChanged(object sender, EventArgs e)
         {
-            modbusClient.IPAddress = textBoxIP.Text;
-            modbusClient.Port = Convert.ToInt32(textBoxPort.Text);
-            try
-            {
-                modbusClient.Connect();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            if (modbusClient.Connected)
-            {
-                textBoxStatus.Text = "OK";
-            }
-            else
-            {
-                textBoxStatus.Text = "waitting...";
-            }
+            buttonSet.Enabled = true;
         }
 
-        private void buttonDisconnect_Click(object sender, EventArgs e)
+        private void ButtonSet_Click(object sender, EventArgs e)
         {
-            modbusClient.Disconnect();
-            textBoxStatus.Text = "waitting...";
+            buttonSet.Enabled = false;
         }
 
-        private void buttonON_Click(object sender, EventArgs e)
+        private void ButtonReset_Click(object sender, EventArgs e)
         {
-            modbusClient.WriteSingleCoil(1, true);
+            trackBarControl.Value = 50;
         }
 
-        private void buttonOFF_Click(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
-            modbusClient.WriteSingleCoil(1, false);
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            if (modbusClient.Connected)
-            {
-                labelNow.Text = modbusClient.ReadCoils(2, 1)[0].ToString();
-            }
+            trackBarShow.Value = (int) pid.Calculate(trackBarControl.Value, trackBarShow.Value);
         }
     }
 }
