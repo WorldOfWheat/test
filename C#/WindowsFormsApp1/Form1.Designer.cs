@@ -43,6 +43,8 @@
             this.numericUpDownP = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownI = new System.Windows.Forms.NumericUpDown();
             this.numericUpDownD = new System.Windows.Forms.NumericUpDown();
+            this.labelTest = new System.Windows.Forms.Label();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarShow)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -100,7 +102,7 @@
             // buttonSet
             // 
             this.buttonSet.Enabled = false;
-            this.buttonSet.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.buttonSet.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.buttonSet.Location = new System.Drawing.Point(830, 3);
             this.buttonSet.Name = "buttonSet";
             this.buttonSet.Size = new System.Drawing.Size(94, 69);
@@ -111,7 +113,7 @@
             // 
             // buttonReset
             // 
-            this.buttonReset.Font = new System.Drawing.Font("新細明體", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.buttonReset.Font = new System.Drawing.Font("PMingLiU", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.buttonReset.Location = new System.Drawing.Point(830, 78);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(94, 70);
@@ -123,7 +125,7 @@
             // labelTitle
             // 
             this.labelTitle.AutoSize = true;
-            this.labelTitle.Font = new System.Drawing.Font("新細明體", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelTitle.Font = new System.Drawing.Font("PMingLiU", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelTitle.Location = new System.Drawing.Point(367, 9);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(305, 80);
@@ -154,7 +156,7 @@
             // 
             this.labelD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.labelD.AutoSize = true;
-            this.labelD.Font = new System.Drawing.Font("新細明體", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelD.Font = new System.Drawing.Font("PMingLiU", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelD.Location = new System.Drawing.Point(568, 0);
             this.labelD.Name = "labelD";
             this.labelD.Size = new System.Drawing.Size(36, 71);
@@ -165,7 +167,7 @@
             // 
             this.labelI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.labelI.AutoSize = true;
-            this.labelI.Font = new System.Drawing.Font("新細明體", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelI.Font = new System.Drawing.Font("PMingLiU", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelI.Location = new System.Drawing.Point(339, 0);
             this.labelI.Name = "labelI";
             this.labelI.Size = new System.Drawing.Size(24, 71);
@@ -176,7 +178,7 @@
             // 
             this.labelP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.labelP.AutoSize = true;
-            this.labelP.Font = new System.Drawing.Font("新細明體", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelP.Font = new System.Drawing.Font("PMingLiU", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelP.Location = new System.Drawing.Point(101, 0);
             this.labelP.Name = "labelP";
             this.labelP.Size = new System.Drawing.Size(31, 71);
@@ -207,11 +209,28 @@
             this.numericUpDownD.Size = new System.Drawing.Size(120, 22);
             this.numericUpDownD.TabIndex = 10;
             // 
+            // labelTest
+            // 
+            this.labelTest.AutoSize = true;
+            this.labelTest.Font = new System.Drawing.Font("PMingLiU", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labelTest.Location = new System.Drawing.Point(919, 83);
+            this.labelTest.Name = "labelTest";
+            this.labelTest.Size = new System.Drawing.Size(74, 27);
+            this.labelTest.TabIndex = 5;
+            this.labelTest.Text = "label1";
+            // 
+            // timer2
+            // 
+            this.timer2.Enabled = true;
+            this.timer2.Interval = 500;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1044, 588);
+            this.Controls.Add(this.labelTest);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -247,5 +266,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDownP;
         private System.Windows.Forms.NumericUpDown numericUpDownI;
         private System.Windows.Forms.NumericUpDown numericUpDownD;
+        private System.Windows.Forms.Label labelTest;
+        private System.Windows.Forms.Timer timer2;
     }
 }
