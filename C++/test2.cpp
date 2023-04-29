@@ -1,20 +1,17 @@
 #include <bits/stdc++.h>
+// #define FastIO
 
 using namespace std;
 
-int f(int x)
-{
-    printf("%d", x);
-}
-
-void solve() 
-{
-    f(5);
-}
-
 signed main() 
 {
-    solve();
+    #ifdef FastIO
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    #endif
+
+    cout << ""
 
     return 0;
 }
