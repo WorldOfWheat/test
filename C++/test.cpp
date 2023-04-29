@@ -28,7 +28,7 @@ void solve()
                 int sum = arr[i].first + arr[j].first + arr[ptrL].first + arr[ptrR].first;
                 if (sum == m)
                 {
-                    cout << i+1 << ' ' << j+1 << ' ' << ptrL+1 << ' ' << ptrR+1 << '\n';
+                    cout << arr[i].second + 1 << ' ' << arr[j].second + 1 << ' ' << arr[ptrL].second + 1 << ' ' << arr[ptrR].second + 1 << '\n';
                     return;
                 }
                 if (sum > m)
