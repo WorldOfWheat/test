@@ -65,7 +65,7 @@ namespace WindowsFormsApp1
 }
 public class PID
 {
-    private const double SampleTime = 50;
+    private const double SampleTime = 5;
     private double Kp, Ki, Kd, Maximum, Minimum;
     private double I_Error, D_Error;
     private double LastError;
