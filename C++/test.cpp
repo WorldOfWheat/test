@@ -2,46 +2,32 @@
 
 using namespace std;
 
-int n, m;
-vector<pair<int, int>> arr;
+int t;
+int n;
+vector<vector<int>> dp;
 
 void solve() 
 {
-    cin >> n >> m;
-    arr.resize(n);
-    for (int i = 0; i < n; i++)
+    cin >> t;
+    while (t--)
     {
-        cin >> arr[i].first;
-        arr[i].second = i;
-    }
+        dp.clear();
 
-    sort(arr.begin(), arr.end());
+        cin >> n;
+        dp.resize(n, vector<int>(2));
 
-    for (int i = 0; i < n - 3; i++)
-    {
-        for (int j = i + 1; j < n - 2; j++)
+        dp[0][0] = 1;
+        dp[0][1] = 1;
+        for (int i = 1; i < n; i++)
         {
-            int ptrL = j + 1;
-            int ptrR = n - 1;
-            while (ptrL < ptrR)
-            {
-                int sum = arr[i].first + arr[j].first + arr[ptrL].first + arr[ptrR].first;
-                if (sum == m)
-                {
-                    cout << arr[i].second + 1 << ' ' << arr[j].second + 1 << ' ' << arr[ptrL].second + 1 << ' ' << arr[ptrR].second + 1 << '\n';
-                    return;
-                }
-                if (sum > m)
-                {
-                    ptrR--;
-                    continue;
-                }
-                ptrL++;
-            }
+            dp[i][0] = dp[i - 1][0] + dp[i - 1][1];
+            dp[i][1] = dp[i - 1][0];
+            dp[i][0] %= ((int) 1e9 + 7);
+            dp[i][1] %= ((int) 1e9 + 7);
         }
-    }
 
-    cout << "IMPOSSIBLE" << '\n';
+        cout << ((dp[n - 1][0] + dp[n - 1][1]) % ((int) 1e9 + 7)) << '\n';
+    }
 }
 
 signed main() 
