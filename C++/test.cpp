@@ -2,32 +2,22 @@
 
 using namespace std;
 
-int t;
-int n;
-vector<vector<int>> dp;
+vector<bitset<16>> bsArray;
 
 void solve() 
 {
-    cin >> t;
-    while (t--)
-    {
-        dp.clear();
-
-        cin >> n;
-        dp.resize(n, vector<int>(2));
-
-        dp[0][0] = 1;
-        dp[0][1] = 1;
-        for (int i = 1; i < n; i++)
+    bsArray.resize(5);
+        for (int i = 0; i < (1 << 2); i++)
         {
-            dp[i][0] = dp[i - 1][0] + dp[i - 1][1];
-            dp[i][1] = dp[i - 1][0];
-            dp[i][0] %= ((int) 1e9 + 7);
-            dp[i][1] %= ((int) 1e9 + 7);
+            bsArray[i] = i;
+            cout << (bsArray[i].to_string()) << '\n';
+            cout << (bsArray[i][0]) << '\n';
+            // for (int j = 1; j < 16; j++)
+            // {
+            //     bsArray[i][j] = bsArray[i][j-1] ^ bsArray[i][j];
+            // }
         }
 
-        cout << ((dp[n - 1][0] + dp[n - 1][1]) % ((int) 1e9 + 7)) << '\n';
-    }
 }
 
 signed main() 
