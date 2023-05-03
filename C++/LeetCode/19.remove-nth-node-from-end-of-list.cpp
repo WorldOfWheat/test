@@ -8,7 +8,7 @@ struct ListNode {
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
-
+};
 /*
  * @lc app=leetcode id=19 lang=cpp
  *
@@ -44,6 +44,14 @@ public:
                 return ptrL;
             }
         }
+        while (ptrR->next != NULL)
+        {
+            ptrL = ptrL->next;
+            ptrR = ptrR->next;
+        }
+        ptrL->next = ptrL->next->next;
+
+        return head;
     }
 };
 // @lc code=end
