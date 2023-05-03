@@ -17,10 +17,10 @@ public:
         for (int i = 0; i < (1 << n); i++)
         {
             bsArray[i] = i;
-            // for (int j = 14; j >= 0; j--)
-            // {
-            //     bsArray[i][j] = bsArray[i][j-1] != bsArray[i][j];
-            // }
+            for (int j = 14; j >= 0; j--)
+            {
+                bsArray[i][j] = bsArray[i][j+1] != bsArray[i][j];
+            }
         }
         
         vector<int> result;
