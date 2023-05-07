@@ -18,8 +18,9 @@ public:
         }
 
         string result = countAndSay(n - 1);
+        string _result = "";
         char lastChar;
-        int count = 0;
+        int count = 1;
         for (int i = 0; i < result.length(); i++)
         {
             if (i == 0)
@@ -29,9 +30,20 @@ public:
             }
             if (lastChar != result[i])
             {
-                
+                _result += count + '0';
+                _result += lastChar;
+                lastChar = result[i];
+                count = 1;
+                continue;
             }
+            count++;
         }
+        _result += count + '0';
+        _result += lastChar;
+
+        result = _result;
+
+        return result;
     }
 };
 // @lc code=end
