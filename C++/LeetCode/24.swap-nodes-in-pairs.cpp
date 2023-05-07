@@ -21,18 +21,25 @@ struct ListNode {
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        ListNode* ptr = head;
-        ListNode* result = head->next;
-
-        while (ptr != NULL)
+        if (!(head && head->next))
         {
-            ListNode* next = ptr->next->next;
-            ptr->next->next = ptr;
-            ptr->next = next;
-            ptr = ptr->next->next;
+            return head;
         }
 
-        return result;
+        ListNode* start = new ListNode();
+        ListNode* last = start;
+        ListNode* now = head;
+        while (now && now->next)
+        {
+            last->next = now->next;
+            now->next = last->next->next;
+            last->next->next = now;
+
+            last = now;
+            now = now->next;
+        }
+
+        return start->next;
     }
 };
 // @lc code=end
