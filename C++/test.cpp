@@ -4,10 +4,17 @@ using namespace std;
 
 void solve() 
 {
-    while(NULL)
+    int a;
+    cin >> a;
+    if (a == 5)
     {
-        cout << "TEST" << '\n';
+        goto skip;
     }
+
+    cout << "test" << '\n';
+
+    skip:
+    return;
 }
 
 signed main() 

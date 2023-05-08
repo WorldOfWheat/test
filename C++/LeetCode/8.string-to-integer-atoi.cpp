@@ -12,41 +12,51 @@ using namespace std;
 class Solution {
 public:
     int myAtoi(string s) {
+        int index = 0;
         long long result = 0;
         int sign = 1;
-        for (int i = 0; i < s.length(); i++)
+        while (s[index] == ' ' || s[index] == '_')
         {
-            char ch = s[i];
-            if (ch == '-' || ch == '+')
+            index++;
+        }
+        if (s[index] == '-' || s[index] == '+')
+        {
+            if (s[index] == '-')
             {
-                if (i + 1 >= s.length())
-                {
-                    continue;
-                }
-                if (ch == '-')
-                {
-                    sign = -1;
-                    continue;
-                }
-                if (ch == '+')
-                {
-                    sign = 1;
-                    continue;
-                }
+                sign = -1;
             }
-            if (!isdigit(ch))
+            index++;
+        }
+        const int clampMin = -((long long) 1 << 31);
+        const int clampMax = ((long long) 1 << 31) - 1;
+        for (int i = index; i < s.length(); i++)
+        {
+            if (!isdigit(s[i]))
             {
-                continue;
+                break;
             }
             result *= 10;
-            result += ch - '0';
+            if (sign == 1)
+            {
+                result += s[i] - '0';
+                if (result >= clampMax)
+                {
+                    result = clampMax;
+                    break;
+                }
+            }
+            else
+            {
+                result -= s[i] - '0';
+                if (result <= clampMin)
+                {
+                    result = clampMin;
+                    break;
+                }
+            }
         }
-        result *= sign;
-        result = max(result, -((long long) 1 << 31));
-        result = min(result, ((long long) 1 << 31) - 1);
 
         return result;
     }
 };
 // @lc code=end
-
