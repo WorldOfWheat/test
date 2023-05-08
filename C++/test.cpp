@@ -2,19 +2,31 @@
 
 using namespace std;
 
-void solve() 
+vector<int> arr(5, 0);
+
+void test(int l, int r)
 {
-    int a;
-    cin >> a;
-    if (a == 5)
+    if (l + 1 == r)
     {
-        goto skip;
+        cout << l << ' ' << r << '\n';
+        return;
     }
 
-    cout << "test" << '\n';
+    int mid = (l + r) >> 1;
+    test(l, mid);
+    test(mid, r);
+}
 
-    skip:
-    return;
+void printArr(int i)
+{
+    cout << i << '\n';
+}
+
+void solve() 
+{
+    iota(arr.begin(), arr.end(), 1);
+    for_each(arr.begin(), arr.end(), printArr);
+    test(0, 5);
 }
 
 signed main() 

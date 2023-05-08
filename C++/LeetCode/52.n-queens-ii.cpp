@@ -3,44 +3,24 @@
 using namespace std;
 
 /*
- * @lc app=leetcode id=51 lang=cpp
+ * @lc app=leetcode id=52 lang=cpp
  *
- * [51] N-Queens
+ * [52] N-Queens II
  */
 
 // @lc code=start
 class Solution {
 private:
+    int result = 0;
     vector<vector<int>> chessboard;
     vector<pair<int, int>> chessXY;
-    vector<vector<string>> result;
 
 public:
-    void saveChessboard(int n)
-    {
-        vector<string> _result;
-        for (int i = 0; i < n; i++)
-        {
-            string row = "";
-            for (int j = 0; j < n; j++)
-            {
-                if (chessboard[i][j] == 1)
-                {
-                    row += 'Q';
-                    continue;
-                }
-                row += '.';
-            }
-            _result.push_back(row);
-        }
-        this->result.push_back(_result);
-    }
-
     void NQueen(int n, int depth)
     {
         if (depth == n)
         {
-            saveChessboard(n);
+            result++;
             return;
         }
         for (int i = 0; i < n; i++)
@@ -70,8 +50,7 @@ public:
             continue;
         }
     }
-
-    vector<vector<string>> solveNQueens(int n) {
+    int totalNQueens(int n) {
         chessboard.resize(n, vector<int>(n, 0));
 
         for (int i = 0; i < n; i++)
