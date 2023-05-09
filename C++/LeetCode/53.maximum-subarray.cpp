@@ -12,8 +12,6 @@ using namespace std;
 class Solution {
 private:
     vector<int> nums;
-    // vector<int> prefixSum;
-    // vector<int> suffixSum;
 
 public:
     int crossSum(int l, int r)
@@ -47,8 +45,7 @@ public:
         int mid = (l + r) >> 1;
         int sum1 = maxSub(l, mid);
         int sum2 = maxSub(mid, r);
-        int result;
-        result = max({sum1, sum2, crossSum(l, r)});
+        int result = max({sum1, sum2, crossSum(l, r)});
 
         return result;
     }

@@ -4,7 +4,11 @@ using namespace std;
 
 void solve() 
 {
-    cout << (INT_MAX) << '\n';
+    vector<int> nums(5);
+    iota(nums.begin(), nums.end(), 0);
+    for_each(nums.begin(), nums.end(), [](int x) {
+        cout << x << '\n';
+    });
 }
 
 signed main() 

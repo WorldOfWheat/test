@@ -41,7 +41,7 @@ public:
             ptrR = ptrR->next;
             if (ptrR == NULL)
             {
-                return ptrL;
+                return ptrL->next;
             }
         }
         while (ptrR->next != NULL)
