@@ -11,23 +11,51 @@ using namespace std;
 // @lc code=start
 class Solution {
 private:
-    vector<int> prefixSum;
-    vector<int> suffixSum;
+    vector<int> nums;
+    // vector<int> prefixSum;
+    // vector<int> suffixSum;
 
 public:
-    int maxSub(int l, int r)
+    int crossSum(int l, int r)
     {
         int mid = (l + r) >> 1;
-    }
-    int maxSubArray(vector<int>& nums) {
-        int size = nums.size();
-        prefixSum.resize(size + 1);
-        suffixSum.resize(size + 1);
-        for (int i = 0; i < size; i++)
+        int sum = 0;
+        int result1 = INT_MIN;
+        int result2 = INT_MIN;
+        for (int i = mid - 1; i >= l; i--)
         {
-            prefixSum[i + 1] = prefixSum[i] + nums[i];
-            suffixSum[i + 1] = suffixSum[i] + nums[size - 1 - i];
+            sum += nums[i];
+            result1 = max(result1, sum);
         }
+        sum = 0;
+        for (int i = mid; i < r; i++)
+        {
+            sum += nums[i];
+            result2 = max(result2, sum);
+        }
+
+        return max({result1, result2, result1 + result2});
+    }
+    
+    int maxSub(int l, int r)
+    {
+        if (l + 1 == r)
+        {
+            return nums[l];
+        }
+
+        int mid = (l + r) >> 1;
+        int sum1 = maxSub(l, mid);
+        int sum2 = maxSub(mid, r);
+        int result;
+        result = max({sum1, sum2, crossSum(l, r)});
+
+        return result;
+    }
+
+    int maxSubArray(vector<int>& nums) {
+        this->nums = nums;
+        int size = nums.size();
 
         return maxSub(0, size);
     }
