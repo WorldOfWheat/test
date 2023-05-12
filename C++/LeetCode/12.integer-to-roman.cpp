@@ -11,29 +11,58 @@ using namespace std;
 // @lc code=start
 class Solution {
 private:
-    map<int, char> decimalToRoman = {
-        {1000, 'M'},
-        {500, 'D'},
-        {100, 'C'},
-        {50, 'L'},
-        {10, 'X'},
-        {5, 'V'},
-        {1, 'I'},
+    map<int, string> decimalToRoman = {
+        {1000, "M"},
+        {900, "CM"},
+        {500, "D"},
+        {400, "CD"},
+        {100, "C"},
+        {90, "XC"},
+        {50, "L"},
+        {40, "XL"},
+        {10, "X"},
+        {9, "IX"},
+        {5, "V"},
+        {4, "IV"},
+        {1, "I"}
     };
 
 public:
     string intToRoman(int num) {
-        int index = 0;
-        int level = 1000;
         string result = "";
-
+        int level = 1000;
+        int minusLevel = 100;
+        int index = 0;
         while (num > 0)
         {
             while (num >= level)
             {
-                
+                result += decimalToRoman[level];
+                num -= level;
             }
+            int temp = level - minusLevel; 
+            if (num >= temp)
+            {
+                result += decimalToRoman[temp];
+                num -= temp;
+            }
+
+            if (index % 2 == 0)
+            {
+                level /= 2;
+            }
+            else
+            {
+                level /= 5;
+                if (index >= 1)
+                {
+                    minusLevel /= 10;
+                }
+            }
+            index++;
         }
+
+        return result;
     }
 };
 // @lc code=end
