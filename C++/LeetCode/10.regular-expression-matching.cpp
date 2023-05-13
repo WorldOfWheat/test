@@ -12,7 +12,22 @@ using namespace std;
 class Solution {
 public:
     bool isMatch(string s, string p) {
+        int s_size = s.size();
+        int p_size = p.size();
+        vector<vector<bool>> dp(p_size, vector<bool>(p_size));
 
+        dp[0][0] = true;
+
+        for (int i = 1; i <= s_size)
+        {
+            for (int j = 1; j <= p_size)
+            {
+                if (p[j] == '*')
+                {
+                    dp[i][j] = dp[i][j]
+                }
+            }
+        }
     }
 };
 // @lc code=end
