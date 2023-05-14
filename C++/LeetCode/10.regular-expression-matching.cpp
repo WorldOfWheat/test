@@ -14,20 +14,31 @@ public:
     bool isMatch(string s, string p) {
         int s_size = s.size();
         int p_size = p.size();
-        vector<vector<bool>> dp(p_size, vector<bool>(p_size));
+        vector<vector<bool>> dp(s_size + 1, vector<bool>(p_size + 1));
 
         dp[0][0] = true;
-
-        for (int i = 1; i <= s_size)
+        for (int i = 1; i < s_size; i++)
         {
-            for (int j = 1; j <= p_size)
+            dp[i][0] = true;
+        }
+
+        for (int i = 1; i <= s_size; i++)
+        {
+            for (int j = 1; j <= p_size; j++)
             {
-                if (p[j] == '*')
+                if (p[j-1] == '*')
                 {
-                    dp[i][j] = dp[i][j]
+                    dp[i][j] = dp[i][j-2] || (p[j-2] == s[i-1]) || (p[j-2] == '.');
+                    continue;
+                }
+                if (s[i-1] == p[i-1] || s[i-1] == '.')
+                {
+                    dp[i][j] = dp[i-1][j-1];
                 }
             }
         }
+
+        return dp[s_size][p_size];
     }
 };
 // @lc code=end
