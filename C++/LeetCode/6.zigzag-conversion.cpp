@@ -12,45 +12,60 @@ using namespace std;
 class Solution {
 public:
     string convert(string s, int numRows) {
-        vector<vector<char>> result(numRows, vector<char>(s.length()));
+        vector<vector<int>> result(numRows, vector<int>(s.length()));
+
         int status = 0;
         int index = 0;
         int x = 0, y = 0;
-        while (index < s.length())
+        if (numRows == 1)
         {
-            result[x][y] = index;
-            if (status == 0)
+            for (int i = 0; i < s.length(); i++)
             {
-                x++;
-                if (x == numRows)
-                {
-                    x--;
-                    status = 1;
-                }
+                result[0][i] = s[i] - '0';
             }
-            if (status == 1)
+        }
+        else 
+        {
+            while (index < s.length())
             {
-                x--;
-                y++;
-                if (x < 0)
+                result[x][y] = s[index] - '0';
+                if (status == 0)
                 {
                     x++;
-                    y--;
-                    status = 0;
+                    if (x == numRows)
+                    {
+                        x-=2;
+                        y++;
+                        status = 1;
+                    }
                 }
-            }
+                else if (status == 1)
+                {
+                    x--;
+                    y++;
+                    if (x < 0)
+                    {
+                        x+=2;
+                        y--;
+                        status = 0;
+                    }
+                }
 
-            index++;
+                index++;
+            }
         }
 
         string _result = "";
-        for (int i = 0; i < x; i++)
+        for (auto i : result)
         {
-            for (int j = 0; j < y; j++)
+            for (auto j : i)
             {
-                _result += result[i][j];
+                if (j == 0)
+                {
+                    continue;
+                }
+                _result += j + '0';
             }
-            _result += "\n";
         }
 
         return _result;

@@ -5,7 +5,9 @@ using namespace std;
 
 void solve() 
 {
-    cout << "test" << '\n';
+    string str = "";
+    str += '5';
+    cout << str << '\n';
 }
 
 signed main() 
