@@ -12,22 +12,21 @@ using namespace std;
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
-        bitset<9> numberCheck(0);
+        bitset<10> numberCheck(0);
         int l = 0;
         int u = 0;
-        while (true)
+        /*while (true)
         {
             numberCheck.reset();
             for (int i = l; i < l + 3; i++)
             {
                 for (int j = u; j < u + 3; j++)
                 {
-                    char num = board[i][j];
-                    if (num == '.')
+                    int num = board[i][j] - '0';
+                    if (num + '0' == '.')
                     {
                         continue;
                     }
-                    num -= '0';
                     if (numberCheck[num])
                     {
                         return false;
@@ -45,7 +44,35 @@ public:
             {
                 break;
             }
+        }*/
+        for (int i = 0; i < 9; i++)
+        {
+            numberCheck.reset();
+            for (int j = 0; j < 9; j++)
+            {
+                int num = board[i][j] - '0' - 1; 
+                if (numberCheck[num])
+                {
+                    return false;
+                }
+                numberCheck[num] = 1;
+            }
         }
+        /*for (int i = 0; i < 9; i++)
+        {
+            numberCheck.reset();
+            for (int j = 0; j < 9; j++)
+            {
+                int num = board[j][i] - '0'; 
+                if (numberCheck[num])
+                {
+                    return false;
+                }
+                numberCheck[num] = 1;
+            }
+        }*/
+        
+        return true;
     }
 };
 // @lc code=end

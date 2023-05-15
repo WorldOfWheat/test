@@ -5,8 +5,11 @@ using namespace std;
 
 void solve() 
 {
-    string str = "ABCDEFG";
-    cout << str[6] << '\n';
+    bitset<5> bs;
+    bs[0] = 1;
+    cout << (bs[0]) << '\n';
+    bs.reset();
+    cout << (bs[0]) << '\n';
 }
 
 signed main() 
