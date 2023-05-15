@@ -15,40 +15,37 @@ public:
         reverse(a.begin(), a.end());
         reverse(b.begin(), b.end());
 
-        vector<int> result;
+        string result;
+        int carry = 0;
         int ptrL = 0;
         int ptrR = 0;
-        int index = 0;
         while (ptrL < a.size() && ptrR < b.size())
         {
-            result.push_back((a[ptrL++] - '0') + (b[ptrR++] - '0'));
-            if (result.back() >= 2)
-            {
-                int temp = result.back();
-                result.back() -= 2;
-                result.push_back(temp / 2);
-            }
-        }
-        if (result.back() >= 2)
-        {
-            result.back() -= 2;
-            result.push_back(1);
+            int digit1 = (a[ptrL++] - '0'); 
+            int digit2 = (b[ptrR++] - '0'); 
+            result += (digit1 ^ digit2 ^ carry) + '0';
+            carry = (digit1 && digit2) || (digit1 && carry) || (digit2 && carry);
         }
         while (ptrL < a.size())
         {
-            result.push_back((a[ptrL++] - '0'));
+            int digit1 = (a[ptrL++] - '0'); 
+            result += (digit1 ^ carry) + '0';
+            carry = (carry && digit1);
         }
-        while (ptrR < b.size()) 
+        while (ptrR < b.size())
         {
-            result.push_back((b[ptrR++] - '0'));
+            int digit1 = (b[ptrR++] - '0'); 
+            result += (digit1 ^ carry) + '0';
+            carry = (carry && digit1);
+        }
+        if (carry == 1)
+        {
+            result += carry + '0';
         }
 
-        string _result = "";
-        for (auto i = result.rbegin(); i != result.rend(); i++)
-        {
-            _result += (*i) + '0';
-        }
-        return _result;
+        reverse(result.begin(), result.end());
+
+        return result;
     }
 };
 // @lc code=end
