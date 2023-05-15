@@ -12,7 +12,7 @@ using namespace std;
 class Solution {
 public:
     string convert(string s, int numRows) {
-        vector<vector<int>> result(numRows, vector<int>(s.length()));
+        vector<string> result(numRows, "");
 
         int status = 0;
         int index = 0;
@@ -21,14 +21,14 @@ public:
         {
             for (int i = 0; i < s.length(); i++)
             {
-                result[0][i] = s[i] - '0';
+                result[0] += s[i];
             }
         }
         else 
         {
             while (index < s.length())
             {
-                result[x][y] = s[index] - '0';
+                result[x] += s[index];
                 if (status == 0)
                 {
                     x++;
@@ -58,14 +58,7 @@ public:
         string _result = "";
         for (auto i : result)
         {
-            for (auto j : i)
-            {
-                if (j == 0)
-                {
-                    continue;
-                }
-                _result += j + '0';
-            }
+            _result += i;
         }
 
         return _result;
