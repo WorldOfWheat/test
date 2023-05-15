@@ -12,34 +12,45 @@ using namespace std;
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        if (matrix.empty())
+        {
+            return vector<int>();
+        }
+
         int size_x = matrix.size();
         int size_y = matrix[0].size();
-        int index = 0;
-        int counter = 1;
+        int u, d, l, r;
+        u = 0, l = 0, d = size_x - 1, r = size_y - 1;
+
         vector<int> result;
-        while (counter < size_x * size_y)
+        while (result.size() < size_x * size_y)
         {
-            for (int i = index; i < size_y - index - 1; i++)
+            for (int i = l; i <= r; i++)
             {
-                result.push_back(matrix[index][i]);
-                counter++;
+                result.push_back(matrix[u][i]);
             }
-            for (int i = index; i < size_x - 1; i++)
+            u++;
+            for (int i = u; i <= d; i++)
             {
-                result.push_back(matrix[i][size_y - index - 1]);
-                counter++;
+                result.push_back(matrix[i][r]);
             }
-            for (int i = size_y - 1 - index; i >= index + 1; i--)
+            r--;
+            if (u <= d)
             {
-                result.push_back(matrix[size_x - index - 1][i]);
-                counter++;
+                for (int i = r; i >= l; i--)
+                {
+                    result.push_back(matrix[d][i]);
+                }
+                d--;
             }
-            for (int i = size_x - index - 1; i >= index + 1; i--)
+            if (l <= r)
             {
-                result.push_back(matrix[i][size_x - index - 1]);
-                counter++;
+                for (int i = d; i >= u; i--)
+                {
+                    result.push_back(matrix[i][l]);
+                }
+                l++;
             }
-            index++;
         }
 
         return result;
