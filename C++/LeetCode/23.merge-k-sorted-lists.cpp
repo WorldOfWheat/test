@@ -62,20 +62,28 @@ private:
                 list1 = list1->next;
             }
         }
-        while (list1 != NULL)
+        if (list1 != NULL)
         {
-            result->next = new ListNode(0);
-            result = result->next;
-            result->val = list1->val; 
-            list1 = list1->next;
+            result->next = list1;
         }
-        while (list2 != NULL)
+        if (list2 != NULL)
         {
-            result->next = new ListNode(0);
-            result = result->next;
-            result->val = list2->val; 
-            list2 = list2->next;
+            result->next = list2;
         }
+        // while (list1 != NULL)
+        // {
+        //     result->next = new ListNode(0);
+        //     result = result->next;
+        //     result->val = list1->val; 
+        //     list1 = list1->next;
+        // }
+        // while (list2 != NULL)
+        // {
+        //     result->next = new ListNode(0);
+        //     result = result->next;
+        //     result->val = list2->val; 
+        //     list2 = list2->next;
+        // }
 
         return start;
     }
