@@ -2,14 +2,18 @@
 
 using namespace std;
 
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
 
 void solve() 
 {
-    bitset<5> bs;
-    bs[0] = 1;
-    cout << (bs[0]) << '\n';
-    bs.reset();
-    cout << (bs[0]) << '\n';
+    ListNode* node = new ListNode(0);
+    cout << (node->val) << '\n';
 }
 
 signed main() 

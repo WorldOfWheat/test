@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
 struct ListNode {
@@ -20,51 +19,95 @@ struct ListNode {
 // Definition for singly-linked list.
 
 class Solution {
-
 private:
+    vector<ListNode*> lists;
+    ListNode* result = new ListNode(0);
+
     ListNode* merge(ListNode* list1, ListNode* list2)
     {
-        ListNode* result;
+        if (list1 == NULL)
+        {
+            return list2;
+        }
+        if (list2 == NULL)
+        {
+            return list1;
+        }
+
+        ListNode* result = new ListNode(0);
+        ListNode* start = result;
         if (list1->val < list2->val)
         {
-            result = list1;
+            result->val = list1->val;
+            list1 = list1->next;
         }
         else
         {
-            result = list2;
+            result->val = list2->val;
+            list2 = list2->next;
         }
-
+        
         while (list1 != NULL && list2 != NULL)
         {
+            result->next = new ListNode(0);
+            result = result->next;
             if (list1->val >= list2->val)
             {
-                result->next = list2;
+                result->val = list2->val;
                 list2 = list2->next;
             }
             else
             {
-                result->next = list1;
+                result->val = list1->val;
                 list1 = list1->next;
             }
-            result = result->next;
         }
         while (list1 != NULL)
         {
-            result->next = list1; 
+            result->next = new ListNode(0);
+            result = result->next;
+            result->val = list1->val; 
             list1 = list1->next;
         }
         while (list2 != NULL)
         {
-            result->next = list2; 
+            result->next = new ListNode(0);
+            result = result->next;
+            result->val = list2->val; 
             list2 = list2->next;
         }
 
-        return result;
+        return start;
     }
 
+    ListNode* mergeAll(int l, int r)
+    {
+        if (l + 1 >= r)
+        {
+            return lists[l];
+        }
+
+        int mid = (l + r) >> 1;
+        ListNode* resultL = mergeAll(l, mid);
+        ListNode* resultR = mergeAll(mid, r);
+
+        return merge(resultL, resultR);
+    }   
+    
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        return merge(lists[0], lists[1]);
+        if (lists.size() == 0)
+        {
+            return NULL;
+        }
+        if (lists.size() <= 1)
+        {
+            return lists[0];
+        }
+
+        this->lists = lists;
+
+        return mergeAll(0, lists.size());
     }
 };
 // @lc code=end
