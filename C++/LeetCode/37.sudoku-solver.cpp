@@ -13,57 +13,9 @@ class Solution {
 private:
     vector<vector<char>> board;
     vector<pair<int, int>> emptyBlock;
-    bitset<10> checked;
-    bitset<10> checked2;
-
-    bool check(int x, int y)
-    {
-        checked.reset();
-        checked2.reset();
-        for (int i = 0; i < 9; i++)
-        {
-            if (board[x][i] != '.')
-            {
-                int num = board[x][i] - '0';
-                if (checked[num])
-                {
-                    return false;
-                }
-                checked[num] = 1;
-            }
-            if (board[i][y] != '.')
-            {
-                int num = board[i][y] - '0';
-                if (checked2[num])
-                {
-                    return false;
-                }
-                checked2[num] = 1;
-            }
-        }
-
-        checked.reset();
-        int u = (x / 3) * 3;
-        int l = (y / 3) * 3;
-        for (int i = u; i < u + 3; i++)
-        {
-            for (int j = l; j < l + 3; j++)
-            {
-                if (board[i][j] == '.')
-                {
-                    continue;
-                }
-                int num = board[i][j] - '0';
-                if (checked[num])
-                {
-                    return false;
-                }
-                checked[num] = 1;
-            }
-        }
-
-        return true;
-    }
+    vector<bitset<10>> columns;
+    vector<bitset<10>> rows;
+    vector<vector<bitset<10>>> bigBlock;
 
     bool solve(int index)
     {
@@ -75,24 +27,44 @@ private:
         auto block = emptyBlock[index];
         for (int i = 1; i <= 9; i++)
         {
-            board[block.first][block.second] = i + '0';
-            if (!check(block.first, block.second))
+            if (!(
+                columns[block.first][i] != 1 && 
+                rows[block.second][i] != 1 && 
+                bigBlock[block.first / 3][block.second / 3][i] != 1
+                )
+            )
             {
                 continue;
             }
+
+            columns[block.first][i] = 1;
+            rows[block.second][i] = 1;
+            bigBlock[block.first / 3][block.second / 3][i] = 1;
+            board[block.first][block.second] = i + '0';
             if (solve(index+1))
             {
                 return true;
             }
+            columns[block.first][i] = 0;
+            rows[block.second][i] = 0;
+            bigBlock[block.first / 3][block.second / 3][i] = 0;
             board[block.first][block.second] = '.';
         }
-        board[block.first][block.second] = '.';
 
         return false;
     }
 
 public:
     void solveSudoku(vector<vector<char>>& board) {
+        columns.resize(9, bitset<10>());
+        rows.resize(9, bitset<10>());
+        bigBlock.resize(3);
+        for (auto &i : bigBlock)
+        {
+            i.resize(3, bitset<10>());
+        }
+
+        int u = 0, l = 0;
         for (int i = 0; i < 9; i++)
         {
             for (int j = 0; j < 9; j++)
@@ -100,7 +72,28 @@ public:
                 if (board[i][j] == '.')
                 {
                     emptyBlock.push_back({i, j});
+                    continue;
                 }
+                columns[i][board[i][j] - '0'] = 1;
+                rows[j][board[i][j] - '0'] = 1;
+            }
+
+            for (int j = u * 3; j < u * 3 + 3; j++)
+            {
+                for (int k = l * 3; k < l * 3 + 3; k++)
+                {
+                    if (board[j][k] == '.')
+                    {
+                        continue;
+                    }
+                    bigBlock[u][l][board[j][k] - '0'] = 1;
+                }
+            }
+            l++;
+            if (l == 3)
+            {
+                u++;
+                l = 0;
             }
         }
         this->board = board;
@@ -112,4 +105,3 @@ public:
     }
 };
 // @lc code=end
-
