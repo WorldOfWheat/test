@@ -10,21 +10,22 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-struct person 
-{
-    int age;
-    char* name;
-    person() : age(0), name(NULL) {}
-    person(int x) : age(x), name(NULL) {}
-    person(int x, char* y) : age(x), name(y) {}
-};
-
 void solve() 
 {
-    ListNode* node = new ListNode(0);
-    cout << (node->val) << '\n';
-    person a = new person(5);
+    ListNode* start = new ListNode(0);
+    ListNode* current = start;
+    for (int i = 1; i <= 5; i++)
+    {
+        current->next = new ListNode(i);
+        current = current->next;
+    }
+    current->next = start;
 
+    while (start != NULL)
+    {
+        cout << (start->val) << ' ';
+        start = start->next;
+    }
 }
 
 signed main() 
