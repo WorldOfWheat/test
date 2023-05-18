@@ -16,32 +16,27 @@ public:
         result.resize(n, vector<int>(n));
         int u = 0, l = 0, d = n - 1, r = n - 1;
         int counter = 1;
-        while(counter < n * n)
+        while(counter <= n * n)
         {
+            // cout << u << ' ' << d << ' ' << l << ' ' << r << '\n';
             for (int i = l; i <= r; i++)
             {
                 result[u][i] = counter;
                 counter++;
             }
             u++;
-            if (r >= l)
+            for (int i = u; i <= d; i++)
             {
-                for (int i = u; u <= d; i++)
-                {
-                    result[i][r] = counter;
-                    counter++;
-                }
-                r--;
+                result[i][r] = counter;
+                counter++;
             }
-            if (d >= u)
+            r--;
+            for (int i = r; i >= l; i--)
             {
-                for (int i = r; i >= l; i--)
-                {
-                    result[d][i] = counter;
-                    counter++;
-                }
-                d--;
+                result[d][i] = counter;
+                counter++;
             }
+            d--;
             for (int i = d; i >= u; i--)
             {
                 result[i][l] = counter;
