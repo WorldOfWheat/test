@@ -20,6 +20,11 @@ struct ListNode {
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
+        if (head == NULL || head->next == NULL)
+        {
+            return head;
+        }
+
         int size = 1;
         ListNode* start = head;
         ListNode* current = start;
@@ -33,15 +38,20 @@ public:
             return head;
         }
 
-        ListNode* end = start;
-        while (end->next != current)
-        {
-            end = end->next;
-        }
-
         current->next = start;
+
+        ListNode* newStart = start;
+        for (int i = 0; i < size - (k % size); i++)
+        {
+            newStart = newStart->next;
+        }
+        while (current->next != newStart)
+        {
+            current = current->next;
+        }
+        current->next = nullptr;
         
-        return current;
+        return newStart;
     }
 };
 // @lc code=end
