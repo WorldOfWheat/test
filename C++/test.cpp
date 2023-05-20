@@ -19,22 +19,41 @@ public:
     }
 };
 
+void threeNPlusOne(int start)
+{
+    cout << start << ' ';
+    if (start == 1)
+    {
+        return;
+    }
+
+    if (start % 2 == 0)
+    {
+        threeNPlusOne(start / 2);
+    }
+    else
+    {
+        threeNPlusOne(start * 3 + 1);
+    }
+}
+
 void solve() 
 {
-    ListNode* start = new ListNode(0);
-    ListNode* current = start;
-    for (int i = 1; i <= 10; i++)
-    {
-        current->next = new ListNode(i);
-        current = current->next;
-    }
-    current->next = start;
+    threeNPlusOne(19);
+    // ListNode* start = new ListNode(0);
+    // ListNode* current = start;
+    // for (int i = 1; i <= 10; i++)
+    // {
+    //     current->next = new ListNode(i);
+    //     current = current->next;
+    // }
+    // current->next = start;
 
-    while (start != NULL)
-    {
-        cout << (start->value) << ' ';
-        start = start->next;
-    }
+    // while (start != NULL)
+    // {
+    //     cout << (start->value) << ' ';
+    //     start = start->next;
+    // }
 }
 
 signed main() 
