@@ -19,10 +19,6 @@ signed main()
     // cin.tie(0);
     // cout.tie(0);
 
-    int size;
-    cin >> size;
-    int* input = (int*) calloc();
-    int* result = (int*) calloc()
 
     return 0;
 }
