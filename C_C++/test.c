@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 unsigned int highbit(int n)
 {
@@ -67,11 +68,32 @@ int main()
         *(output + i) = *(hamming_code + hamming_code_pointer--);
     }
 
+    *(output + 0) = 0;
+
     for (int i = 0; i < output_size; i++)
     {
         printf("%i ", *(output + i));
     }
     printf("\n");
+
+    hamming_code = (bool*) calloc(hamming_code_size, sizeof(bool));
+    memset(hamming_code, 0, hamming_code_size);
+    for (int i = 0; i < output_size; i++)
+    {
+        if (*(output + i))
+        {
+            for (int j = 0; j < hamming_code_size; j++)
+            {
+                *(hamming_code + j) ^= (bool) ((output_size - i) & (1 << (hamming_code_size - j - 1)));
+            }
+        }
+    }
+    for (int i = 0; i < hamming_code_size; i++)
+    {
+        printf("%i ", *(hamming_code + i));
+    }
+    printf("\n");
+    
 
     return 0;
 }
