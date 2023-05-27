@@ -2,18 +2,10 @@
 
 using namespace std;
 
-bool is_power_of_2(int n)
-{
-    return !(n & (n - 1));
-}
-
 void solve() 
 {
-    int n;
-    while (cin >> n)
-    {
-        cout << (is_power_of_2(n)) << endl;
-    }
+    int n = 5;
+    cout << (n & -n) << endl;
 }
 
 signed main() 

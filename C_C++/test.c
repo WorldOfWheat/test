@@ -26,13 +26,20 @@ int main()
     int start_pointer_input = 0;
     for (int i = 0; i < output_size; i++)
     {
-        if (i & (i - 1))
+        if (!((output_size - i) & ((output_size - i) - 1)))
         {
-            printf("%i ", *(output+i));
             continue;
         }
         *(output + i) = *(input + start_pointer_input++);
-        printf("%i ", *(output+i));
+    }
+
+    bool* hamming_code = (bool*) calloc(hamming_code_size, sizeof(bool));
+    for (int i = 0; i < output_size; i++)
+    {
+        if (*(output + i))
+        {
+            
+        }
     }
 
     return 0;
