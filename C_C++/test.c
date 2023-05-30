@@ -3,14 +3,13 @@
 #include <stdbool.h>
 #include <string.h>
 
-unsigned int highbit(int n)
+void printBoolArray(bool* array, int size)
 {
-    unsigned int result = 0;
-    while ((1 << result) < n)
+    for (int i = 0; i < size; i++)
     {
-        result++;
+        printf("%i ", *(array + i));
     }
-    return result;
+    printf("\n");
 }
 
 int main()
@@ -34,15 +33,14 @@ int main()
 
     int output_size = input_size + hamming_code_size;
     bool* output = (bool*) calloc(output_size, sizeof(bool));
-    int input_pointer = input_size - 1;
-    for (int i = output_size - 1; i >= 0; i--)
+    int input_pointer = 0;
+    for (int i = 0; i < output_size; i++)
     {
-        int bit_index = output_size - i;
-        if (!(bit_index & bit_index - 1))
+        if (!(i & i + 1))
         {
             continue;
         }
-        *(output + i) = *(input + input_pointer--);
+        *(output + i) = *(input + input_pointer++);
     }
 
     bool* hamming_code = (bool*) calloc(hamming_code_size, sizeof(bool));
@@ -52,31 +50,26 @@ int main()
         {
             for (int j = 0; j < hamming_code_size; j++)
             {
-                *(hamming_code + j) ^= (bool) ((output_size - i) & (1 << (hamming_code_size - j - 1)));
+                *(hamming_code + j) ^= (bool) ((i + 1) & (1 << (hamming_code_size - j - 1)));
             }
         }
     }
 
     int hamming_code_pointer = hamming_code_size - 1;
-    for (int i = output_size - 1; i >= 0; i--)
+    for (int i = 0; i < output_size; i++)
     {
-        int bit_index = output_size - i;
-        if ((bit_index & bit_index - 1))
+        if ((i & i + 1))
         {
             continue;
         }
         *(output + i) = *(hamming_code + hamming_code_pointer--);
     }
 
-    *(output + 0) = 0;
+    printBoolArray(hamming_code, hamming_code_size);
+    printBoolArray(output, output_size);
 
-    for (int i = 0; i < output_size; i++)
-    {
-        printf("%i ", *(output + i));
-    }
-    printf("\n");
+    *(output + 5) = !*(output + 5);
 
-    hamming_code = (bool*) calloc(hamming_code_size, sizeof(bool));
     memset(hamming_code, 0, hamming_code_size);
     for (int i = 0; i < output_size; i++)
     {
@@ -84,16 +77,13 @@ int main()
         {
             for (int j = 0; j < hamming_code_size; j++)
             {
-                *(hamming_code + j) ^= (bool) ((output_size - i) & (1 << (hamming_code_size - j - 1)));
+                *(hamming_code + j) ^= (bool) ((i + 1) & (1 << (hamming_code_size - j - 1)));
             }
         }
     }
-    for (int i = 0; i < hamming_code_size; i++)
-    {
-        printf("%i ", *(hamming_code + i));
-    }
-    printf("\n");
-    
+
+    printBoolArray(hamming_code, hamming_code_size);
+    printBoolArray(output, output_size);
 
     return 0;
 }
