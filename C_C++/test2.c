@@ -5,36 +5,24 @@
 
 int main()
 {
-    int input_size;
-    scanf("%i", &input_size);
-    bool* input = (bool*) calloc(input_size, sizeof(bool));
-    for (int i = 0; i < input_size; i++)
+    while (true)
     {
-        scanf("%i", input + i);
-    }
+        long long n;
+        scanf("%ll", &n);
+        long long hamming_code_size = 0;
+        while (((1 << hamming_code_size) - hamming_code_size - 1) < n)
+        {
+            hamming_code_size++;
+        }
+        printf("%i\n", hamming_code_size);
 
-    int mode; // odd = 1, even = 2
-    scanf("%i", &mode);
-    bool parity = false;
-    for (int i = 0; i < input_size; i++)
-    {
-        parity ^= *(input + i);
+        long long x = 0;
+        while (((1 << x) - 1 < hamming_code_size + n))
+        {
+            x++;
+        }
+        printf("%i\n", x);
     }
-
-    int output_size = input_size + 1;
-    bool* output = (bool*) calloc(output_size, sizeof(bool));
-    memcpy(output, input, input_size);
-
-    if (mode == 1)
-    {
-        *(output + output_size - 1) = !parity;
-    }
-    if (mode == 2)
-    {
-        *(output + output_size - 1) = parity;
-    }
-
-    
 
     return 0;
 }
