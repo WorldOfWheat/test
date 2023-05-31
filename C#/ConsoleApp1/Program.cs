@@ -5,29 +5,27 @@
 
     public static async Task Main(string[] args)
     {
-        await test();
-        Console.WriteLine("test2");
+        await Run1();
     }
 
-    public static async Task test()
+    public static async Task Run1()
     {
-        test2();
+        Run2();
         for (int i = 0; i < 10; i++)
         {
-            await Task.Delay(20);
-            Console.Write(a++ + " ");
+            await Task.Delay(2);
+            Console.Write($"{i} ");
         }
-        semaphore.Wait();
-
+        Console.WriteLine("");
     }
-    public static async Task test2()
+    public static async Task Run2()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 10; i < 20; i++)
         {
-            await Task.Delay(50);
-            Console.Write(a++ + " ");
+            await Task.Delay(1);
+            Console.Write($"{i} ");
         }
-        semaphore.Release();
+        Console.WriteLine("");
     }
 }
 
