@@ -1,4 +1,10 @@
-﻿class Fruit
+﻿interface Car
+{
+	void fu();
+}
+
+
+class Fruit
 {
 	private string Name;
 	private int Count;
