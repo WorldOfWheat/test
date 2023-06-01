@@ -1,77 +1,31 @@
-﻿using System.Runtime.CompilerServices;
-
-
-namespace OOP_Test2
+﻿class Fruit
 {
-    internal class Fruit
-    {
-        protected string Name;
-        protected int Count;
-        internal int test;
-    }
-
-
-    class Apple : Fruit
-    {
-        public Apple(string NewName, int Increasement)
-        {
-            this.Name = NewName;
-            this.Count += Increasement;
-            test = Increasement;
-        }
-        public void GetApple()
-        {
-            Console.WriteLine($"{this.Name} x {Count}");
-        }
-        public void SetApple(int Increasement)
-        {
-            this.Count += Increasement;
-        }
-    }
-
-    class Program
-    {
-        static int a = 0;
-        static SemaphoreSlim semaphore = new SemaphoreSlim(1);
-
-        public static async Task Main(string[] args)
-        {
-            Apple a = new Apple("test", 5);
-            a.GetApple();
-            a.SetApple(500);
-        }
-
-        public static async Task Run1()
-        {
-            Run2();
-            for (int i = 0; i < 10; i++)
-            {
-                await Task.Delay(2);
-                Console.Write($"{i} ");
-            }
-            Console.WriteLine("");
-        }
-        public static async Task Run2()
-        {
-            for (int i = 10; i < 20; i++)
-            {
-                await Task.Delay(1);
-                Console.Write($"{i} ");
-            }
-            Console.WriteLine("");
-        }
-    }
+	private string Name;
+	private int Count;
+	protected void SetApple(string Name, int Count)
+	{
+		this.Name = Name;
+		this.Count = Count;
+	}
+	public void Print()
+	{
+		Console.WriteLine($"{Name} x {Count}");
+	}
+}
+class Apple : Fruit
+{
+	public Apple(string Name, int Count)
+	{
+		this.SetApple(Name, Count);
+		this.Print();
+	}
 }
 
-namespace OOP_Test
+class Program
 {
-    class Car
-    {
-        OOP_Test2.Fruit fruit = new OOP_Test2.Fruit();
-        public void drive()
-        {
-            fruit.test = 5;
-        }
-    }
-
+	public static void Main(string[] args)
+	{
+		Apple apple = new Apple("test1", 5);
+		apple.Print();
+	}
 }
