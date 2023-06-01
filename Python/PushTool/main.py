@@ -16,6 +16,7 @@ def main():
         print("----------------------------------------------")
         print("Should run again? Input '1' or '0' to select:")
         print("----------------------------------------------")
+
         while (True):
             select_input = input()
             if select_input == "1" or select_input == "0":
@@ -23,7 +24,7 @@ def main():
             print("-----------------------------------------")
             print("Wrong Input! Input Should be '1' or '0'!")
             print("-----------------------------------------")
-    again = bool(int(select_input));
+        again = bool(int(select_input));
 
 if __name__ == '__main__':
     main()
