@@ -3,25 +3,29 @@
 #include <stdbool.h>
 #include <string.h>
 
+struct House {
+    char buf[18];
+    int p1;
+    int p2;
+    int p3;
+    int p4;
+
+} house;
+
 int main()
 {
-    while (true)
+    while (1)
     {
-        long long n;
-        scanf("%ll", &n);
-        long long hamming_code_size = 0;
-        while (((1 << hamming_code_size) - hamming_code_size - 1) < n)
-        {
-            hamming_code_size++;
-        }
-        printf("%i\n", hamming_code_size);
-
-        long long x = 0;
-        while (((1 << x) - 1 < hamming_code_size + n))
-        {
-            x++;
-        }
-        printf("%i\n", x);
+        house.p1 = 0;
+        house.p2 = 0;
+        house.p3 = 0;
+        house.p4 = 0;
+        scanf("%s", house.buf);
+        printf("%s\n", house.buf);
+        printf("%i\n", house.p1);
+        printf("%i\n", house.p2);
+        printf("%i\n", house.p3);
+        printf("%i\n", house.p4);
     }
 
     return 0;
