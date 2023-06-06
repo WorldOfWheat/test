@@ -1,14 +1,12 @@
-﻿using System.Numerics;
-using System.Security.Cryptography;
+﻿using System.IO;
 using System.Text;
-using System.Net;
 using System.Net.Sockets;
 
 class Program
 {
 	private static TcpClient Client;
-	private static BinaryReader br;
-	private static BinaryWriter bw;
+	private static NetworkStream NS;
+	private static BinaryWriter BW;
 
     private static async Task SendMessage(string message)
     {
@@ -17,12 +15,15 @@ class Program
             Console.WriteLine("Connect first");
             return;
         }
-        using (NetworkStream ns = Client.GetStream())
-        {
-            bw = new BinaryWriter(ns);
-            bw.Write(Encoding.UTF8.GetBytes(message));
-            Console.WriteLine("Send Successfully");
-        }
+		if (NS == null)
+		{
+			NS = Client.GetStream();
+			BW = new BinaryWriter(NS);
+		}
+
+		BW.Write(message.Length);
+        BW.Write(Encoding.UTF8.GetBytes(message));
+		Console.WriteLine("Send Successfully");
     }
 
 	private static async Task ConnectServer(string IP, int Port)
@@ -31,7 +32,7 @@ class Program
         Console.WriteLine("Connected Successfully");
 	}
 
-	private static async Task CommandInterface(string Command)
+	private static void CommandInterface(string Command)
 	{
 		if (Command == null || Command.Length == 0)
 		{
@@ -47,7 +48,7 @@ class Program
                     Console.WriteLine("Please enter a IP and port!");
                     break;
                 }
-				await ConnectServer(args[1], int.Parse(args[2]));
+				Task.Run(() => ConnectServer(args[1], int.Parse(args[2])));
 				break;
 
             case "send":
@@ -55,7 +56,7 @@ class Program
                 {
                     Console.WriteLine("Please enter a message!");
                 }
-                await SendMessage(args[1]);
+				Task.Run(() => SendMessage(args[1]));
                 break;
 			
 			default:
@@ -65,7 +66,7 @@ class Program
 		}
 	}
 
-	public static async Task Main(string[] args)
+	public static void Main(string[] args)
 	{
 		while (true)
 		{

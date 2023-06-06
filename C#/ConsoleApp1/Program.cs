@@ -1,15 +1,12 @@
-﻿using System.Numerics;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.IO;
 
 class Program
 {
 	private static TcpListener Listener;
 	private static TcpClient Client;
-	private static BinaryReader Br;
-	private static BinaryWriter Bw;
 
 	private static void ServerCreate(string IP, int Port)
 	{
@@ -21,15 +18,17 @@ class Program
         Client = Listener.AcceptTcpClient();
 		Console.WriteLine("Client connected");
 
-		while (true)
+		while (Client.Connected)
 		{
-			NetworkStream ClientStream = Client.GetStream();
-			Br = new BinaryReader(ClientStream);
-			Console.WriteLine($"Receive Message: {Br.ReadString()}");
+			NetworkStream NS = Client.GetStream();
+			BinaryReader BR = new BinaryReader(NS);
+			int Size = BR.ReadInt32();
+			Console.WriteLine($"{Encoding.UTF8.GetString(BR.ReadBytes(Size))}");
 		}
+		Console.WriteLine("Client disconnected");
 	}
 
-	private static async Task CommandInterface(string Command)
+	private static void CommandInterface(string Command)
 	{
 		if (Command == null || Command.Length == 0)
 		{
@@ -68,10 +67,10 @@ class Program
 				Console.WriteLine("Server stopped");
 				break;
 			
-			case "wait":
-				Console.WriteLine("waitting...");
-				await Task.Delay(2000);
-				break;
+			// case "wait":
+			// 	Console.WriteLine("waitting...");
+			// 	Task.Delay(2000);
+			// 	break;
 			
 			default:
 				Console.WriteLine("Unknown command!");
@@ -79,12 +78,12 @@ class Program
 		}
 	}
 
-	public static async Task Main(string[] args)
+	public static void Main(string[] args)
 	{
 		while (true)
 		{
 			string Command = Console.ReadLine();
-			await CommandInterface(Command);
+			CommandInterface(Command);
 		}
 	}
 }
