@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Git\\test\\C#\\ConsoleApp1\\ConsoleApp1.csproj": {}
+    "D:\\Git\\test\\C#\\test copy\\test.csproj": {}
   },
   "projects": {
-    "D:\\Git\\test\\C#\\ConsoleApp1\\ConsoleApp1.csproj": {
+    "D:\\Git\\test\\C#\\test copy\\test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Git\\test\\C#\\ConsoleApp1\\ConsoleApp1.csproj",
-        "projectName": "ConsoleApp1",
-        "projectPath": "D:\\Git\\test\\C#\\ConsoleApp1\\ConsoleApp1.csproj",
+        "projectUniqueName": "D:\\Git\\test\\C#\\test copy\\test.csproj",
+        "projectName": "test",
+        "projectPath": "D:\\Git\\test\\C#\\test copy\\test.csproj",
         "packagesPath": "C:\\Users\\a3028\\.nuget\\packages\\",
-        "outputPath": "D:\\Git\\test\\C#\\ConsoleApp1\\obj\\",
+        "outputPath": "D:\\Git\\test\\C#\\test copy\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -22,7 +22,7 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net7.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
@@ -30,8 +30,8 @@
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net7.0": {
+            "targetAlias": "net7.0",
             "projectReferences": {}
           }
         },
@@ -42,8 +42,8 @@
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net7.0": {
+          "targetAlias": "net7.0",
           "imports": [
             "net461",
             "net462",
