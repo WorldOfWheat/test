@@ -1,35 +1,47 @@
 ﻿using System.IO;
 using System.Text;
 using System.Net.Sockets;
+using System.Net.Security;
 
 class Program
 {
-	private static TcpClient Client;
-	private static NetworkStream NS;
+	private static TcpClient? Client;
+	private static NetworkStream? NS;
+	private static SslStream? SS;
 	private static BinaryWriter BW;
 
-    private static async Task SendMessage(string message)
+	private static void ConnectTest()
+	{
+		while (Client.Connected)
+		{
+			Task.Delay(1000).Wait();
+		}
+		BW.Close();
+		SS.Close();
+		NS.Close();
+		Client.Close();
+		Console.WriteLine("Disconnected");
+	}
+    private static void SendMessage(string message)
     {
-        if (Client == null)
+        if (Client == null || !Client.Connected)
         {
             Console.WriteLine("Connect first");
             return;
         }
-		if (NS == null)
-		{
-			NS = Client.GetStream();
-			BW = new BinaryWriter(NS);
-		}
-
 		BW.Write(message.Length);
-        BW.Write(Encoding.UTF8.GetBytes(message));
+		BW.Write(Encoding.UTF8.GetBytes(message));
 		Console.WriteLine("Send Successfully");
     }
 
-	private static async Task ConnectServer(string IP, int Port)
+	private static void ConnectServer(string IP, int Port)
 	{
         Client = new TcpClient(IP, Port);
-        Console.WriteLine("Connected Successfully");
+		NS = Client.GetStream();
+		SS = new SslStream(NS);
+		BW = new BinaryWriter(SS);
+		Task.Run(() => ConnectTest());
+		Console.WriteLine("Connected");
 	}
 
 	private static void CommandInterface(string Command)
@@ -62,7 +74,6 @@ class Program
 			default:
 				Console.WriteLine("Unknown command!");
 				break;
-
 		}
 	}
 
