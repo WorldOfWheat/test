@@ -40,8 +40,11 @@ namespace WinFormsApp1
             byte[] IV = aes.IV;
             byte[] HMAC_PlainText = new byte[32];
             rng.GetBytes(HMAC_PlainText);
-            hmac.Key = this.InputKey;
+            hmac.Key = InputKey;
             byte[] ProtectKey = hmac.ComputeHash(HMAC_PlainText);
+
+            Debug.WriteLine("Size: " + HMAC_PlainText.Length);
+            Debug.WriteLine(Convert.ToBase64String(HMAC_PlainText));
 
             // make header, 96 bytes
             byte[] Header;
@@ -49,17 +52,18 @@ namespace WinFormsApp1
             using (BinaryWriter bw = new BinaryWriter(ms))
             {
                 // HMAC PlainText 
-                bw.Write(HMAC_PlainText.Length);
+                bw.Write((byte) HMAC_PlainText.Length);
                 bw.Write(HMAC_PlainText);
                 // File Encrypt Key
                 byte[] Encrypted = EncryptBytes(FileEncryptKey, ProtectKey);
-                bw.Write(Encrypted.Length);
+                bw.Write((byte) Encrypted.Length);
                 bw.Write(Encrypted);
                 // IV
                 Encrypted = EncryptBytes(IV, ProtectKey);
-                bw.Write(Encrypted.Length);
+                bw.Write((byte) Encrypted.Length);
                 bw.Write(Encrypted);
 
+                bw.Flush();
                 Header = ms.ToArray();
             }
 
@@ -92,11 +96,38 @@ namespace WinFormsApp1
             using (FileStream fs_OriginalPath = File.OpenRead(OriginalPath))
             using (BinaryReader br = new BinaryReader(fs_OriginalPath))
             using (FileStream fs_Path = File.OpenWrite(Path))
+            using (BinaryWriter bw = new BinaryWriter(fs_Path))
             using (CryptoStream cs = new CryptoStream(fs_Path, Encryptor, CryptoStreamMode.Write))
             {
-                cs.Write(br.ReadBytes((int) br.BaseStream.Length));
-                cs.Flush();
+                bw.Flush();
             }
+        }
+
+        public void DecryptFile(string OriginalPath)
+        {
+            OriginalPath =
+                OriginalPath.Remove(OriginalPath.LastIndexOf('\\')) +
+                "\\ENC_" +
+                OriginalPath.Substring(OriginalPath.LastIndexOf('\\') + 1);
+
+            if (InputKey == null || InputKey.Length == 0)
+            {
+                throw new ArgumentNullException("InputKey");
+            }
+            if (!File.Exists(OriginalPath))
+            {
+                throw new ArgumentNullException("Path");
+            }
+
+            byte[] HMAC_PlainText = new byte[32];
+            using (FileStream fs_Original = File.OpenRead(OriginalPath))
+            using (BinaryReader bw = new BinaryReader(fs_Original))
+            {
+                int Size = bw.ReadByte();
+                Debug.WriteLine("Size: " + Size);
+                HMAC_PlainText = bw.ReadBytes(Size);
+            }
+            Debug.WriteLine(Convert.ToBase64String(HMAC_PlainText));
         }
     }
 }

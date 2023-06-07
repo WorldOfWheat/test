@@ -32,8 +32,14 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            EncryptPack ep = new EncryptPack(new byte[2]{0x1, 0x2});
+            EncryptPack ep = new EncryptPack(new byte[2] { 0x1, 0x2 });
             ep.EncryptFile(label1.Text);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            EncryptPack ep = new EncryptPack(new byte[2] { 0x1, 0x2 });
+            ep.DecryptFile(label1.Text);
         }
     }
 }
