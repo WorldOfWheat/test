@@ -29,12 +29,14 @@
         private void InitializeComponent()
         {
             tableLayoutPanel1 = new TableLayoutPanel();
-            button3 = new Button();
-            label1 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            textBox1 = new TextBox();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            labelSelectPaths = new Label();
+            buttonExecuteEncrypt = new Button();
+            buttonExecuteDecrypt = new Button();
+            textBoxPassword = new TextBox();
+            buttonSelectFile = new Button();
             tableLayoutPanel1.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -42,90 +44,110 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Controls.Add(button3, 0, 3);
-            tableLayoutPanel1.Controls.Add(label1, 0, 1);
-            tableLayoutPanel1.Controls.Add(button1, 0, 2);
-            tableLayoutPanel1.Controls.Add(button2, 1, 2);
-            tableLayoutPanel1.Controls.Add(textBox1, 0, 0);
+            tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 1);
+            tableLayoutPanel1.Controls.Add(buttonExecuteEncrypt, 0, 3);
+            tableLayoutPanel1.Controls.Add(buttonExecuteDecrypt, 1, 3);
+            tableLayoutPanel1.Controls.Add(textBoxPassword, 0, 2);
+            tableLayoutPanel1.Controls.Add(buttonSelectFile, 0, 0);
             tableLayoutPanel1.Location = new Point(12, 11);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 4;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25.0626545F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25.0626583F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25.0626583F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 24.8120327F));
-            tableLayoutPanel1.Size = new Size(378, 268);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25.50844F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50.6698875F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 8.620703F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15.2009668F));
+            tableLayoutPanel1.Size = new Size(378, 401);
             tableLayoutPanel1.TabIndex = 0;
             // 
-            // button3
+            // flowLayoutPanel1
             // 
-            tableLayoutPanel1.SetColumnSpan(button3, 2);
-            button3.Location = new Point(3, 204);
-            button3.Name = "button3";
-            button3.Size = new Size(372, 61);
-            button3.TabIndex = 3;
-            button3.Text = "button3";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
+            tableLayoutPanel1.SetColumnSpan(flowLayoutPanel1, 2);
+            flowLayoutPanel1.Controls.Add(labelSelectPaths);
+            flowLayoutPanel1.Location = new Point(3, 105);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(372, 197);
+            flowLayoutPanel1.TabIndex = 1;
             // 
-            // label1
+            // labelSelectPaths
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 67);
-            label1.Name = "label1";
-            label1.Size = new Size(49, 18);
-            label1.TabIndex = 2;
-            label1.Text = "label1";
+            labelSelectPaths.AutoSize = true;
+            labelSelectPaths.Font = new Font("PMingLiU", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            labelSelectPaths.Location = new Point(3, 0);
+            labelSelectPaths.Name = "labelSelectPaths";
+            labelSelectPaths.Size = new Size(45, 16);
+            labelSelectPaths.TabIndex = 0;
+            labelSelectPaths.Text = "label1";
             // 
-            // button1
+            // buttonExecuteEncrypt
             // 
-            button1.Location = new Point(3, 137);
-            button1.Name = "button1";
-            button1.Size = new Size(183, 38);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonExecuteEncrypt.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonExecuteEncrypt.Location = new Point(3, 342);
+            buttonExecuteEncrypt.Name = "buttonExecuteEncrypt";
+            buttonExecuteEncrypt.Size = new Size(183, 56);
+            buttonExecuteEncrypt.TabIndex = 0;
+            buttonExecuteEncrypt.Text = "加密";
+            buttonExecuteEncrypt.UseVisualStyleBackColor = true;
+            buttonExecuteEncrypt.Click += button1_Click;
             // 
-            // button2
+            // buttonExecuteDecrypt
             // 
-            button2.Location = new Point(192, 137);
-            button2.Name = "button2";
-            button2.Size = new Size(183, 38);
-            button2.TabIndex = 1;
-            button2.Text = "button2";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            buttonExecuteDecrypt.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonExecuteDecrypt.Location = new Point(192, 342);
+            buttonExecuteDecrypt.Name = "buttonExecuteDecrypt";
+            buttonExecuteDecrypt.Size = new Size(183, 56);
+            buttonExecuteDecrypt.TabIndex = 1;
+            buttonExecuteDecrypt.Text = "解密";
+            buttonExecuteDecrypt.UseVisualStyleBackColor = true;
+            buttonExecuteDecrypt.Click += button2_Click;
             // 
-            // textBox1
+            // textBoxPassword
             // 
-            tableLayoutPanel1.SetColumnSpan(textBox1, 2);
-            textBox1.Location = new Point(3, 3);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(372, 25);
-            textBox1.TabIndex = 4;
+            tableLayoutPanel1.SetColumnSpan(textBoxPassword, 2);
+            textBoxPassword.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            textBoxPassword.Location = new Point(3, 308);
+            textBoxPassword.Name = "textBoxPassword";
+            textBoxPassword.PasswordChar = '*';
+            textBoxPassword.Size = new Size(372, 28);
+            textBoxPassword.TabIndex = 4;
+            // 
+            // buttonSelectFile
+            // 
+            tableLayoutPanel1.SetColumnSpan(buttonSelectFile, 2);
+            buttonSelectFile.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            buttonSelectFile.Location = new Point(3, 3);
+            buttonSelectFile.Name = "buttonSelectFile";
+            buttonSelectFile.Size = new Size(372, 96);
+            buttonSelectFile.TabIndex = 5;
+            buttonSelectFile.Text = "選取檔案";
+            buttonSelectFile.UseVisualStyleBackColor = true;
+            buttonSelectFile.Click += buttonSelectFile_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(416, 405);
+            ClientSize = new Size(885, 448);
             Controls.Add(tableLayoutPanel1);
             Name = "Form1";
             Text = "檔案加密工具";
             Load += Form1_Load;
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            flowLayoutPanel1.ResumeLayout(false);
+            flowLayoutPanel1.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private Button button1;
-        private Button button2;
-        private Label label1;
-        private Button button3;
-        private TextBox textBox1;
+        private Button buttonExecuteEncrypt;
+        private TextBox textBoxPassword;
+        private Button buttonSelectFile;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Label labelSelectPaths;
+        private Button buttonExecuteDecrypt;
     }
 }

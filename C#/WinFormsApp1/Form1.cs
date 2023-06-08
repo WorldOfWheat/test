@@ -5,6 +5,8 @@ namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
+        private string[] selectPaths;
+
         public Form1()
         {
             InitializeComponent();
@@ -12,51 +14,99 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.InitialDirectory = @"C:\Users\USER\Desktop";
-            openFileDialog1.FilterIndex = 0;
-            openFileDialog1.RestoreDirectory = true;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string selectedFileName = openFileDialog1.FileName;
-                label1.Text = selectedFileName;
-            }
-            Debug.WriteLine(openFileDialog1.FileName);
+            labelSelectPaths.Text = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0 || textBox1.Text == "")
+            if (textBoxPassword.Text.Length == 0 || textBoxPassword.Text == "")
             {
                 return;
             }
-            byte[] inputKey = Encoding.UTF8.GetBytes(textBox1.Text);
-            Task.Run(() =>
+            if (!VerifyPasswordAndMessageBox())
             {
-                EncryptPack ep = new EncryptPack(inputKey);
-                ep.EncryptFile(label1.Text);
-            });
+                return;
+            }
+            byte[] inputKey = Encoding.UTF8.GetBytes(textBoxPassword.Text);
+            foreach (var i in selectPaths)
+            {
+                Task.Run(() =>
+                {
+                    EncryptPack ep = new EncryptPack(inputKey);
+                    ep.EncryptFile(i);
+                });
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0 || textBox1.Text == "")
+            if (textBoxPassword.Text.Length == 0 || textBoxPassword.Text == "")
             {
                 return;
             }
-            byte[] inputKey = Encoding.UTF8.GetBytes(textBox1.Text);
-            Task.Run(() =>
+            byte[] inputKey = Encoding.UTF8.GetBytes(textBoxPassword.Text);
+            foreach (var i in selectPaths)
             {
-                EncryptPack ep = new EncryptPack(inputKey);
-                ep.DecryptFile(label1.Text);
-            });
+                Task.Run(() =>
+                {
+                    EncryptPack ep = new EncryptPack(inputKey);
+                    ep.DecryptFile(i);
+                });
+            }
+        }
+
+        private void buttonSelectFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog selectFile = new OpenFileDialog();
+
+            selectFile.InitialDirectory = @"C:\Users\USER\Desktop";
+            selectFile.FilterIndex = 0;
+            selectFile.RestoreDirectory = true;
+            selectFile.Multiselect = true;
+
+            if (selectFile.ShowDialog() == DialogResult.OK)
+            {
+                selectPaths = selectFile.FileNames;
+            }
+            ShowSelectFiles();
+        }
+
+        private void ShowSelectFiles()
+        {
+            labelSelectPaths.Text = "";
+            if (selectPaths == null || selectPaths.Length == 0)
+            {
+                return;
+            }
+            foreach (var i in selectPaths)
+            {
+                labelSelectPaths.Text += $"{i}\n";
+            }
+        }
+
+        private bool VerifyPasswordAndMessageBox()
+        {
+            string password = textBoxPassword.Text;
+            bool useOrNot = true;
+            if (password.Length < 8)
+            {
+                DialogResult dialogResult = MessageBox.Show("你輸入的密碼長度過短！\n請問是否仍要使用？", "弱密碼警告", MessageBoxButtons.YesNo);
+                useOrNot &= dialogResult ==  DialogResult.Yes;
+            }
+            bool hasDigit = false;
+            bool hasLetter = false;
+            foreach (var i in password)
+            {
+                hasDigit |= char.IsDigit(i);
+                hasLetter |= char.IsLetter(i);
+            }
+            if (hasDigit ^ hasLetter)
+            {
+                DialogResult dialogResult = MessageBox.Show("密碼應包含數字和字母！\n請問是否仍要使用？", "弱密碼警告", MessageBoxButtons.YesNo);
+                useOrNot &= dialogResult ==  DialogResult.Yes;
+            }
+
+            return useOrNot;
         }
     }
 }
