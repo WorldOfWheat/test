@@ -5,129 +5,207 @@ namespace WinFormsApp1
 {
     class EncryptPack
     {
-        private Aes aes = Aes.Create();
-        private HMACSHA256 hmac = new HMACSHA256();
-        private RandomNumberGenerator rng = RandomNumberGenerator.Create();
+        private readonly Aes aes = Aes.Create();
+        private readonly HMACSHA256 hmac = new HMACSHA256();
+        private readonly RandomNumberGenerator rng = RandomNumberGenerator.Create();
 
-        private byte[] InputKey;
+        private readonly byte[] inputKey;
 
-        private byte[] EncryptBytes(byte[] Plain, byte[] Key)
+        public EncryptPack(byte[] inputKey)
         {
-            Aes aes2 = Aes.Create();
-            aes2.Key = Key;
-            byte[] Cipher = aes2.EncryptEcb(Plain, PaddingMode.Zeros);
-            return Cipher;
-        }
-
-        public EncryptPack(byte[] InputKey)
-        {
-            this.InputKey = new byte[InputKey.Length];
-            this.InputKey = InputKey;
+            // if inputKey is not null then this.inputKey = key
+            // if inputKey is null then throw new...
+            this.inputKey = inputKey ?? throw new ArgumentNullException(nameof(inputKey));
             aes.KeySize = 256;
         }
-
-        public void EncryptFile(string OriginalPath)
+        public void DecryptFile(string originalPath)
         {
-            if (InputKey == null || InputKey.Length == 0)
+            if (inputKey == null || inputKey.Length == 0)
             {
-                throw new ArgumentNullException("InputKey");
+                throw new ArgumentException("InputKey cannot be empty.", nameof(inputKey));
             }
+
+            string decryptPath = GetDecryptPath(originalPath);
+            Debug.WriteLine(decryptPath);
+
+            byte[] hmacPlainText;
+            byte[] encryptedFileEncryptKey;
+            byte[] encryptedIV;
+            int sumOfSize = 0;
+            using (FileStream fsOriginal = File.OpenRead(originalPath))
+            using (BinaryReader bw = new BinaryReader(fsOriginal))
+            {
+                // HMAC PlainText
+                int Size = bw.ReadByte();
+                sumOfSize += Size;
+                hmacPlainText = new byte[Size];
+                hmacPlainText = bw.ReadBytes(Size);
+                // File Encrypt Key
+                Size = bw.ReadByte();
+                sumOfSize += Size;
+                encryptedFileEncryptKey = new byte[Size];
+                encryptedFileEncryptKey = bw.ReadBytes(Size);
+                // IV
+                Size = bw.ReadByte();
+                sumOfSize += Size;
+                encryptedIV = new byte[Size];
+                encryptedIV = bw.ReadBytes(Size);
+            }
+            hmac.Key = inputKey;
+            byte[] protectKey = hmac.ComputeHash(hmacPlainText);
+            byte[] fileEncryptKey = DecryptBytes(encryptedFileEncryptKey, protectKey);
+            byte[] iv = DecryptBytes(encryptedIV, protectKey);
+
+            // Debug.WriteLine($"HMAC PlainText: {Convert.ToBase64String(hmacPlainText)}\n" +
+            //                 $"Protect Key: {Convert.ToBase64String(protectKey)}\n" +
+            //                 $"File Encrypt Key: {Convert.ToBase64String(fileEncryptKey)}\n" +
+            //                 $"IV: {Convert.ToBase64String(iv)}");
+
+            aes.Key = fileEncryptKey;
+            aes.IV = iv;
+            aes.Padding = PaddingMode.PKCS7;
+            DecryptMainDataAndWrite(originalPath, decryptPath);
+        }
+
+        public void EncryptFile(string originalPath)
+        {
+            if (inputKey == null || inputKey.Length == 0)
+            {
+                throw new ArgumentException("InputKey cannot be empty.", nameof(inputKey));
+            }
+
+            string encryptFilePath = GetEncryptPath(originalPath);
 
             aes.GenerateKey();
             aes.GenerateIV();
-            aes.Padding = PaddingMode.Zeros;
-            byte[] FileEncryptKey = aes.Key;
-            byte[] IV = aes.IV;
-            byte[] HMAC_PlainText = new byte[32];
-            rng.GetBytes(HMAC_PlainText);
-            hmac.Key = InputKey;
-            byte[] ProtectKey = hmac.ComputeHash(HMAC_PlainText);
+            aes.Padding = PaddingMode.PKCS7;
+            byte[] fileEncryptKey = aes.Key;
+            byte[] iv = aes.IV;
+            byte[] hmacPlainText = new byte[32];
+            rng.GetBytes(hmacPlainText);
+            hmac.Key = inputKey;
+            byte[] protectKey = hmac.ComputeHash(hmacPlainText);
 
-            Debug.WriteLine("Size: " + HMAC_PlainText.Length);
-            Debug.WriteLine(Convert.ToBase64String(HMAC_PlainText));
+            // Debug.WriteLine($"HMAC PlainText: {Convert.ToBase64String(hmacPlainText)}\n" +
+            //                 $"Protect Key: {Convert.ToBase64String(protectKey)}\n" +
+            //                 $"File Encrypt Key: {Convert.ToBase64String(fileEncryptKey)}\n" +
+            //                 $"IV: {Convert.ToBase64String(iv)}");
 
-            // make header, 96 bytes
-            byte[] Header;
+            byte[] header = CreateHeader(hmacPlainText, protectKey, fileEncryptKey, iv);
+            WriteHeader(header, encryptFilePath);
+            EncryptMainDataAndWrite(originalPath, encryptFilePath);
+        }
+
+        private byte[] CreateHeader(byte[] hmacPlainText, byte[] protectKey, byte[] fileEncryptKey, byte[] iv)
+        {
             using (MemoryStream ms = new MemoryStream())
             using (BinaryWriter bw = new BinaryWriter(ms))
             {
                 // HMAC PlainText 
-                bw.Write((byte) HMAC_PlainText.Length);
-                bw.Write(HMAC_PlainText);
+                bw.Write((byte) hmacPlainText.Length);
+                bw.Write(hmacPlainText);
                 // File Encrypt Key
-                byte[] Encrypted = EncryptBytes(FileEncryptKey, ProtectKey);
-                bw.Write((byte) Encrypted.Length);
-                bw.Write(Encrypted);
+                byte[] encryptedFileEncryptKey = EncryptBytes(fileEncryptKey, protectKey);
+                bw.Write((byte) encryptedFileEncryptKey.Length);
+                bw.Write(encryptedFileEncryptKey);
                 // IV
-                Encrypted = EncryptBytes(IV, ProtectKey);
-                bw.Write((byte) Encrypted.Length);
-                bw.Write(Encrypted);
+                byte[] encryptedIV = EncryptBytes(iv, protectKey);
+                bw.Write((byte) encryptedIV.Length);
+                bw.Write(encryptedIV);
 
                 bw.Flush();
-                Header = ms.ToArray();
-            }
 
-            // get path
-            string Path =
-                OriginalPath.Remove(OriginalPath.LastIndexOf('\\')) +
-                "\\ENC_" +
-                OriginalPath.Substring(OriginalPath.LastIndexOf('\\') + 1);
-            Debug.WriteLine($"{OriginalPath}\n{Path}");
-            string DirectoryPath = Path.Remove(Path.LastIndexOf('\\'));
-            if (!Directory.Exists(DirectoryPath))
-            {
-                Directory.CreateDirectory(DirectoryPath);
-            }
-            if (!File.Exists(Path))
-            {
-                using (File.Create(Path)) { };
-            }
-
-            // write header
-            using (FileStream fs_Path = File.OpenWrite(Path))
-            using (BinaryWriter bw = new BinaryWriter(fs_Path))
-            {
-                bw.Write(Header);
-                bw.Flush();
-            }
-
-            // write main data
-            ICryptoTransform Encryptor = aes.CreateEncryptor();
-            using (FileStream fs_OriginalPath = File.OpenRead(OriginalPath))
-            using (BinaryReader br = new BinaryReader(fs_OriginalPath))
-            using (FileStream fs_Path = File.OpenWrite(Path))
-            using (BinaryWriter bw = new BinaryWriter(fs_Path))
-            using (CryptoStream cs = new CryptoStream(fs_Path, Encryptor, CryptoStreamMode.Write))
-            {
-                bw.Flush();
+                return ms.ToArray();
             }
         }
 
-        public void DecryptFile(string OriginalPath)
+        private byte[] DecryptBytes(byte[] Cipher, byte[] Key)
         {
-            OriginalPath =
-                OriginalPath.Remove(OriginalPath.LastIndexOf('\\')) +
-                "\\ENC_" +
-                OriginalPath.Substring(OriginalPath.LastIndexOf('\\') + 1);
+            using (Aes aes2 = Aes.Create())
+            {
+                aes2.Key = Key;
+                return aes2.DecryptEcb(Cipher, PaddingMode.PKCS7);
+            }
+        }
 
-            if (InputKey == null || InputKey.Length == 0)
+        private void DecryptMainDataAndWrite(string originalPath, string decryptedPath)
+        {
+            ICryptoTransform decryptor = aes.CreateDecryptor();
+            using (FileStream fsOriginalPath = File.OpenRead(originalPath))
+            using (BinaryReader br = new BinaryReader(fsOriginalPath))
+            using (FileStream fsDecryptedPath = File.OpenWrite(decryptedPath))
+            using (CryptoStream cs = new CryptoStream(fsDecryptedPath, decryptor, CryptoStreamMode.Write))
             {
-                throw new ArgumentNullException("InputKey");
+                fsOriginalPath.Seek(128, SeekOrigin.Begin);
+                br.BaseStream.CopyTo(cs);
+                cs.Flush();
             }
-            if (!File.Exists(OriginalPath))
-            {
-                throw new ArgumentNullException("Path");
-            }
+        }
 
-            byte[] HMAC_PlainText = new byte[32];
-            using (FileStream fs_Original = File.OpenRead(OriginalPath))
-            using (BinaryReader bw = new BinaryReader(fs_Original))
+        private byte[] EncryptBytes(byte[] Plain, byte[] Key)
+        {
+            using (Aes aes2 = Aes.Create())
             {
-                int Size = bw.ReadByte();
-                Debug.WriteLine("Size: " + Size);
-                HMAC_PlainText = bw.ReadBytes(Size);
+                aes2.Key = Key;
+                return aes2.EncryptEcb(Plain, PaddingMode.PKCS7);
             }
-            Debug.WriteLine(Convert.ToBase64String(HMAC_PlainText));
+        }
+
+        private void EncryptMainDataAndWrite(string originalPath, string encryptedPath)
+        {
+            ICryptoTransform encryptor = aes.CreateEncryptor();
+            using (FileStream fsOriginalPath = File.OpenRead(originalPath))
+            using (BinaryReader br = new BinaryReader(fsOriginalPath))
+            using (FileStream fsEncryptedPath = File.OpenWrite(encryptedPath))
+            using (CryptoStream cs = new CryptoStream(fsEncryptedPath, encryptor, CryptoStreamMode.Write))
+            {
+                fsEncryptedPath.Seek(128, SeekOrigin.Begin);
+                br.BaseStream.CopyTo(cs);
+                cs.Flush();
+            }
+        }
+
+        private string GetDecryptPath(string encryptedPath)
+        {
+            if (encryptedPath == null || encryptedPath.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(encryptedPath));
+            }
+            string fileName = Path.GetFileName(encryptedPath);
+            string directoryPath = Path.GetDirectoryName(encryptedPath);
+            if (fileName.StartsWith("ENC_"))
+            {
+                fileName = fileName.Substring(4);
+            }
+            string decryptedFileName = "DEC_" + fileName;
+
+            return Path.Combine(directoryPath, decryptedFileName);
+        }
+
+        private string GetEncryptPath(string originalPath)
+        {
+            if (originalPath == null || originalPath.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(originalPath));
+            }
+            string fileName = Path.GetFileName(originalPath);
+            string directoryPath = Path.GetDirectoryName(originalPath);
+            string encryptedFileName = "ENC_" + fileName;
+            return Path.Combine(directoryPath, encryptedFileName);
+        }
+
+        private void WriteHeader(byte[] header, string path)
+        {
+            using (FileStream fs = File.OpenWrite(path))
+            using (BinaryWriter bw = new BinaryWriter(fs))
+            {
+                bw.Write(header);
+                for (int i = 0; i < 128 - header.Length; i++)
+                {
+                    bw.Write((byte)0x0);
+                }
+                bw.Flush();
+            }
         }
     }
 }

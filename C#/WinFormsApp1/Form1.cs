@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 
 namespace WinFormsApp1
 {
@@ -32,14 +33,30 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            EncryptPack ep = new EncryptPack(new byte[2] { 0x1, 0x2 });
-            ep.EncryptFile(label1.Text);
+            if (textBox1.Text.Length == 0 || textBox1.Text == "")
+            {
+                return;
+            }
+            byte[] inputKey = Encoding.UTF8.GetBytes(textBox1.Text);
+            Task.Run(() =>
+            {
+                EncryptPack ep = new EncryptPack(inputKey);
+                ep.EncryptFile(label1.Text);
+            });
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            EncryptPack ep = new EncryptPack(new byte[2] { 0x1, 0x2 });
-            ep.DecryptFile(label1.Text);
+            if (textBox1.Text.Length == 0 || textBox1.Text == "")
+            {
+                return;
+            }
+            byte[] inputKey = Encoding.UTF8.GetBytes(textBox1.Text);
+            Task.Run(() =>
+            {
+                EncryptPack ep = new EncryptPack(inputKey);
+                ep.DecryptFile(label1.Text);
+            });
         }
     }
 }
