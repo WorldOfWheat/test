@@ -49,14 +49,14 @@
             tableLayoutPanel1.Controls.Add(buttonExecuteDecrypt, 1, 3);
             tableLayoutPanel1.Controls.Add(textBoxPassword, 0, 2);
             tableLayoutPanel1.Controls.Add(buttonSelectFile, 0, 0);
-            tableLayoutPanel1.Location = new Point(12, 11);
+            tableLayoutPanel1.Location = new Point(12, 12);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 4;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25.50844F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50.6698875F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 8.620703F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15.2009668F));
-            tableLayoutPanel1.Size = new Size(378, 401);
+            tableLayoutPanel1.Size = new Size(378, 446);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // flowLayoutPanel1
@@ -65,9 +65,9 @@
             flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
             tableLayoutPanel1.SetColumnSpan(flowLayoutPanel1, 2);
             flowLayoutPanel1.Controls.Add(labelSelectPaths);
-            flowLayoutPanel1.Location = new Point(3, 105);
+            flowLayoutPanel1.Location = new Point(3, 116);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(372, 197);
+            flowLayoutPanel1.Size = new Size(372, 219);
             flowLayoutPanel1.TabIndex = 1;
             // 
             // labelSelectPaths
@@ -76,16 +76,16 @@
             labelSelectPaths.Font = new Font("PMingLiU", 12F, FontStyle.Regular, GraphicsUnit.Point);
             labelSelectPaths.Location = new Point(3, 0);
             labelSelectPaths.Name = "labelSelectPaths";
-            labelSelectPaths.Size = new Size(45, 16);
+            labelSelectPaths.Size = new Size(53, 20);
             labelSelectPaths.TabIndex = 0;
             labelSelectPaths.Text = "label1";
             // 
             // buttonExecuteEncrypt
             // 
             buttonExecuteEncrypt.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonExecuteEncrypt.Location = new Point(3, 342);
+            buttonExecuteEncrypt.Location = new Point(3, 379);
             buttonExecuteEncrypt.Name = "buttonExecuteEncrypt";
-            buttonExecuteEncrypt.Size = new Size(183, 56);
+            buttonExecuteEncrypt.Size = new Size(183, 62);
             buttonExecuteEncrypt.TabIndex = 0;
             buttonExecuteEncrypt.Text = "加密";
             buttonExecuteEncrypt.UseVisualStyleBackColor = true;
@@ -94,9 +94,9 @@
             // buttonExecuteDecrypt
             // 
             buttonExecuteDecrypt.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            buttonExecuteDecrypt.Location = new Point(192, 342);
+            buttonExecuteDecrypt.Location = new Point(192, 379);
             buttonExecuteDecrypt.Name = "buttonExecuteDecrypt";
-            buttonExecuteDecrypt.Size = new Size(183, 56);
+            buttonExecuteDecrypt.Size = new Size(183, 62);
             buttonExecuteDecrypt.TabIndex = 1;
             buttonExecuteDecrypt.Text = "解密";
             buttonExecuteDecrypt.UseVisualStyleBackColor = true;
@@ -106,10 +106,10 @@
             // 
             tableLayoutPanel1.SetColumnSpan(textBoxPassword, 2);
             textBoxPassword.Font = new Font("Microsoft JhengHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBoxPassword.Location = new Point(3, 308);
+            textBoxPassword.Location = new Point(3, 341);
             textBoxPassword.Name = "textBoxPassword";
             textBoxPassword.PasswordChar = '*';
-            textBoxPassword.Size = new Size(372, 28);
+            textBoxPassword.Size = new Size(372, 33);
             textBoxPassword.TabIndex = 4;
             // 
             // buttonSelectFile
@@ -118,7 +118,7 @@
             buttonSelectFile.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
             buttonSelectFile.Location = new Point(3, 3);
             buttonSelectFile.Name = "buttonSelectFile";
-            buttonSelectFile.Size = new Size(372, 96);
+            buttonSelectFile.Size = new Size(372, 107);
             buttonSelectFile.TabIndex = 5;
             buttonSelectFile.Text = "選取檔案";
             buttonSelectFile.UseVisualStyleBackColor = true;
@@ -126,9 +126,9 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 18F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(885, 448);
+            ClientSize = new Size(885, 498);
             Controls.Add(tableLayoutPanel1);
             Name = "Form1";
             Text = "檔案加密工具";

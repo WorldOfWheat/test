@@ -91,7 +91,7 @@ namespace WinFormsApp1
             if (password.Length < 8)
             {
                 DialogResult dialogResult = MessageBox.Show("你輸入的密碼長度過短！\n請問是否仍要使用？", "弱密碼警告", MessageBoxButtons.YesNo);
-                useOrNot &= dialogResult ==  DialogResult.Yes;
+                useOrNot &= dialogResult == DialogResult.Yes;
             }
             bool hasDigit = false;
             bool hasLetter = false;
@@ -103,7 +103,7 @@ namespace WinFormsApp1
             if (hasDigit ^ hasLetter)
             {
                 DialogResult dialogResult = MessageBox.Show("密碼應包含數字和字母！\n請問是否仍要使用？", "弱密碼警告", MessageBoxButtons.YesNo);
-                useOrNot &= dialogResult ==  DialogResult.Yes;
+                useOrNot &= dialogResult == DialogResult.Yes;
             }
 
             return useOrNot;

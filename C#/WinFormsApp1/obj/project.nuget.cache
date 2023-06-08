@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "TuFqfpftZ9FeZa1X9nL/HpF1+iRbr+UidIawpVfZYYmtDS3c27444OBo6TgWp3qmtTk7nGBHZWBC079mZznswA==",
+  "dgSpecHash": "LH67M9xkbsgTSd/k/cxQpRwF0ojWOr/d7odm8sSKEEZQTLXlz4gN8BfaKKsuE7ZqvAaSoVu+e62WG9xfzNWAHg==",
   "success": true,
   "projectFilePath": "D:\\Git\\test\\C#\\WinFormsApp1\\WinFormsApp1.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\USER\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512"
+  ],
   "logs": []
 }
