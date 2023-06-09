@@ -1,0 +1,12 @@
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.AssemblyReference.cache
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WinFormsApp1.Form1.resources
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.Properties.Resources.resources
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.GenerateResource.cache
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CoreCompileInputs.cache
+D:\Git\test\C#\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.exe.config
+D:\Git\test\C#\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.exe
+D:\Git\test\C#\WindowsFormsApp2\bin\Debug\WindowsFormsApp2.pdb
+D:\Git\test\C#\WindowsFormsApp2\bin\Debug\BouncyCastle.Crypto.dll
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CopyComplete
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
