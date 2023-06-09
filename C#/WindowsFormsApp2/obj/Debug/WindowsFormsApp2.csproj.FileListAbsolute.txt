@@ -10,3 +10,4 @@ D:\Git\test\C#\WindowsFormsApp2\bin\Debug\BouncyCastle.Crypto.dll
 D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.CopyComplete
 D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.exe
 D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.pdb
+D:\Git\test\C#\WindowsFormsApp2\obj\Debug\WindowsFormsApp2.csproj.SuggestedBindingRedirects.cache
