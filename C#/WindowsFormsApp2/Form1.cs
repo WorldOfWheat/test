@@ -51,8 +51,8 @@ namespace WinFormsApp1
             {
                 Task.Run(() =>
                 {
-                    EncryptPack ep = new EncryptPack(inputKey);
-                    ep.EncryptFile(i);
+                    EncryptionPackage encryptionPackage = new EncryptionPackage(inputKey);
+                    encryptionPackage.EncryptFile(i);
                 });
             }
         }
@@ -68,8 +68,20 @@ namespace WinFormsApp1
             {
                 Task.Run(() =>
                 {
-                    EncryptPack ep = new EncryptPack(inputKey);
-                    ep.DecryptFile(i);
+                    EncryptionPackage encryptionPackage = new EncryptionPackage(inputKey);
+                    try
+                    {
+                        encryptionPackage.DecryptFile(i);
+                    }
+                    catch (Exception ex) 
+                    {
+                        if (ex.Message == "Input key is wrong!")
+                        {
+
+                            MessageBox.Show("±K½X¿ù»~!", "", MessageBoxButtons.OK);
+                        }
+                        Debug.WriteLine(ex.Message);
+                    }
                 });
             }
         }
@@ -112,5 +124,9 @@ namespace WinFormsApp1
             return useOrNot;
         }
 
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
+            labelSelectPaths.Text = "";
+        }
     }
 }

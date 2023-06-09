@@ -6,27 +6,26 @@ class Program
 {
 	public static void Main(string[] args)
 	{
-		string Path = @"C:\temp\";
-		if (!Directory.Exists(Path))
+		string Path = @"C:\Users\USER\Desktop\TestFile";
+		if (!File.Exists(Path))
 		{
-			Directory.CreateDirectory(Path);
+			File.Create(Path).Close();
 		}
-		if (!File.Exists(Path + "test.txt"))
+		Random rand = new Random();
+		using (FileStream fileStream = File.OpenWrite(Path))
+		using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
 		{
-			File.Create(Path + "test.txt").Close();
-		}
-		Random random = new Random(6);
-		byte[] Data = Encoding.UTF8.GetBytes("abcdefghijklmnopqrstuvwxyz");
-		byte[] Mask = new byte[Data.Length];
-		random.NextBytes(Mask);
-		for (int i = 0; i < Mask.Length; i++)
-		{
-			Data[i] = (byte)(Data[i] ^ Mask[i]);
-		}
-		using (FileStream fs = new FileStream(Path + "test.txt", FileMode.Create, FileAccess.Write))
-		using (BinaryWriter bw = new BinaryWriter(fs))
-		{
-			bw.Write(Data);
+			for (int i = 0; i < 1024; i++)
+			{
+				for (int j = 0; j < 1024; j++)
+				{
+					for (int k = 0; k < 1024; k++)
+					{
+						binaryWriter.Write(rand.Next());
+					}
+				}
+			}
+			binaryWriter.Flush();
 		}
 	}
 }

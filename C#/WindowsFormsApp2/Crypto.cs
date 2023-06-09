@@ -2,49 +2,45 @@
 using Org.BouncyCastle.Crypto.Digests;
 using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Prng;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 
 namespace WinFormsApp1
 {
-    class EncryptPack
+    class EncryptionPackage
     {
-        private readonly IStreamCipher cipher = new ChaChaEngine();
-        private readonly CryptoApiRandomGenerator rng = new CryptoApiRandomGenerator();
+        private readonly IStreamCipher streamCipher = new ChaChaEngine();
+        private readonly CryptoApiRandomGenerator randomGenerator = new CryptoApiRandomGenerator();
 
         private class HeaderData
         {
-            public byte[] keyVerifySalt = new byte[16];
-            public byte[] keyVerifyHash = new byte[32];
-            public byte[] keyDerivationSalt = new byte[16];
-            public byte[] protectKey = new byte[32];
-            public byte[] fileEncryptKey = new byte[32];
+            public byte[] KeyVerifySalt = new byte[16];
+            public byte[] KeyVerifyHash = new byte[32];
+            public byte[] KeyDerivationSalt = new byte[16];
+            public byte[] ProtectKey = new byte[32];
+            public byte[] FileEncryptKey = new byte[32];
 
             public override string ToString()
             {
                 return
-                    $"KeyVerifySalt: {Convert.ToBase64String(keyVerifySalt)}\n" +
-                    $"KeyVerifyHash: {Convert.ToBase64String(keyVerifyHash)}\n" +
-                    $"KeyDerivationSalt: {Convert.ToBase64String(keyDerivationSalt)}\n" +
-                    $"ProtectKey: {Convert.ToBase64String(protectKey)}\n" +
-                    $"FileEncryptKey: {Convert.ToBase64String(fileEncryptKey)}\n";
+                    $"KeyVerifySalt: {Convert.ToBase64String(KeyVerifySalt)}\n" +
+                    $"KeyVerifyHash: {Convert.ToBase64String(KeyVerifyHash)}\n" +
+                    $"KeyDerivationSalt: {Convert.ToBase64String(KeyDerivationSalt)}\n" +
+                    $"ProtectKey: {Convert.ToBase64String(ProtectKey)}\n" +
+                    $"FileEncryptKey: {Convert.ToBase64String(FileEncryptKey)}\n";
             }
         }
 
         private readonly byte[] inputKey;
 
-        public EncryptPack(byte[] inputKey)
+        public EncryptionPackage(byte[] inputKey)
         {
-            // if inputKey is not null then this.inputKey = key
-            // if inputKey is null then throw new...
             this.inputKey = inputKey ?? throw new ArgumentNullException(nameof(inputKey));
         }
-        
+
         public void DecryptFile(string originalPath)
         {
             if (inputKey == null || inputKey.Length == 0)
@@ -55,23 +51,21 @@ namespace WinFormsApp1
             string decryptPath = GetDecryptPath(originalPath);
 
             HeaderData headerData;
-            using (FileStream fs = File.OpenRead(originalPath))
-            using (BinaryReader br = new BinaryReader(fs))
+            using (FileStream fileStream = File.OpenRead(originalPath))
+            using (BinaryReader binaryReader = new BinaryReader(fileStream))
             {
-                headerData = LoadHeaderData(br.ReadBytes(128));
+                headerData = LoadHeaderData(binaryReader.ReadBytes(128));
             }
 
-            Console.WriteLine(headerData.ToString());
-
-            if (!KeyVerify(inputKey, headerData.keyVerifySalt, headerData.keyVerifyHash))
+            if (!KeyVerify(inputKey, headerData.KeyVerifySalt, headerData.KeyVerifyHash))
             {
                 throw new Exception("Input key is wrong!");
             }
 
-            byte[] protectKey = KeyDerivation(inputKey, headerData.keyDerivationSalt);
-            byte[] fileEncryptKey = DecryptBytes(headerData.fileEncryptKey, protectKey);
+            byte[] protectKey = KeyDerivation(inputKey, headerData.KeyDerivationSalt);
+            byte[] fileEncryptKey = DecryptBytes(headerData.FileEncryptKey, protectKey);
 
-            cipher.Init(false, new ParametersWithIV(new KeyParameter(fileEncryptKey), new byte[8]));
+            streamCipher.Init(false, new ParametersWithIV(new KeyParameter(fileEncryptKey), new byte[8]));
             DecryptMainDataAndWrite(originalPath, decryptPath);
         }
 
@@ -85,101 +79,98 @@ namespace WinFormsApp1
             string encryptFilePath = GetEncryptPath(originalPath);
 
             HeaderData headerData = new HeaderData();
-            rng.NextBytes(headerData.keyVerifySalt);
-            rng.NextBytes(headerData.keyDerivationSalt);
-            headerData.protectKey = KeyDerivation(inputKey, headerData.keyDerivationSalt);
-            headerData.keyVerifyHash = KeyDerivation(inputKey, headerData.keyVerifySalt);
-            rng.NextBytes(headerData.fileEncryptKey);
-
-            Console.Write(headerData.ToString() + '\n');
+            randomGenerator.NextBytes(headerData.KeyVerifySalt);
+            randomGenerator.NextBytes(headerData.KeyDerivationSalt);
+            headerData.ProtectKey = KeyDerivation(inputKey, headerData.KeyDerivationSalt);
+            headerData.KeyVerifyHash = KeyDerivation(inputKey, headerData.KeyVerifySalt);
+            randomGenerator.NextBytes(headerData.FileEncryptKey);
 
             byte[] writtenHead = CreateHeader(headerData);
             WriteHeader(writtenHead, encryptFilePath);
 
-            cipher.Init(true, new ParametersWithIV(new KeyParameter(headerData.fileEncryptKey), new byte[8]));
+            streamCipher.Init(true, new ParametersWithIV(new KeyParameter(headerData.FileEncryptKey), new byte[8]));
             EncryptMainDataAndWrite(originalPath, encryptFilePath);
         }
 
         private byte[] CreateHeader(HeaderData headerData)
         {
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
+            using (MemoryStream memoryStream = new MemoryStream())
+            using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream))
             {
-                // key verify salt
-                bw.Write((byte)headerData.keyVerifySalt.Length);
-                bw.Write(headerData.keyVerifySalt);
-                // key verify hash
-                bw.Write((byte)headerData.keyVerifyHash.Length);
-                bw.Write(headerData.keyVerifyHash);
-                // key derivation salt 
-                bw.Write((byte) headerData.keyDerivationSalt.Length);
-                bw.Write(headerData.keyDerivationSalt);
-                // encrypted file encrypt key
-                byte[] encryptedFileEncryptKey = EncryptBytes(headerData.fileEncryptKey, headerData.protectKey);
-                bw.Write((byte) encryptedFileEncryptKey.Length);
-                bw.Write(encryptedFileEncryptKey);
+                binaryWriter.Write((byte)headerData.KeyVerifySalt.Length);
+                binaryWriter.Write(headerData.KeyVerifySalt);
 
-                bw.Flush();
+                binaryWriter.Write((byte)headerData.KeyVerifyHash.Length);
+                binaryWriter.Write(headerData.KeyVerifyHash);
 
-                return ms.ToArray();
+                binaryWriter.Write((byte)headerData.KeyDerivationSalt.Length);
+                binaryWriter.Write(headerData.KeyDerivationSalt);
+
+                byte[] encryptedFileEncryptKey = EncryptBytes(headerData.FileEncryptKey, headerData.ProtectKey);
+                binaryWriter.Write((byte)encryptedFileEncryptKey.Length);
+                binaryWriter.Write(encryptedFileEncryptKey);
+
+                binaryWriter.Flush();
+
+                return memoryStream.ToArray();
             }
         }
 
         private byte[] DecryptBytes(byte[] cipherText, byte[] key)
         {
-            cipher.Init(false, new ParametersWithIV(new KeyParameter(key), new byte[8]));
+            streamCipher.Init(false, new ParametersWithIV(new KeyParameter(key), new byte[8]));
             byte[] plainText = new byte[cipherText.Length];
-            cipher.ProcessBytes(cipherText, 0, cipherText.Length, plainText, 0);
+            streamCipher.ProcessBytes(cipherText, 0, cipherText.Length, plainText, 0);
             return plainText;
         }
 
         private void DecryptMainDataAndWrite(string originalPath, string decryptPath)
         {
-            using (FileStream fsOriginalPath = File.OpenRead(originalPath))
-            using (BinaryReader br = new BinaryReader(fsOriginalPath))
-            using (FileStream fsDecryptPath = File.OpenWrite(decryptPath))
-            using (BinaryWriter bw = new BinaryWriter(fsDecryptPath))
+            using (FileStream originalFileStream = File.OpenRead(originalPath))
+            using (BinaryReader binaryReader = new BinaryReader(originalFileStream))
+            using (FileStream decryptFileStream = File.OpenWrite(decryptPath))
+            using (BinaryWriter binaryWriter = new BinaryWriter(decryptFileStream))
             {
-                fsOriginalPath.Seek(129, SeekOrigin.Begin);
+                originalFileStream.Seek(129, SeekOrigin.Begin);
 
                 byte[] buffer = new byte[16];
                 int bytesRead;
-                while ((bytesRead = br.Read(buffer, 0, buffer.Length)) > 0)
+                while ((bytesRead = binaryReader.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     byte[] plainText = new byte[buffer.Length];
-                    cipher.ProcessBytes(buffer, 0, bytesRead, plainText, 0);
-                    bw.Write(plainText);
+                    streamCipher.ProcessBytes(buffer, 0, bytesRead, plainText, 0);
+                    binaryWriter.Write(plainText);
                 }
-                bw.Flush();
+                binaryWriter.Flush();
             }
         }
 
         private byte[] EncryptBytes(byte[] plainText, byte[] key)
         {
-            cipher.Init(true, new ParametersWithIV(new KeyParameter(key), new byte[8]));
+            streamCipher.Init(true, new ParametersWithIV(new KeyParameter(key), new byte[8]));
             byte[] cipherText = new byte[plainText.Length];
-            cipher.ProcessBytes(plainText, 0, plainText.Length, cipherText, 0);
+            streamCipher.ProcessBytes(plainText, 0, plainText.Length, cipherText, 0);
             return cipherText;
         }
 
         private void EncryptMainDataAndWrite(string originalPath, string encryptPath)
         {
-            using (FileStream fsOriginalPath = File.OpenRead(originalPath))
-            using (BinaryReader br = new BinaryReader(fsOriginalPath))
-            using (FileStream fsEncryptPath = File.OpenWrite(encryptPath))
-            using (BinaryWriter bw = new BinaryWriter(fsEncryptPath))
+            using (FileStream originalFileStream = File.OpenRead(originalPath))
+            using (BinaryReader binaryReader = new BinaryReader(originalFileStream))
+            using (FileStream encryptFileStream = File.OpenWrite(encryptPath))
+            using (BinaryWriter binaryWriter = new BinaryWriter(encryptFileStream))
             {
-                fsEncryptPath.Seek(129, SeekOrigin.Begin);
+                encryptFileStream.Seek(129, SeekOrigin.Begin);
 
                 byte[] buffer = new byte[16];
                 int bytesRead;
-                while ((bytesRead = br.Read(buffer, 0, buffer.Length)) > 0)
+                while ((bytesRead = binaryReader.Read(buffer, 0, buffer.Length)) > 0)
                 {
                     byte[] cipherText = new byte[buffer.Length];
-                    cipher.ProcessBytes(buffer, 0, bytesRead, cipherText, 0);
-                    bw.Write(cipherText);
+                    streamCipher.ProcessBytes(buffer, 0, bytesRead, cipherText, 0);
+                    binaryWriter.Write(cipherText);
                 }
-                bw.Flush();
+                binaryWriter.Flush();
             }
         }
 
@@ -227,16 +218,14 @@ namespace WinFormsApp1
 
             return sha256Hash;
         }
-        
+
         private bool KeyVerify(byte[] key, byte[] salt, byte[] hash)
         {
-            Debug.WriteLine(Convert.ToBase64String(hash));
             byte[] calculatedHash = KeyDerivation(key, salt);
-            Debug.WriteLine(Convert.ToBase64String(calculatedHash));
             for (int i = 0; i < hash.Length; i++)
             {
-                byte xorBuffer = (byte) (hash[i] ^ calculatedHash[i]);
-                if (xorBuffer == 1)
+                byte xorBuffer = (byte)(hash[i] ^ calculatedHash[i]);
+                if (xorBuffer != 0)
                 {
                     return false;
                 }
@@ -244,50 +233,36 @@ namespace WinFormsApp1
             return true;
         }
 
-        private HeaderData LoadHeaderData(byte[] header)
+        private HeaderData LoadHeaderData(byte[] headerBytes)
         {
-            if (header.Length != 128)
+            using (MemoryStream memoryStream = new MemoryStream(headerBytes))
+            using (BinaryReader binaryReader = new BinaryReader(memoryStream))
             {
-                throw new ArgumentException("Header only can be 16 bytes long.", nameof(header));
+                HeaderData headerData = new HeaderData();
+
+                int saltLength = binaryReader.ReadByte();
+                headerData.KeyVerifySalt = binaryReader.ReadBytes(saltLength);
+
+                int hashLength = binaryReader.ReadByte();
+                headerData.KeyVerifyHash = binaryReader.ReadBytes(hashLength);
+
+                int derivationSaltLength = binaryReader.ReadByte();
+                headerData.KeyDerivationSalt = binaryReader.ReadBytes(derivationSaltLength);
+
+                int encryptedKeyLength = binaryReader.ReadByte();
+                headerData.FileEncryptKey = binaryReader.ReadBytes(encryptedKeyLength);
+
+                return headerData;
             }
-
-            HeaderData headerData = new HeaderData();
-
-            using (MemoryStream ms = new MemoryStream())
-            using (BinaryWriter bw = new BinaryWriter(ms))
-            using (BinaryReader br = new BinaryReader(ms))
-            {
-                bw.Write(header);
-                ms.Seek(0, SeekOrigin.Begin);
-
-                // key verify salt
-                int size = br.ReadByte();
-                br.Read(headerData.keyVerifySalt, 0, size);
-                // key verify hash
-                size = br.ReadByte();
-                br.Read(headerData.keyVerifyHash, 0, size);
-                // key derivation salt
-                size = br.ReadByte();
-                br.Read(headerData.keyDerivationSalt, 0, size);
-                // encrypted file encrypt key 
-                size = br.ReadByte();
-                br.Read(headerData.fileEncryptKey, 0, size);
-            }
-
-            return headerData;
         }
 
-        private void WriteHeader(byte[] header, string path)
+        private void WriteHeader(byte[] headerBytes, string encryptFilePath)
         {
-            using (FileStream fs = File.OpenWrite(path))
-            using (BinaryWriter bw = new BinaryWriter(fs))
+            using (FileStream fileStream = File.OpenWrite(encryptFilePath))
+            using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
             {
-                bw.Write(header);
-                for (int i = 0; i < 128 - header.Length; i++)
-                {
-                    bw.Write((byte)0x0);
-                }
-                bw.Flush();
+                binaryWriter.Write(headerBytes);
+                binaryWriter.Flush();
             }
         }
     }
