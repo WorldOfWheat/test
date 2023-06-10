@@ -128,5 +128,33 @@ namespace WinFormsApp1
         {
             labelSelectPaths.Text = "";
         }
+
+        private void bitsSelect_256_CheckStateChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void bitsSelect_128_CheckStateChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void extraEntropy_Enter(object sender, EventArgs e)
+        {
+            byte[] textBytes = Encoding.Unicode.GetBytes(extraEntropy.Text);
+            string textHex = BitConverter.ToString(textBytes).Replace("-", "");
+            if (0 == string.Compare(textHex, "CB8A28571990E18853620A4E004E9B4E71677F890CFF604F0D4E00978189188A975F604F388F6551864EC04EBC9E0230"))
+            {
+                extraEntropy.Text = "";
+            }
+        }
+
+        private void extraEntropy_Leave(object sender, EventArgs e)
+        {
+            if (extraEntropy.Text == "" || extraEntropy.Text.Length == 0)
+            {
+                extraEntropy.Text = "請在這裡打上一些東西，你不需要記得你輸入了什麼。";
+            }
+        }
     }
 }

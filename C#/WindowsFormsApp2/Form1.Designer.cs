@@ -40,11 +40,16 @@ namespace WinFormsApp1
             this.buttonSelectFile = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.deleteOriginalFile = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.cipher = new System.Windows.Forms.ComboBox();
+            this.prefixUse = new System.Windows.Forms.CheckBox();
+            this.cipherSelect = new System.Windows.Forms.ComboBox();
+            this.keySize_128 = new System.Windows.Forms.RadioButton();
+            this.keySize_256 = new System.Windows.Forms.RadioButton();
+            this.cipherBitsSelectGroup = new System.Windows.Forms.GroupBox();
+            this.extraEntropy = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.cipherBitsSelectGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -141,63 +146,126 @@ namespace WinFormsApp1
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.checkBox1, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.deleteOriginalFile, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.cipher, 0, 0);
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.cipherSelect, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.prefixUse, 0, 3);
+            this.tableLayoutPanel2.Controls.Add(this.cipherBitsSelectGroup, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.deleteOriginalFile, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.extraEntropy, 0, 4);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(310, 7);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 5;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(200, 222);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.38461F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.38461F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.38461F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.38461F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.46154F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(260, 349);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // deleteOriginalFile
             // 
+            this.deleteOriginalFile.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.deleteOriginalFile.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.deleteOriginalFile, 2);
             this.deleteOriginalFile.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.deleteOriginalFile.Location = new System.Drawing.Point(3, 47);
+            this.deleteOriginalFile.Location = new System.Drawing.Point(3, 122);
             this.deleteOriginalFile.Name = "deleteOriginalFile";
             this.deleteOriginalFile.Size = new System.Drawing.Size(122, 20);
             this.deleteOriginalFile.TabIndex = 0;
             this.deleteOriginalFile.Text = "是否刪除原檔";
             this.deleteOriginalFile.UseVisualStyleBackColor = true;
             // 
-            // checkBox1
+            // prefixUse
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox1.Location = new System.Drawing.Point(3, 91);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(154, 36);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "是否使用檔名前綴\r\nENC_、DEC_";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.prefixUse.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.prefixUse.AutoSize = true;
+            this.tableLayoutPanel2.SetColumnSpan(this.prefixUse, 2);
+            this.prefixUse.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.prefixUse.Location = new System.Drawing.Point(3, 167);
+            this.prefixUse.Name = "prefixUse";
+            this.prefixUse.Size = new System.Drawing.Size(154, 36);
+            this.prefixUse.TabIndex = 1;
+            this.prefixUse.Text = "是否使用檔名前綴\r\nENC_、DEC_";
+            this.prefixUse.UseVisualStyleBackColor = true;
             // 
-            // cipher
+            // cipherSelect
             // 
-            this.cipher.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.cipher.FormattingEnabled = true;
-            this.cipher.Items.AddRange(new object[] {
+            this.cipherSelect.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tableLayoutPanel2.SetColumnSpan(this.cipherSelect, 2);
+            this.cipherSelect.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cipherSelect.FormattingEnabled = true;
+            this.cipherSelect.Items.AddRange(new object[] {
             "AES",
             "Twofish",
             "ChaCha20",
             "Camellia"});
-            this.cipher.Location = new System.Drawing.Point(3, 3);
-            this.cipher.Name = "cipher";
-            this.cipher.Size = new System.Drawing.Size(121, 24);
-            this.cipher.TabIndex = 2;
+            this.cipherSelect.Location = new System.Drawing.Point(3, 16);
+            this.cipherSelect.Name = "cipherSelect";
+            this.cipherSelect.Size = new System.Drawing.Size(254, 26);
+            this.cipherSelect.TabIndex = 2;
+            // 
+            // keySize_128
+            // 
+            this.keySize_128.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.keySize_128.AutoSize = true;
+            this.keySize_128.Checked = true;
+            this.keySize_128.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.keySize_128.Location = new System.Drawing.Point(19, 16);
+            this.keySize_128.Name = "keySize_128";
+            this.keySize_128.Size = new System.Drawing.Size(53, 22);
+            this.keySize_128.TabIndex = 3;
+            this.keySize_128.TabStop = true;
+            this.keySize_128.Text = "128";
+            this.keySize_128.UseVisualStyleBackColor = true;
+            // 
+            // keySize_256
+            // 
+            this.keySize_256.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.keySize_256.AutoSize = true;
+            this.keySize_256.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.keySize_256.Location = new System.Drawing.Point(121, 16);
+            this.keySize_256.Name = "keySize_256";
+            this.keySize_256.Size = new System.Drawing.Size(53, 22);
+            this.keySize_256.TabIndex = 4;
+            this.keySize_256.Text = "256";
+            this.keySize_256.UseVisualStyleBackColor = true;
+            // 
+            // cipherBitsSelectGroup
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.cipherBitsSelectGroup, 2);
+            this.cipherBitsSelectGroup.Controls.Add(this.keySize_128);
+            this.cipherBitsSelectGroup.Controls.Add(this.keySize_256);
+            this.cipherBitsSelectGroup.Font = new System.Drawing.Font("DFKai-SB", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.cipherBitsSelectGroup.Location = new System.Drawing.Point(3, 56);
+            this.cipherBitsSelectGroup.Name = "cipherBitsSelectGroup";
+            this.cipherBitsSelectGroup.Size = new System.Drawing.Size(200, 47);
+            this.cipherBitsSelectGroup.TabIndex = 2;
+            this.cipherBitsSelectGroup.TabStop = false;
+            this.cipherBitsSelectGroup.Text = "密鑰長度";
+            // 
+            // extraEntropy
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.extraEntropy, 2);
+            this.extraEntropy.Font = new System.Drawing.Font("Arial", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.extraEntropy.Location = new System.Drawing.Point(3, 215);
+            this.extraEntropy.Multiline = true;
+            this.extraEntropy.Name = "extraEntropy";
+            this.extraEntropy.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.extraEntropy.Size = new System.Drawing.Size(254, 131);
+            this.extraEntropy.TabIndex = 3;
+            this.extraEntropy.Text = "請在這裡打上一些東西，你不需要記得你輸入了什麼。";
+            this.extraEntropy.Enter += new System.EventHandler(this.extraEntropy_Enter);
+            this.extraEntropy.Leave += new System.EventHandler(this.extraEntropy_Leave);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(683, 370);
+            this.ClientSize = new System.Drawing.Size(798, 374);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -210,6 +278,8 @@ namespace WinFormsApp1
             this.flowLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.cipherBitsSelectGroup.ResumeLayout(false);
+            this.cipherBitsSelectGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -225,7 +295,11 @@ namespace WinFormsApp1
         private Button buttonExecuteDecrypt;
         private TableLayoutPanel tableLayoutPanel2;
         private CheckBox deleteOriginalFile;
-        private CheckBox checkBox1;
-        private ComboBox cipher;
+        private CheckBox prefixUse;
+        private ComboBox cipherSelect;
+        private RadioButton keySize_128;
+        private RadioButton keySize_256;
+        private GroupBox cipherBitsSelectGroup;
+        private TextBox extraEntropy;
     }
 }
