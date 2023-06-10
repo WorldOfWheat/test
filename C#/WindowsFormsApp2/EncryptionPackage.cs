@@ -9,6 +9,104 @@ using System;
 using System.Diagnostics;
 using System.IO;
 
+class EncryptionDetail
+{
+    public enum Cipher
+    {
+        AES,
+        Twofish,
+        Camellia,
+        ChaCha20,
+    };
+
+    public Cipher CipherSelected
+    {
+        set { CipherSelected = value; }
+        get
+        {
+            return CipherSelected;
+        }
+    }
+
+    public int KeyBits
+    {
+        set
+        {
+            if (value != 128 && value != 256)
+            {
+                throw new ArgumentException(nameof(value));
+            }
+            KeyBits = value;
+        }
+        get
+        {
+            if (KeyBits == 0)
+            {
+                return 128;
+            }
+            return KeyBits;
+        }
+    }
+
+    public byte[] InputKey
+    {
+        set
+        {
+            if (value == null || value.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+            InputKey = value;
+        }
+        get { return InputKey; }
+    }
+
+    public string[] Paths
+    {
+        set
+        {
+            if (value == null || value.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+            Paths = value;
+        }
+        get 
+        {
+            if (Paths == null || Paths.Length == 0)
+            {
+                throw new ArgumentNullException(nameof(Paths));
+            }
+            return Paths; 
+        }
+    }
+
+    public byte[] ExtraEntropy
+    {
+        set { ExtraEntropy = value; }
+        get
+        {
+            if (ExtraEntropy == null)
+            {
+                return new byte[1] { 0x0 };
+            }
+            return ExtraEntropy;
+        }
+    }
+
+    public bool UsePrefix
+    {
+        set { UsePrefix = value; }
+        get { return UsePrefix; }
+    }
+    
+    public bool DeleteOriginalFile
+    {
+        set { DeleteOriginalFile = value; }
+        get { return DeleteOriginalFile; }
+    }
+}
+
 // Class representing an encryption package
 class EncryptionPackage
 {
@@ -16,6 +114,7 @@ class EncryptionPackage
     private readonly IStreamCipher streamCipher = new ChaChaEngine();
     // private readonly IStreamCipher blockCipher;
     private readonly SecureRandom randomGenerator = new SecureRandom();
+    private readonly EncryptionDetail detail;
 
     // Class representing the header data
     private class HeaderData
@@ -38,24 +137,15 @@ class EncryptionPackage
         }
     }
 
-    private readonly byte[] inputKey;
-
     // Constructor for the EncryptionPackage class
-    public EncryptionPackage(byte[] inputKey)
+    public EncryptionPackage(EncryptionDetail detail)
     {
-        // Validate and initialize the input key
-        this.inputKey = inputKey ?? throw new ArgumentNullException(nameof(inputKey));
+        this.detail = detail;
     }
 
     // Method to decrypt a file
     public void DecryptFile(string originalPath)
     {
-        // Check if the input key is empty
-        if (inputKey == null || inputKey.Length == 0)
-        {
-            throw new ArgumentException("Input key cannot be empty.", nameof(inputKey));
-        }
-
         // Get the decrypt path for the file
         string decryptPath = GetDecryptPath(originalPath);
 
@@ -68,13 +158,13 @@ class EncryptionPackage
         }
 
         // Verify the input key
-        if (!KeyVerify(inputKey, headerData.KeyVerifySalt, headerData.KeyVerifyHash))
+        if (!KeyVerify(detail.InputKey, headerData.KeyVerifySalt, headerData.KeyVerifyHash))
         {
             throw new Exception("Input key is wrong!");
         }
 
         // Derive the protection key and decrypt the file encryption key
-        byte[] protectKey = KeyDerivation(inputKey, headerData.KeyDerivationSalt);
+        byte[] protectKey = KeyDerivation(detail.InputKey, headerData.KeyDerivationSalt);
         byte[] fileEncryptKey = DecryptBytes(headerData.FileEncryptKey, protectKey);
 
         // Initialize the stream cipher and decrypt the main data
@@ -85,12 +175,6 @@ class EncryptionPackage
     // Method to encrypt a file
     public void EncryptFile(string originalPath)
     {
-        // Check if the input key is empty
-        if (inputKey == null || inputKey.Length == 0)
-        {
-            throw new ArgumentException("Input key cannot be empty.", nameof(inputKey));
-        }
-
         // Get the encrypt path for the file
         string encryptFilePath = GetEncryptPath(originalPath);
 
@@ -98,8 +182,8 @@ class EncryptionPackage
         HeaderData headerData = new HeaderData();
         randomGenerator.NextBytes(headerData.KeyVerifySalt);
         randomGenerator.NextBytes(headerData.KeyDerivationSalt);
-        headerData.ProtectKey = KeyDerivation(inputKey, headerData.KeyDerivationSalt);
-        headerData.KeyVerifyHash = KeyDerivation(inputKey, headerData.KeyVerifySalt);
+        headerData.ProtectKey = KeyDerivation(detail.InputKey, headerData.KeyDerivationSalt);
+        headerData.KeyVerifyHash = KeyDerivation(detail.InputKey, headerData.KeyVerifySalt);
         randomGenerator.NextBytes(headerData.FileEncryptKey);
 
         // Create the header and write it to the file
@@ -228,7 +312,11 @@ class EncryptionPackage
         }
         string fileName = Path.GetFileName(originalPath);
         string directoryPath = Path.GetDirectoryName(originalPath);
-        string encryptFileName = "ENC_" + fileName;
+        string encryptFileName;
+        if (detail.UsePrefix)
+            encryptFileName = "ENC_" + fileName;
+        else
+            encryptFileName = fileName;
         return Path.Combine(directoryPath, encryptFileName);
     }
 
