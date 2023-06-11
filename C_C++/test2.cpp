@@ -6,6 +6,7 @@ using namespace std;
 int n, m;
 vector<vector<int>> arr;
 vector<vector<int>> dp;
+vector<vector<bool>> visited;
 queue<pair<int, int>> bfs;
 
 signed main() 
@@ -30,6 +31,7 @@ signed main()
     }
 
     dp.resize(n + 1, vector<int>(m + 1, 0));
+    visited.resize(n + 1, vector<bool>(m + 1, 0));
     bfs.push({1, 1});
     while (bfs.size())
     {
@@ -37,11 +39,19 @@ signed main()
         bfs.pop();
         if (f.first != n && arr[f.first + 1][f.second] != 1)
         {
-            bfs.push({f.first + 1, f.second});
+            if (!visited[f.first + 1][f.second])
+            {
+                bfs.push({f.first + 1, f.second});
+                visited[f.first + 1][f.second] = true;
+            }
         }
         if (f.second != m && arr[f.first][f.second + 1] != 1)
         {
-            bfs.push({f.first, f.second + 1});
+            if (!visited[f.first][f.second + 1])
+            {
+                bfs.push({f.first, f.second + 1});
+                visited[f.first][f.second + 1] = true;
+            }
         }
         if (arr[f.first - 1][f.second] == 1)
         {
@@ -67,7 +77,7 @@ signed main()
         // cout << "\n";
     }
 
-    cout << result << endl;
+    cout << result << '\n';
 
     return 0;
 }
