@@ -83,7 +83,7 @@ namespace WinFormsApp1
                         if (ex.Message == "Input key is wrong!")
                         {
 
-                            MessageBox.Show("±K½X¿ù»~!", "", MessageBoxButtons.OK);
+                            MessageBox.Show("å¯†ç¢¼éŒ¯èª¤!", "", MessageBoxButtons.OK);
                         }
                         Debug.WriteLine(ex.Message);
                     }
@@ -114,7 +114,7 @@ namespace WinFormsApp1
         {
             if (extraEntropy.Text == "" || extraEntropy.Text.Length == 0)
             {
-                extraEntropy.Text = "½Ğ¦b³o¸Ì¥´¤W¤@¨ÇªF¦è¡A§A¤£»İ­n°O±o§A¿é¤J¤F¤°»ò¡C";
+                extraEntropy.Text = "è«‹åœ¨é€™è£¡æ‰“ä¸Šä¸€äº›æ±è¥¿ï¼Œä½ ä¸éœ€è¦è¨˜å¾—ä½ è¼¸å…¥äº†ä»€éº¼ã€‚";
             }
         }
 
@@ -134,7 +134,7 @@ namespace WinFormsApp1
         {
             if (password.Text == "" || password.Text.Length == 0)
             {
-                password.Text = "½Ğ¿é¤J±K½X¡Cª`·N¡I¦pªG§Ñ°O«hµLªk¸Ñ±KÀÉ®×¡I";
+                password.Text = "è«‹è¼¸å…¥å¯†ç¢¼ã€‚æ³¨æ„ï¼å¦‚æœå¿˜è¨˜å‰‡ç„¡æ³•è§£å¯†æª”æ¡ˆï¼";
                 password.PasswordChar = '\0';
             }
         }
@@ -171,17 +171,17 @@ namespace WinFormsApp1
             }
             catch
             {
-                MessageBox.Show("½Ğ¿ïÄ¶­n¥[±K©Î¸Ñ±KªºÀÉ®×¡I", "³]©w¿ù»~", MessageBoxButtons.OK);
+                MessageBox.Show("è«‹é¸è­¯è¦åŠ å¯†æˆ–è§£å¯†çš„æª”æ¡ˆï¼", "è¨­å®šéŒ¯èª¤", MessageBoxButtons.OK);
                 return false;
             }
             if (password.Text == "" || password.Text.Length == 0)
             {
-                MessageBox.Show("½Ğ¶ñ¤J±K½X¡I\n±K½X¤£¥i¬°ªÅ¡I", "³]©w¿ù»~", MessageBoxButtons.OK);
+                MessageBox.Show("è«‹å¡«å…¥å¯†ç¢¼ï¼\nå¯†ç¢¼ä¸å¯ç‚ºç©ºï¼", "è¨­å®šéŒ¯èª¤", MessageBoxButtons.OK);
                 return false;
             }
             if (cipherSelect == null)
             {
-                MessageBox.Show("½Ğ¿ïÄ¶¥[±K¤èªk¡I", "³]©w¿ù»~", MessageBoxButtons.OK);
+                MessageBox.Show("è«‹é¸è­¯åŠ å¯†æ–¹æ³•ï¼", "è¨­å®šéŒ¯èª¤", MessageBoxButtons.OK);
                 return false;
             }
 
@@ -194,7 +194,7 @@ namespace WinFormsApp1
             bool useOrNot = true;
             if (password.Length < 8)
             {
-                DialogResult dialogResult = MessageBox.Show("§A¿é¤Jªº±K½Xªø«×¹Lµu¡I\n½Ğ°İ¬O§_¤´­n¨Ï¥Î¡H", "®z±K½XÄµ§i", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("ä½ è¼¸å…¥çš„å¯†ç¢¼é•·åº¦éçŸ­ï¼\nè«‹å•æ˜¯å¦ä»è¦ä½¿ç”¨ï¼Ÿ", "å¼±å¯†ç¢¼è­¦å‘Š", MessageBoxButtons.YesNo);
                 useOrNot &= dialogResult == DialogResult.Yes;
             }
             bool hasDigit = false;
@@ -206,7 +206,7 @@ namespace WinFormsApp1
             }
             if (hasDigit ^ hasLetter)
             {
-                DialogResult dialogResult = MessageBox.Show("±K½XÀ³¥]§t¼Æ¦r©M¦r¥À¡I\n½Ğ°İ¬O§_¤´­n¨Ï¥Î¡H", "®z±K½XÄµ§i", MessageBoxButtons.YesNo);
+                DialogResult dialogResult = MessageBox.Show("å¯†ç¢¼æ‡‰åŒ…å«æ•¸å­—å’Œå­—æ¯ï¼\nè«‹å•æ˜¯å¦ä»è¦ä½¿ç”¨ï¼Ÿ", "å¼±å¯†ç¢¼è­¦å‘Š", MessageBoxButtons.YesNo);
                 useOrNot &= dialogResult == DialogResult.Yes;
             }
 
