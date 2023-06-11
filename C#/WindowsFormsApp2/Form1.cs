@@ -22,16 +22,17 @@ namespace WinFormsApp1
 
         private void buttonSelectFile_Click_1(object sender, EventArgs e)
         {
-            OpenFileDialog selectFile = new OpenFileDialog();
-
-            selectFile.InitialDirectory = @"C:\Users\USER\Desktop";
-            selectFile.FilterIndex = 0;
-            selectFile.RestoreDirectory = true;
-            selectFile.Multiselect = true;
-
-            if (selectFile.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog selectFile = new OpenFileDialog())
             {
-                detail.Paths = selectFile.FileNames;
+                selectFile.InitialDirectory = @"C:\Users\USER\Desktop";
+                selectFile.FilterIndex = 0;
+                selectFile.RestoreDirectory = true;
+                selectFile.Multiselect = true;
+
+                if (selectFile.ShowDialog() == DialogResult.OK)
+                {
+                    detail.Paths = selectFile.FileNames;
+                }
             }
             ShowSelectFiles();
         }

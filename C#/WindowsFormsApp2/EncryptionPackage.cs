@@ -126,11 +126,24 @@ class EncryptionPackage
     // Class representing the header data
     private class HeaderData
     {
-        public byte[] KeyVerifySalt = new byte[16];
-        public byte[] KeyVerifyHash = new byte[32];
-        public byte[] KeyDerivationSalt = new byte[16];
-        public byte[] ProtectKey = new byte[32];
-        public byte[] FileEncryptKey = new byte[32];
+        public HeaderData(int keyBits)
+        {
+            if (keyBits != 128 && keyBits != 256)
+            {
+                throw new ArgumentException(nameof(keyBits));
+            }
+
+            this.KeyVerifySalt = new byte[16];
+            this.KeyVerifyHash = new byte[keyBits / 8];
+            this.KeyDerivationSalt = new byte[16];
+            this.ProtectKey = new byte[keyBits / 8];
+            this.FileEncryptKey = new byte[keyBits / 8];
+        }
+        public byte[] KeyVerifySalt;
+        public byte[] KeyVerifyHash;
+        public byte[] KeyDerivationSalt;
+        public byte[] ProtectKey;
+        public byte[] FileEncryptKey;
 
         // Override the ToString method to provide a string representation of the header data
         public override string ToString()
@@ -177,6 +190,14 @@ class EncryptionPackage
         // Initialize the stream cipher and decrypt the main data
         streamCipher.Init(false, new ParametersWithIV(new KeyParameter(fileEncryptKey), new byte[8]));
         DecryptMainDataAndWrite(originalPath, decryptPath);
+
+        if (detail.DeleteOriginalFile)
+        {
+            File.Delete(originalPath);
+            DirectoryPathSwitch(ref originalPath, ref decryptPath);
+            File.Copy(decryptPath, originalPath);
+            File.Delete(decryptPath);
+        }
     }
 
     // Method to encrypt a file
@@ -186,7 +207,7 @@ class EncryptionPackage
         string encryptFilePath = GetEncryptPath(originalPath);
 
         // Create the header data
-        HeaderData headerData = new HeaderData();
+        HeaderData headerData = new HeaderData(detail.KeyBits);
         randomGenerator.NextBytes(headerData.KeyVerifySalt);
         randomGenerator.NextBytes(headerData.KeyDerivationSalt);
         headerData.ProtectKey = KeyDerivation(detail.InputKey, headerData.KeyDerivationSalt);
@@ -200,6 +221,14 @@ class EncryptionPackage
         // Initialize the stream cipher and encrypt the main data
         streamCipher.Init(true, new ParametersWithIV(new KeyParameter(headerData.FileEncryptKey), new byte[8]));
         EncryptMainDataAndWrite(originalPath, encryptFilePath);
+
+        if (detail.DeleteOriginalFile)
+        {
+            File.Delete(originalPath);
+            DirectoryPathSwitch(ref originalPath, ref encryptFilePath);
+            File.Copy(encryptFilePath, originalPath);
+            File.Delete(encryptFilePath);
+        }
     }
 
     // Method to create the header data
@@ -236,6 +265,23 @@ class EncryptionPackage
         byte[] plainText = new byte[cipherText.Length];
         streamCipher.ProcessBytes(cipherText, 0, cipherText.Length, plainText, 0);
         return plainText;
+    }
+
+    private void DirectoryPathSwitch(ref string path1, ref string path2)
+    {
+        if (path1 == null || path1.Length == 0)
+        {
+            throw new ArgumentNullException(nameof(path1));
+        }
+        if (path2 == null || path2.Length == 0)
+        {
+            throw new ArgumentNullException(nameof(path2));
+        }
+
+        string directoryPath1 = Path.GetDirectoryName(path1);
+        string directoryPath2 = Path.GetDirectoryName(path2);
+        path1 = Path.Combine(directoryPath2, Path.GetFileName(path1));
+        path2 = Path.Combine(directoryPath1, Path.GetFileName(path2));
     }
 
     // Method to decrypt the main data and write it to a file
@@ -299,6 +345,7 @@ class EncryptionPackage
         {
             throw new ArgumentNullException(nameof(encryptPath));
         }
+
         string fileName = Path.GetFileName(encryptPath);
         string directoryPath = Path.GetDirectoryName(encryptPath);
         if (fileName.StartsWith("ENC_"))
@@ -307,7 +354,7 @@ class EncryptionPackage
         }
         string decryptFileName = "DEC_" + fileName;
 
-        return Path.Combine(directoryPath, decryptFileName);
+        return Path.Combine(detail.DeleteOriginalFile ? Path.GetTempPath() : directoryPath, decryptFileName);
     }
 
     // Method to get the encryption path for an original file
@@ -317,14 +364,11 @@ class EncryptionPackage
         {
             throw new ArgumentNullException(nameof(originalPath));
         }
+
         string fileName = Path.GetFileName(originalPath);
         string directoryPath = Path.GetDirectoryName(originalPath);
-        string encryptFileName;
-        if (detail.UsePrefix)
-            encryptFileName = "ENC_" + fileName;
-        else
-            encryptFileName = fileName;
-        return Path.Combine(directoryPath, encryptFileName);
+        string encryptFileName = "ENC_" + fileName;
+        return Path.Combine(detail.DeleteOriginalFile ? Path.GetTempPath() : directoryPath, encryptFileName);
     }
 
     // Method for key derivation
@@ -341,6 +385,13 @@ class EncryptionPackage
         Sha256Digest sha256 = new Sha256Digest();
         sha256.BlockUpdate(bcryptHash, 0, bcryptHash.Length);
         sha256.DoFinal(sha256Hash, 0);
+        if (detail.KeyBits == 128)
+        {
+            for (int i = 16; i < sha256Hash.Length; i++)
+            {
+                sha256Hash[i] ^= sha256Hash[i];
+            }
+        }
 
         return sha256Hash;
     }
@@ -349,6 +400,10 @@ class EncryptionPackage
     private bool KeyVerify(byte[] key, byte[] salt, byte[] hash)
     {
         byte[] calculatedHash = KeyDerivation(key, salt);
+        if (calculatedHash.Length != hash.Length)
+        {
+            return false;
+        }
         for (int i = 0; i < hash.Length; i++)
         {
             byte xorBuffer = (byte)(hash[i] ^ calculatedHash[i]);
@@ -366,7 +421,7 @@ class EncryptionPackage
         using (MemoryStream memoryStream = new MemoryStream(headerBytes))
         using (BinaryReader binaryReader = new BinaryReader(memoryStream))
         {
-            HeaderData headerData = new HeaderData();
+            HeaderData headerData = new HeaderData(detail.KeyBits);
 
             int saltLength = binaryReader.ReadByte();
             headerData.KeyVerifySalt = binaryReader.ReadBytes(saltLength);
