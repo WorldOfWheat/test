@@ -19,15 +19,17 @@ class EncryptionDetail
         ChaCha20,
     };
 
+    private Cipher cipherSelected;
     public Cipher CipherSelected
     {
-        set { CipherSelected = value; }
+        set { cipherSelected = value; }
         get
         {
-            return CipherSelected;
+            return cipherSelected;
         }
     }
 
+    private int keyBits;
     public int KeyBits
     {
         set
@@ -36,18 +38,19 @@ class EncryptionDetail
             {
                 throw new ArgumentException(nameof(value));
             }
-            KeyBits = value;
+            keyBits = value;
         }
         get
         {
-            if (KeyBits == 0)
+            if (keyBits == 0)
             {
                 return 128;
             }
-            return KeyBits;
+            return keyBits;
         }
     }
 
+    private byte[] inputKey;
     public byte[] InputKey
     {
         set
@@ -56,11 +59,12 @@ class EncryptionDetail
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            InputKey = value;
+            inputKey = value;
         }
-        get { return InputKey; }
+        get { return inputKey; }
     }
 
+    private string[] paths;
     public string[] Paths
     {
         set
@@ -69,41 +73,44 @@ class EncryptionDetail
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            Paths = value;
+            paths = value;
         }
         get 
         {
-            if (Paths == null || Paths.Length == 0)
+            if (paths == null || paths.Length == 0)
             {
-                throw new ArgumentNullException(nameof(Paths));
+                throw new ArgumentNullException(nameof(paths));
             }
-            return Paths; 
+            return paths; 
         }
     }
 
+    private byte[] extraEntropy;
     public byte[] ExtraEntropy
     {
-        set { ExtraEntropy = value; }
+        set { extraEntropy = value; }
         get
         {
-            if (ExtraEntropy == null)
+            if (extraEntropy == null)
             {
                 return new byte[1] { 0x0 };
             }
-            return ExtraEntropy;
+            return extraEntropy;
         }
     }
 
+    private bool usePrefix;
     public bool UsePrefix
     {
-        set { UsePrefix = value; }
-        get { return UsePrefix; }
+        set { usePrefix = value; }
+        get { return usePrefix; }
     }
     
+    private bool deleteOriginalFile;
     public bool DeleteOriginalFile
     {
-        set { DeleteOriginalFile = value; }
-        get { return DeleteOriginalFile; }
+        set { deleteOriginalFile = value; }
+        get { return deleteOriginalFile; }
     }
 }
 
