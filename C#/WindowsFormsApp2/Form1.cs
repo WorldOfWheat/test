@@ -6,12 +6,15 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using WindowsFormsApp2;
 
 namespace WinFormsApp1
 {
 public partial class Form1 : Form
 {
     private EncryptionDetail detail = new EncryptionDetail();
+
     public Form1()
     {
         InitializeComponent();
@@ -21,6 +24,7 @@ public partial class Form1 : Form
     private void Form1_Load_1(object sender, EventArgs e)
     {
         labelSelectPaths.Text = "";
+        Control.CheckForIllegalCrossThreadCalls = false; 
     }
 
     // Event handler for the buttonSelectFile click event
@@ -38,7 +42,14 @@ public partial class Form1 : Form
                 detail.Paths = selectFile.FileNames;
             }
         }
-        ShowSelectFiles();
+        Task.Run(() => 
+        { 
+            executeEncrypt.Enabled = false;
+            executeDecrypt.Enabled = false;
+            ShowSelectFilesAndShowProgress(); 
+            executeEncrypt.Enabled = true;
+            executeDecrypt.Enabled = true;
+        });
     }
 
     // Event handler for the buttonExecuteEncrypt click event
@@ -104,6 +115,10 @@ public partial class Form1 : Form
     // Event handler for the extraEntropy Enter event
     private void extraEntropy_Enter(object sender, EventArgs e)
     {
+        if (extraEntropy.Text.Length >= 30)
+        {
+            return;
+        }
         byte[] textBytes = Encoding.Unicode.GetBytes(extraEntropy.Text);
         string textHex = BitConverter.ToString(textBytes).Replace("-", "");
         string hintText = "CB8A28571990E18853620A4E004E9B4E71677F890CFF604F0D4E00978189188A975F604F388F6551864EC04EBC9E0230";
@@ -125,6 +140,10 @@ public partial class Form1 : Form
     // Event handler for the password Enter event
     private void password_Enter(object sender, EventArgs e)
     {
+        if (password.Text.Length >= 30)
+        {
+            return;
+        }
         byte[] passwordBytes = Encoding.Unicode.GetBytes(password.Text);
         string passwordHex = BitConverter.ToString(passwordBytes).Replace("-", "");
         string hintText = "CB8A388F6551C65BBC780230E86C0F6101FF82599C67D85F188A47522171D56CE389C65B946A486801FF";
@@ -155,23 +174,23 @@ public partial class Form1 : Form
     }
 
     // Method to show selected files in the labelSelectPaths label
-    private void ShowSelectFiles()
+    private void ShowSelectFilesAndShowProgress()
     {
-        buttonSelectFile.Text = "檔案讀取中，請稍等！";
-        labelSelectPaths.Text = "";
-        Task.Delay(100).Wait();
         try
         {
-            foreach (var i in detail.Paths)
-            {
-                labelSelectPaths.Text += $"{i}\n";
-            }
+            _= detail.Paths;
         }
-        catch (ArgumentNullException)
+        catch (ArgumentNullException) 
         {
             return;
         }
-        buttonSelectFile.Text = "選取檔案";
+        labelSelectPaths.Text = "";
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < detail.Paths.Length; i++)
+        {
+            stringBuilder.AppendLine(detail.Paths[i]);
+        }
+        labelSelectPaths.Text = stringBuilder.ToString();
     }
 
     // Method to verify input data and display message boxes
