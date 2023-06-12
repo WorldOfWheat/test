@@ -64,6 +64,7 @@ class EncryptionDetail
         get { return inputKey; }
     }
 
+
     private string[] paths;
     public string[] Paths
     {
@@ -117,11 +118,11 @@ class EncryptionDetail
 // Class representing an encryption package
 class EncryptionPackage
 {
+    private readonly EncryptionDetail detail;
     // Private fields
     private readonly IStreamCipher streamCipher = new ChaChaEngine();
     // private readonly IStreamCipher blockCipher;
     private readonly SecureRandom randomGenerator = new SecureRandom();
-    private readonly EncryptionDetail detail;
 
     // Class representing the header data
     private class HeaderData
@@ -161,6 +162,7 @@ class EncryptionPackage
     public EncryptionPackage(EncryptionDetail detail)
     {
         this.detail = detail;
+        randomGenerator.SetSeed(detail.ExtraEntropy);
     }
 
     // Method to decrypt a file
