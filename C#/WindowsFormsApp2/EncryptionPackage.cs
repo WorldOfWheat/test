@@ -194,8 +194,9 @@ class EncryptionPackage
         if (detail.DeleteOriginalFile)
         {
             File.Delete(originalPath);
-            DirectoryPathSwitch(ref originalPath, ref decryptPath);
-            File.Copy(decryptPath, originalPath);
+            // DirectoryPathSwitch(ref originalPath, ref decryptPath);
+            string newPath = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileName(decryptPath));
+            File.Copy(decryptPath, newPath);
             File.Delete(decryptPath);
         }
     }
@@ -225,8 +226,8 @@ class EncryptionPackage
         if (detail.DeleteOriginalFile)
         {
             File.Delete(originalPath);
-            DirectoryPathSwitch(ref originalPath, ref encryptFilePath);
-            File.Copy(encryptFilePath, originalPath);
+            string newPath = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileName(encryptFilePath));
+            File.Copy(encryptFilePath, newPath);
             File.Delete(encryptFilePath);
         }
     }
@@ -265,23 +266,6 @@ class EncryptionPackage
         byte[] plainText = new byte[cipherText.Length];
         streamCipher.ProcessBytes(cipherText, 0, cipherText.Length, plainText, 0);
         return plainText;
-    }
-
-    private void DirectoryPathSwitch(ref string path1, ref string path2)
-    {
-        if (path1 == null || path1.Length == 0)
-        {
-            throw new ArgumentNullException(nameof(path1));
-        }
-        if (path2 == null || path2.Length == 0)
-        {
-            throw new ArgumentNullException(nameof(path2));
-        }
-
-        string directoryPath1 = Path.GetDirectoryName(path1);
-        string directoryPath2 = Path.GetDirectoryName(path2);
-        path1 = Path.Combine(directoryPath2, Path.GetFileName(path1));
-        path2 = Path.Combine(directoryPath1, Path.GetFileName(path2));
     }
 
     // Method to decrypt the main data and write it to a file
@@ -347,14 +331,18 @@ class EncryptionPackage
         }
 
         string fileName = Path.GetFileName(encryptPath);
-        string directoryPath = Path.GetDirectoryName(encryptPath);
         if (fileName.StartsWith("ENC_"))
         {
             fileName = fileName.Substring(4);
         }
+        string directoryPath = Path.GetDirectoryName(encryptPath);
         string decryptFileName = "DEC_" + fileName;
 
-        return Path.Combine(detail.DeleteOriginalFile ? Path.GetTempPath() : directoryPath, decryptFileName);
+        return Path.Combine
+        (
+            detail.DeleteOriginalFile ? Path.GetTempPath() : directoryPath, 
+            detail.UsePrefix ? decryptFileName : fileName
+        );
     }
 
     // Method to get the encryption path for an original file
@@ -366,9 +354,17 @@ class EncryptionPackage
         }
 
         string fileName = Path.GetFileName(originalPath);
+        if (fileName.StartsWith("DEC_"))
+        {
+            fileName = fileName.Substring(4);
+        }
         string directoryPath = Path.GetDirectoryName(originalPath);
         string encryptFileName = "ENC_" + fileName;
-        return Path.Combine(detail.DeleteOriginalFile ? Path.GetTempPath() : directoryPath, encryptFileName);
+        return Path.Combine
+        (
+            detail.DeleteOriginalFile ? Path.GetTempPath() : directoryPath,
+            detail.UsePrefix ? encryptFileName : fileName
+        );
     }
 
     // Method for key derivation

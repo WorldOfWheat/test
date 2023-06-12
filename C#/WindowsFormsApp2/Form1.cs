@@ -145,7 +145,7 @@ namespace WinFormsApp1
 
         private void ShowSelectFiles()
         {
-            labelSelectPaths.Text = "";
+            labelSelectPaths.Text = "檔案讀取中，請稍等！";
             try
             {
                 foreach (var i in detail.Paths)
