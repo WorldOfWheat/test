@@ -28,3 +28,5 @@ D:\Git\test\C#\test2\bin\Debug\net7.0\test.dll
 D:\Git\test\C#\test2\bin\Debug\net7.0\test.pdb
 D:\Git\test\C#\test2\obj\Debug\net7.0\test.genruntimeconfig.cache
 D:\Git\test\C#\test2\obj\Debug\net7.0\ref\test.dll
+D:\Git\test\C#\test2\bin\Debug\net7.0\BouncyCastle.Crypto.dll
+D:\Git\test\C#\test2\obj\Debug\net7.0\test.csproj.CopyComplete

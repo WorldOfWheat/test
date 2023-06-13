@@ -376,23 +376,11 @@ class EncryptionPackage
         {
             throw new ArgumentNullException(nameof(key));
         }
-        // Generate a BCrypt hash of the key with the salt
-        Sha256Digest sha256 = new Sha256Digest();
-        byte[] sha256Buffer = new byte[32];
-        sha256.BlockUpdate(key, 0, key.Length);
-        sha256.DoFinal(sha256Buffer, 0);
-        byte[] bcryptHash = BCrypt.Generate(sha256Buffer, salt, 10);
-        sha256.BlockUpdate(bcryptHash, 0, bcryptHash.Length);
-        sha256.DoFinal(sha256Buffer, 0);
-        if (detail.KeyBits == 128)
-        {
-            for (int i = 16; i < sha256Buffer.Length; i++)
-            {
-                sha256Buffer[i] ^= sha256Buffer[i];
-            }
-        }
+        Pkcs5S2ParametersGenerator generator = new Pkcs5S2ParametersGenerator();
+        generator.Init(key, salt, 10000); 
+        KeyParameter derivedKey = (KeyParameter) generator.GenerateDerivedMacParameters(detail.KeyBits);
 
-        return sha256Buffer;
+        return derivedKey.GetKey();
     }
 
     // Method to verify the input key
