@@ -6,125 +6,49 @@ using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-class EncryptionDetail
+public enum EncryptionAlgorithms
 {
-    public enum Cipher
-    {
-        AES,
-        Twofish,
-        Camellia,
-        ChaCha20,
-    };
+    AES,
+    Twofish,
+    Blowfish,
+    Camellia,
+    ChaCha20,
+    TripleDES,
+};
 
-    private Cipher cipherSelected;
-    public Cipher CipherSelected
-    {
-        set { cipherSelected = value; }
-        get
-        {
-            return cipherSelected;
-        }
-    }
+public class EncryptionParameters
+{
+    public EncryptionAlgorithms EncryptionAlgorithm { get; set; }
+    public byte[] Key { get; set; } 
+    public short KeyLength { get; set; }
+    public byte[] ExtraEntropy { get; set; }
+}
 
-    private int keyBits;
-    public int KeyBits
-    {
-        set
-        {
-            if (value != 128 && value != 256)
-            {
-                throw new ArgumentException(nameof(value));
-            }
-            keyBits = value;
-        }
-        get
-        {
-            if (keyBits == 0)
-            {
-                return 128;
-            }
-            return keyBits;
-        }
-    }
+public class PathParameters
+{
+    public string Path { get; set; } 
+    public bool IfUsePrefix { get; set; }
+    public bool IfDeleteOriginalPath { get; set; }
+}
 
-    private byte[] inputKey;
-    public byte[] InputKey
-    {
-        set
-        {
-            if (value == null || value.Length == 0)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            inputKey = value;
-        }
-        get { return inputKey; }
-    }
-
-
-    private string[] paths;
-    public string[] Paths
-    {
-        set
-        {
-            if (value == null || value.Length == 0)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-            paths = value;
-        }
-        get 
-        {
-            if (paths == null || paths.Length == 0)
-            {
-                throw new ArgumentNullException(nameof(paths));
-            }
-            return paths; 
-        }
-    }
-
-    private byte[] extraEntropy;
-    public byte[] ExtraEntropy
-    {
-        set { extraEntropy = value; }
-        get
-        {
-            if (extraEntropy == null)
-            {
-                return new byte[1] { 0x0 };
-            }
-            return extraEntropy;
-        }
-    }
-
-    private bool usePrefix;
-    public bool UsePrefix
-    {
-        set { usePrefix = value; }
-        get { return usePrefix; }
-    }
-    
-    private bool deleteOriginalFile;
-    public bool DeleteOriginalFile
-    {
-        set { deleteOriginalFile = value; }
-        get { return deleteOriginalFile; }
-    }
+public interface IEncryptionService
+{
+    void EncryptFile(PathParameters pathParameters);
+    void DecryptFile(PathParameters pathParameters);
 }
 
 // Class representing an encryption package
-class EncryptionPackage
+class EncryptionService : IEncryptionService
 {
-    private readonly EncryptionDetail detail;
-    // Private fields
-    private readonly IStreamCipher streamCipher = new ChaChaEngine();
-    // private readonly IStreamCipher blockCipher;
     private readonly SecureRandom randomGenerator = new SecureRandom();
+    private Dictionary<EncryptionAlgorithms, string> encryptionAlgorithmMap;
+    private IBufferedCipher cipher;
+    private EncryptionParameters encryptionParameters;
 
-    // Class representing the header data
     private class HeaderData
     {
         public HeaderData(int keyBits)
@@ -158,15 +82,23 @@ class EncryptionPackage
         }
     }
 
-    // Constructor for the EncryptionPackage class
-    public EncryptionPackage(EncryptionDetail detail)
+    public EncryptionService(EncryptionParameters encryptionParameters)
     {
-        this.detail = detail;
-        randomGenerator.SetSeed(detail.ExtraEntropy);
+        EncryptionParametersCheck(encryptionParameters);
+        this.encryptionParameters = encryptionParameters;
+        encryptionAlgorithmMap = new Dictionary<EncryptionAlgorithms, string>()
+        {
+            { EncryptionAlgorithms.AES, "AES" },
+            { EncryptionAlgorithms.Blowfish, "Blowfish" },
+            { EncryptionAlgorithms.Camellia, "Camellia" },
+            { EncryptionAlgorithms.ChaCha20, "ChaCha20" },
+            { EncryptionAlgorithms.TripleDES, "DESede" },
+            { EncryptionAlgorithms.Twofish, "Twofish" }
+        };
     }
 
     // Method to decrypt a file
-    public void DecryptFile(string originalPath)
+    void DecryptFile(string originalPath)
     {
         // Get the decrypt path for the file
         string decryptPath = GetDecryptPath(originalPath);
@@ -204,31 +136,31 @@ class EncryptionPackage
     }
 
     // Method to encrypt a file
-    public void EncryptFile(string originalPath)
+    void EncryptFile(PathParameters pathParameters)
     {
-        // Get the encrypt path for the file
-        string encryptFilePath = GetEncryptPath(originalPath);
+        PathParametersCheck(pathParameters);
+
+        string encryptFilePath = GetEncryptPath(pathParameters.Path);
 
         // Create the header data
-        HeaderData headerData = new HeaderData(detail.KeyBits);
+        HeaderData headerData = new HeaderData(encryptionParameters.KeyLength);
         randomGenerator.NextBytes(headerData.KeyVerifySalt);
         randomGenerator.NextBytes(headerData.KeyDerivationSalt);
-        headerData.ProtectKey = KeyDerivation(detail.InputKey, headerData.KeyDerivationSalt);
-        headerData.KeyVerifyHash = KeyDerivation(detail.InputKey, headerData.KeyVerifySalt);
+        headerData.ProtectKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt);
+        headerData.KeyVerifyHash = KeyDerivation(encryptionParameters.Key, headerData.KeyVerifySalt);
         randomGenerator.NextBytes(headerData.FileEncryptKey);
 
         // Create the header and write it to the file
         byte[] writtenHead = CreateHeader(headerData);
         WriteHeader(writtenHead, encryptFilePath);
 
-        // Initialize the stream cipher and encrypt the main data
-        streamCipher.Init(true, new ParametersWithIV(new KeyParameter(headerData.FileEncryptKey), new byte[8]));
-        EncryptMainDataAndWrite(originalPath, encryptFilePath);
+        cipher.Init(true, new ParametersWithIV(new KeyParameter(headerData.FileEncryptKey), new byte[8]));
+        EncryptMainDataAndWrite(pathParameters.Path, encryptFilePath);
 
-        if (detail.DeleteOriginalFile)
+        if (pathParameters.IfDeleteOriginalPath)
         {
-            File.Delete(originalPath);
-            string newPath = Path.Combine(Path.GetDirectoryName(originalPath), Path.GetFileName(encryptFilePath));
+            File.Delete(pathParameters.Path);
+            string newPath = Path.Combine(Path.GetDirectoryName(pathParameters.Path), Path.GetFileName(encryptFilePath));
             File.Copy(encryptFilePath, newPath);
             File.Delete(encryptFilePath);
         }
@@ -426,6 +358,34 @@ class EncryptionPackage
         }
     }
 
+    private void EncryptionParametersCheck(EncryptionParameters parameters)
+    {
+        if (parameters.Key == null || parameters.Key.Length == 0)
+        {
+            throw new ArgumentNullException(nameof(parameters.Key));
+        }
+        if (parameters.KeyLength != (short) 128 && parameters.KeyLength != (short) 256)
+        {
+            throw new ArgumentException("Invalid key length", nameof(parameters.Key));
+        }
+    }
+
+    private void PathParametersCheck(PathParameters parameters)
+    {
+        if (parameters == null)
+        {
+            throw new ArgumentNullException(nameof(parameters));
+        }
+        if (string.IsNullOrEmpty(parameters.FileName))
+        {
+            throw new ArgumentNullException(nameof(parameters.FileName));
+        }
+    }
+
+    private void SetEncryptionAlgorithm(EncryptionAlgorithms encryptionAlgorithm)
+    {
+        cipher = CipherUtilities.GetCipher(encryptionAlgorithmMap[encryptionAlgorithm]);
+    }
     // Method to write the header data to a file
     private void WriteHeader(byte[] headerBytes, string filePath)
     {
@@ -437,4 +397,5 @@ class EncryptionPackage
             binaryWriter.Flush();
         }
     }
+
 }
