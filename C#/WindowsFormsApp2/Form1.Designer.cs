@@ -39,7 +39,7 @@ namespace WinFormsApp1
             this.executeDecrypt = new System.Windows.Forms.Button();
             this.buttonSelectFile = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.cipherSelect = new System.Windows.Forms.ComboBox();
+            this.encryptionAlgorithmSelector = new System.Windows.Forms.ComboBox();
             this.prefixUse = new System.Windows.Forms.CheckBox();
             this.cipherBitsSelectGroup = new System.Windows.Forms.GroupBox();
             this.keySize_128 = new System.Windows.Forms.RadioButton();
@@ -151,7 +151,7 @@ namespace WinFormsApp1
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.cipherSelect, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.encryptionAlgorithmSelector, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.prefixUse, 0, 3);
             this.tableLayoutPanel2.Controls.Add(this.cipherBitsSelectGroup, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.deleteOriginalFile, 0, 2);
@@ -169,22 +169,22 @@ namespace WinFormsApp1
             this.tableLayoutPanel2.Size = new System.Drawing.Size(347, 436);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
-            // cipherSelect
+            // encryptionAlgorithmSelector
             // 
-            this.cipherSelect.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tableLayoutPanel2.SetColumnSpan(this.cipherSelect, 2);
-            this.cipherSelect.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cipherSelect.FormattingEnabled = true;
-            this.cipherSelect.Items.AddRange(new object[] {
+            this.encryptionAlgorithmSelector.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.tableLayoutPanel2.SetColumnSpan(this.encryptionAlgorithmSelector, 2);
+            this.encryptionAlgorithmSelector.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.encryptionAlgorithmSelector.FormattingEnabled = true;
+            this.encryptionAlgorithmSelector.Items.AddRange(new object[] {
             "AES",
             "Twofish",
             "ChaCha20",
             "Camellia"});
-            this.cipherSelect.Location = new System.Drawing.Point(4, 18);
-            this.cipherSelect.Margin = new System.Windows.Forms.Padding(4);
-            this.cipherSelect.Name = "cipherSelect";
-            this.cipherSelect.Size = new System.Drawing.Size(337, 31);
-            this.cipherSelect.TabIndex = 2;
+            this.encryptionAlgorithmSelector.Location = new System.Drawing.Point(4, 18);
+            this.encryptionAlgorithmSelector.Margin = new System.Windows.Forms.Padding(4);
+            this.encryptionAlgorithmSelector.Name = "encryptionAlgorithmSelector";
+            this.encryptionAlgorithmSelector.Size = new System.Drawing.Size(337, 31);
+            this.encryptionAlgorithmSelector.TabIndex = 2;
             // 
             // prefixUse
             // 
@@ -311,7 +311,7 @@ namespace WinFormsApp1
         private TableLayoutPanel tableLayoutPanel2;
         private CheckBox deleteOriginalFile;
         private CheckBox prefixUse;
-        private ComboBox cipherSelect;
+        private ComboBox encryptionAlgorithmSelector;
         private RadioButton keySize_128;
         private RadioButton keySize_256;
         private GroupBox cipherBitsSelectGroup;

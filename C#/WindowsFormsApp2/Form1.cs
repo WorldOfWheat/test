@@ -13,7 +13,9 @@ namespace WinFormsApp1
 {
 public partial class Form1 : Form
 {
-    private EncryptionDetail detail = new EncryptionDetail();
+    private PathParameters pathParameters = new PathParameters();
+    private EncryptionParameters encryptionParameters = new EncryptionParameters();
+    private string[] selectFiles;
 
     public Form1()
     {
@@ -32,21 +34,20 @@ public partial class Form1 : Form
     {
         using (OpenFileDialog selectFile = new OpenFileDialog())
         {
-            selectFile.InitialDirectory = @"C:\Users\USER\Desktop";
             selectFile.FilterIndex = 0;
             selectFile.RestoreDirectory = true;
             selectFile.Multiselect = true;
 
             if (selectFile.ShowDialog() == DialogResult.OK)
             {
-                detail.Paths = selectFile.FileNames;
+                selectFiles = selectFile.FileNames;
             }
         }
         Task.Run(() => 
         { 
             executeEncrypt.Enabled = false;
             executeDecrypt.Enabled = false;
-            ShowSelectFilesAndShowProgress(); 
+            ShowSelectFiles(); 
             executeEncrypt.Enabled = true;
             executeDecrypt.Enabled = true;
         });
@@ -55,21 +56,15 @@ public partial class Form1 : Form
     // Event handler for the buttonExecuteEncrypt click event
     private void buttonExecuteEncrypt_Click(object sender, EventArgs e)
     {
-        if (!VerifyInputDataAndMessageBox())
-        {
-            return;
-        }
-        if (!VerifyPasswordAndMessageBox())
-        {
-            return;
-        }
-        WriteEncryptionDetail();
-        foreach (var i in detail.Paths)
+        writeEncryptionParameters();
+        writePathParameters();
+        IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
+        foreach (var i in selectFiles)
         {
             Task.Run(() =>
             {
-                EncryptionPackage encryptionPackage = new EncryptionPackage(detail);
-                encryptionPackage.EncryptFile(i);
+                pathParameters.Path = i;
+                encryptionService.EncryptFile(pathParameters);
             });
         }
     }
@@ -77,32 +72,32 @@ public partial class Form1 : Form
     // Event handler for the buttonExecuteDecrypt click event
     private void buttonExecuteDecrypt_Click(object sender, EventArgs e)
     {
-        if (!VerifyInputDataAndMessageBox())
-        {
-            return;
-        }
-        WriteEncryptionDetail();
-        foreach (var i in detail.Paths)
+        writeEncryptionParameters();
+        writePathParameters();
+        IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
+        foreach (var i in selectFiles)
         {
             Task.Run(() =>
             {
-                EncryptionPackage encryptionPackage = new EncryptionPackage(detail);
-                try
-                {
-                    encryptionPackage.DecryptFile(i);
-                }
-                catch (Exception ex)
-                {
-                    if (ex.Message == "Input key is wrong!")
-                    {
-                        MessageBox.Show("密碼錯誤!", "", MessageBoxButtons.OK);
-                    }
-                    Debug.WriteLine(ex.Message);
-                }
+                pathParameters.Path = i;
+                encryptionService.DecryptFile(pathParameters);
             });
         }
     }
 
+    private void writeEncryptionParameters()
+    {
+        encryptionParameters.EncryptionAlgorithm = (EncryptionAlgorithms) encryptionAlgorithmSelector.SelectedIndex;
+        encryptionParameters.Key = Encoding.Unicode.GetBytes(password.Text);
+        encryptionParameters.KeyLength = (short) (keySize_128.Checked ? 128 : 256);
+        encryptionParameters.ExtraEntropy = Encoding.Unicode.GetBytes(extraEntropy.Text);
+    }
+
+    private void writePathParameters()
+    {
+        pathParameters.IfUsePrefix = prefixUse.Checked;
+        pathParameters.IfDeleteOriginalPath = deleteOriginalFile.Checked;
+    }
     // Event handler for the deleteOriginalFile CheckStateChanged event
     private void deleteOriginalFile_CheckStateChanged(object sender, EventArgs e)
     {
@@ -174,50 +169,18 @@ public partial class Form1 : Form
     }
 
     // Method to show selected files in the labelSelectPaths label
-    private void ShowSelectFilesAndShowProgress()
+    private void ShowSelectFiles()
     {
-        try
-        {
-            _= detail.Paths;
-        }
-        catch (ArgumentNullException) 
-        {
-            return;
-        }
         labelSelectPaths.Text = "";
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < detail.Paths.Length; i++)
+        for (int i = 0; i < selectFiles.Length; i++)
         {
-            stringBuilder.AppendLine(detail.Paths[i]);
+            stringBuilder.AppendLine(selectFiles[i]);
         }
         labelSelectPaths.Text = stringBuilder.ToString();
     }
 
     // Method to verify input data and display message boxes
-    private bool VerifyInputDataAndMessageBox()
-    {
-        try
-        {
-            _ = detail.Paths;
-        }
-        catch
-        {
-            MessageBox.Show("請選譯要加密或解密的檔案！", "設定錯誤", MessageBoxButtons.OK);
-            return false;
-        }
-        if (password.Text == "" || password.Text.Length == 0)
-        {
-            MessageBox.Show("請填入密碼！\n密碼不可為空！", "設定錯誤", MessageBoxButtons.OK);
-            return false;
-        }
-        if (cipherSelect == null)
-        {
-            MessageBox.Show("請選譯加密方法！", "設定錯誤", MessageBoxButtons.OK);
-            return false;
-        }
-
-        return true;
-    }
 
     // Method to verify password and display message boxes
     private bool VerifyPasswordAndMessageBox()
@@ -243,24 +206,6 @@ public partial class Form1 : Form
         }
 
         return useOrNot;
-    }
-
-    // Method to write encryption details to the detail object
-    private void WriteEncryptionDetail()
-    {
-        detail.CipherSelected = (EncryptionDetail.Cipher)cipherSelect.SelectedIndex;
-        if (keySize_128.Checked)
-        {
-            detail.KeyBits = 128;
-        }
-        else if (keySize_256.Checked)
-        {
-            detail.KeyBits = 256;
-        }
-        detail.InputKey = Encoding.Unicode.GetBytes(password.Text);
-        detail.ExtraEntropy = Encoding.Unicode.GetBytes(extraEntropy.Text);
-        detail.UsePrefix = prefixUse.Checked;
-        detail.DeleteOriginalFile = deleteOriginalFile.Checked;
     }
 }
 }
