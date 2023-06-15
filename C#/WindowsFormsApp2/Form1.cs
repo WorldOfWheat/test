@@ -56,14 +56,15 @@ public partial class Form1 : Form
     // Event handler for the buttonExecuteEncrypt click event
     private void buttonExecuteEncrypt_Click(object sender, EventArgs e)
     {
+        Debug.WriteLine("Executing encrypt");
         writeEncryptionParameters();
-        writePathParameters();
-        IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
         foreach (var i in selectFiles)
         {
+            pathParameters.Path = i;
             Task.Run(() =>
             {
-                pathParameters.Path = i;
+                IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
+                writePathParameters();
                 encryptionService.EncryptFile(pathParameters);
             });
         }
@@ -74,12 +75,12 @@ public partial class Form1 : Form
     {
         writeEncryptionParameters();
         writePathParameters();
-        IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
         foreach (var i in selectFiles)
         {
             Task.Run(() =>
             {
                 pathParameters.Path = i;
+                IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
                 encryptionService.DecryptFile(pathParameters);
             });
         }
@@ -99,6 +100,7 @@ public partial class Form1 : Form
         pathParameters.IfDeleteOriginalPath = deleteOriginalFile.Checked;
     }
     // Event handler for the deleteOriginalFile CheckStateChanged event
+
     private void deleteOriginalFile_CheckStateChanged(object sender, EventArgs e)
     {
         if (deleteOriginalFile.Checked == false)

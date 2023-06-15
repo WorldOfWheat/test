@@ -1,7 +1,5 @@
 ﻿// Importing the required namespaces
 using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Crypto.Digests;
-using Org.BouncyCastle.Crypto.Engines;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
@@ -35,14 +33,14 @@ public class EncryptionAlgorithmsDetails
 public class EncryptionParameters
 {
     public EncryptionAlgorithms EncryptionAlgorithm { get; set; }
-    public byte[] Key { get; set; } 
+    public byte[] Key { get; set; }
     public short KeyLength { get; set; }
     public byte[] ExtraEntropy { get; set; }
 }
 
 public class PathParameters
 {
-    public string Path { get; set; } 
+    public string Path { get; set; }
     public bool IfUsePrefix { get; set; }
     public bool IfDeleteOriginalPath { get; set; }
 }
@@ -85,9 +83,7 @@ class EncryptionService : IEncryptionService
 
     public EncryptionService(EncryptionParameters encryptionParameters)
     {
-        EncryptionParametersCheck(encryptionParameters);
         this.encryptionParameters = encryptionParameters;
-        randomGenerator.SetSeed(encryptionParameters.ExtraEntropy);
         encryptionAlgorithmMap = new Dictionary<EncryptionAlgorithms, EncryptionAlgorithmsDetails>()
         {
             { EncryptionAlgorithms.AES, new EncryptionAlgorithmsDetails("AES/CFB/PKCS7Padding", 128) },
@@ -97,7 +93,8 @@ class EncryptionService : IEncryptionService
             { EncryptionAlgorithms.Blowfish, new EncryptionAlgorithmsDetails("Blowfish/CFB/PKCS7Padding", 128) },
             { EncryptionAlgorithms.TripleDES, new EncryptionAlgorithmsDetails("DESede/CFB/PKCS7Padding", 64) },
         };
-        Debug.WriteLine(encryptionAlgorithmMap.Count);
+        randomGenerator.SetSeed(encryptionParameters.ExtraEntropy);
+        EncryptionParametersCheck(encryptionParameters);
     }
 
     private void EncryptionParametersCheck(EncryptionParameters parameters)
@@ -110,7 +107,7 @@ class EncryptionService : IEncryptionService
         {
             throw new ArgumentNullException(nameof(parameters.Key));
         }
-        if (parameters.KeyLength != (short) 128 && parameters.KeyLength != (short) 256)
+        if (parameters.KeyLength != (short)128 && parameters.KeyLength != (short)256)
         {
             throw new ArgumentException("Invalid key length", nameof(parameters.Key));
         }
@@ -127,7 +124,7 @@ class EncryptionService : IEncryptionService
             throw new ArgumentNullException(nameof(parameters.Path));
         }
     }
-    
+
     void IEncryptionService.DecryptFile(PathParameters parameters)
     {
         PathParametersCheck(parameters);
@@ -173,16 +170,17 @@ class EncryptionService : IEncryptionService
 
         return Path.Combine
         (
-            pathParameters.IfDeleteOriginalPath ? Path.GetTempPath() : directoryPath, 
+            pathParameters.IfDeleteOriginalPath ? Path.GetTempPath() : directoryPath,
             pathParameters.IfUsePrefix ? decryptFileName : fileName
         );
     }
 
     private byte[] DecryptBytes(byte[] cipherText, byte[] key, byte[] iv)
     {
-        // Initialize the stream cipher and decrypt the bytes
-        cipher.Init(false, new ParametersWithIV(new KeyParameter(key), iv));
-        byte[] plainText = new byte[cipherText.Length];
+        KeyParameter keyParameter = new KeyParameter(key);
+        ParametersWithIV parametersWithIV = new ParametersWithIV(keyParameter, iv);
+        cipher.Init(false, parametersWithIV);
+        byte[] plainText = new byte[cipher.GetOutputSize(cipherText.Length)];
         cipher.DoFinal(cipherText, 0, cipherText.Length, plainText, 0);
         return plainText;
     }
@@ -194,7 +192,7 @@ class EncryptionService : IEncryptionService
         using (FileStream decryptFileStream = File.OpenWrite(decryptPath))
         using (BinaryWriter binaryWriter = new BinaryWriter(decryptFileStream))
         {
-            originalFileStream.Seek(129, SeekOrigin.Begin);
+            originalFileStream.Seek(256+1, SeekOrigin.Begin);
 
             byte[] buffer = new byte[encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize];
             int bytesRead;
@@ -213,7 +211,7 @@ class EncryptionService : IEncryptionService
         using (FileStream fileStream = File.OpenRead(decryptionFilePath))
         using (BinaryReader binaryReader = new BinaryReader(fileStream))
         {
-            return binaryReader.ReadBytes(128);
+            return binaryReader.ReadBytes(256);
         }
     }
 
@@ -290,27 +288,23 @@ class EncryptionService : IEncryptionService
 
     private byte[] EncryptBytes(byte[] plainText, byte[] key, byte[] iv)
     {
-        // Console.WriteLine(
-        //     $"{Convert.ToBase64String(plainText)}\n" +
-        //     $"{Convert.ToBase64String(key)}\n" +
-        //     $"{Convert.ToBase64String(iv)}"
-        // );
         KeyParameter keyParameter = new KeyParameter(key);
         ParametersWithIV parametersWithIV = new ParametersWithIV(keyParameter, iv);
         cipher.Init(true, parametersWithIV);
-        byte[] cipherText = new byte[plainText.Length];
+        byte[] cipherText = new byte[cipher.GetOutputSize(plainText.Length)];
         cipher.DoFinal(plainText, 0, plainText.Length, cipherText, 0);
         return cipherText;
     }
 
     private void EncryptMainDataAndWrite(string originalPath, string encryptPath)
     {
+        // Debug.WriteLine($"{originalPath}\n{encryptPath}");
         using (FileStream originalFileStream = File.OpenRead(originalPath))
         using (BinaryReader binaryReader = new BinaryReader(originalFileStream))
         using (FileStream encryptFileStream = File.OpenWrite(encryptPath))
         using (BinaryWriter binaryWriter = new BinaryWriter(encryptFileStream))
         {
-            encryptFileStream.Seek(129, SeekOrigin.Begin);
+            encryptFileStream.Seek(256+1, SeekOrigin.Begin);
 
             byte[] buffer = new byte[encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize];
             int bytesRead;
@@ -328,7 +322,7 @@ class EncryptionService : IEncryptionService
     {
         HeaderData headerData = new HeaderData();
         // encryption algorithm
-        headerData.EncryptionAlgorithm = ((byte) encryptionParameters.EncryptionAlgorithm);
+        headerData.EncryptionAlgorithm = ((byte)encryptionParameters.EncryptionAlgorithm);
         // file encryption key length
         headerData.FileEncryptionKeyLength = encryptionParameters.KeyLength == 256;
         // salt
@@ -373,7 +367,7 @@ class EncryptionService : IEncryptionService
             binaryWriter.Write(headerData.KeyVerifyHash);
 
             //iv
-            binaryWriter.Write((byte) headerData.IV.Length);
+            binaryWriter.Write((byte)headerData.IV.Length);
             binaryWriter.Write(headerData.IV);
 
             // encryption key 
@@ -393,6 +387,7 @@ class EncryptionService : IEncryptionService
         using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
         {
             binaryWriter.Write(headerBytes);
+            binaryWriter.Write(new byte[256 - headerBytes.Length]);
             binaryWriter.Flush();
         }
     }
@@ -405,8 +400,8 @@ class EncryptionService : IEncryptionService
             throw new ArgumentNullException(nameof(key));
         }
         Pkcs5S2ParametersGenerator generator = new Pkcs5S2ParametersGenerator();
-        generator.Init(key, salt, 10000); 
-        KeyParameter derivedKey = (KeyParameter) generator.GenerateDerivedMacParameters(KeyLength);
+        generator.Init(key, salt, 10000);
+        KeyParameter derivedKey = (KeyParameter)generator.GenerateDerivedMacParameters(KeyLength);
 
         return derivedKey.GetKey();
     }
