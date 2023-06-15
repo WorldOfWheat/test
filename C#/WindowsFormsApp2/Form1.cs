@@ -13,7 +13,6 @@ namespace WinFormsApp1
 {
 public partial class Form1 : Form
 {
-    private PathParameters pathParameters = new PathParameters();
     private EncryptionParameters encryptionParameters = new EncryptionParameters();
     private string[] selectFiles;
 
@@ -56,15 +55,20 @@ public partial class Form1 : Form
     // Event handler for the buttonExecuteEncrypt click event
     private void buttonExecuteEncrypt_Click(object sender, EventArgs e)
     {
-        Debug.WriteLine("Executing encrypt");
+        if (!VerifyPasswordAndMessageBox())
+        {
+            // return;
+        }
+
         writeEncryptionParameters();
         foreach (var i in selectFiles)
         {
+            PathParameters pathParameters = new PathParameters();
+            writePathParameters(ref pathParameters);
             pathParameters.Path = i;
             Task.Run(() =>
             {
                 IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
-                writePathParameters();
                 encryptionService.EncryptFile(pathParameters);
             });
         }
@@ -74,12 +78,13 @@ public partial class Form1 : Form
     private void buttonExecuteDecrypt_Click(object sender, EventArgs e)
     {
         writeEncryptionParameters();
-        writePathParameters();
         foreach (var i in selectFiles)
         {
+            PathParameters pathParameters = new PathParameters();
+            writePathParameters(ref pathParameters);
+            pathParameters.Path = i;
             Task.Run(() =>
             {
-                pathParameters.Path = i;
                 IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
                 encryptionService.DecryptFile(pathParameters);
             });
@@ -94,7 +99,7 @@ public partial class Form1 : Form
         encryptionParameters.ExtraEntropy = Encoding.Unicode.GetBytes(extraEntropy.Text);
     }
 
-    private void writePathParameters()
+    private void writePathParameters(ref PathParameters pathParameters)
     {
         pathParameters.IfUsePrefix = prefixUse.Checked;
         pathParameters.IfDeleteOriginalPath = deleteOriginalFile.Checked;
@@ -170,6 +175,29 @@ public partial class Form1 : Form
         }
     }
 
+    private void encryptionAlgorithmSelector_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int index = encryptionAlgorithmSelector.SelectedIndex;
+        // ChaCha20
+        if (index == 1)
+        {
+            keySize_128.Enabled = false;
+            keySize_256.Enabled = false;
+            return;
+        }
+
+        keySize_128.Text = "128";
+        keySize_256.Text = "256";
+        keySize_128.Enabled = true;
+        keySize_256.Enabled = true;
+
+        // 3DES
+        if (index == 5)
+        {
+            keySize_128.Text = "128";
+            keySize_256.Text = "192";
+        }
+    }
     // Method to show selected files in the labelSelectPaths label
     private void ShowSelectFiles()
     {
@@ -209,5 +237,6 @@ public partial class Form1 : Form
 
         return useOrNot;
     }
-}
+
+    }
 }

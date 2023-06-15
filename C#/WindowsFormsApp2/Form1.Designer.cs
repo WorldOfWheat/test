@@ -177,14 +177,17 @@ namespace WinFormsApp1
             this.encryptionAlgorithmSelector.FormattingEnabled = true;
             this.encryptionAlgorithmSelector.Items.AddRange(new object[] {
             "AES",
-            "Twofish",
             "ChaCha20",
-            "Camellia"});
+            "Camellia",
+            "Twofish",
+            "Blowfish",
+            "3DES"});
             this.encryptionAlgorithmSelector.Location = new System.Drawing.Point(4, 18);
             this.encryptionAlgorithmSelector.Margin = new System.Windows.Forms.Padding(4);
             this.encryptionAlgorithmSelector.Name = "encryptionAlgorithmSelector";
             this.encryptionAlgorithmSelector.Size = new System.Drawing.Size(337, 31);
             this.encryptionAlgorithmSelector.TabIndex = 2;
+            this.encryptionAlgorithmSelector.SelectedIndexChanged += new System.EventHandler(this.encryptionAlgorithmSelector_SelectedIndexChanged);
             // 
             // prefixUse
             // 
@@ -214,7 +217,7 @@ namespace WinFormsApp1
             this.cipherBitsSelectGroup.Size = new System.Drawing.Size(339, 59);
             this.cipherBitsSelectGroup.TabIndex = 2;
             this.cipherBitsSelectGroup.TabStop = false;
-            this.cipherBitsSelectGroup.Text = "密鑰長度";
+            this.cipherBitsSelectGroup.Text = "密鑰長度 (bits)";
             // 
             // keySize_128
             // 
