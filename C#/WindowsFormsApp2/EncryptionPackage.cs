@@ -141,7 +141,7 @@ class EncryptionService : IEncryptionService
         byte[] writtenHeader = CreateWrittenHeader(headerData);
         WriteHeader(writtenHeader, encryptionFilePath);
 
-        // Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
+        Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
 
         cipher.Init(true, new ParametersWithIV(new KeyParameter(fileEncryptionKey), fileEncryptionIV));
         EncryptMainDataAndWrite(parameters.Path, encryptionFilePath);
@@ -191,7 +191,7 @@ class EncryptionService : IEncryptionService
         {
             encryptFileStream.Seek(256+1, SeekOrigin.Begin);
 
-            byte[] buffer = new byte[encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize];
+            byte[] buffer = new byte[encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize / 8];
             int bytesRead;
             while ((bytesRead = binaryReader.Read(buffer, 0, buffer.Length)) > 0)
             {
@@ -278,23 +278,23 @@ class EncryptionService : IEncryptionService
             binaryWriter.Write(headerData.KeyVerifySalt);
 
             binaryWriter.Write((byte)headerData.KeyDerivationSalt.Length);
-            Debug.WriteLine((byte) headerData.KeyDerivationSalt.Length);
+            // Debug.WriteLine((byte) headerData.KeyDerivationSalt.Length);
             binaryWriter.Write(headerData.KeyDerivationSalt);
             // hash
             binaryWriter.Write((byte)headerData.KeyVerifyHash.Length);
-            Debug.WriteLine((byte) headerData.KeyVerifyHash.Length);
+            // Debug.WriteLine((byte) headerData.KeyVerifyHash.Length);
             binaryWriter.Write(headerData.KeyVerifyHash);
             //iv
             binaryWriter.Write((byte)headerData.IV.Length);
-            Debug.WriteLine((byte) headerData.IV.Length);
+            // Debug.WriteLine((byte) headerData.IV.Length);
             binaryWriter.Write(headerData.IV);
             // encryption key 
             binaryWriter.Write((byte)headerData.EncryptedFileEncryptionKey.Length);
-            Debug.WriteLine((byte) headerData.EncryptedFileEncryptionKey.Length);
+            // Debug.WriteLine((byte) headerData.EncryptedFileEncryptionKey.Length);
             binaryWriter.Write(headerData.EncryptedFileEncryptionKey);
 
             binaryWriter.Flush();
-            Debug.WriteLine("");
+            // Debug.WriteLine("");
 
             return memoryStream.ToArray();
         }
@@ -330,9 +330,12 @@ class EncryptionService : IEncryptionService
         // Derive the protection key and decrypt the file encryption key
         byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, 256);
         byte[] fileEncryptionKey = DecryptBytes(headerData.EncryptedFileEncryptionKey, protectionKey, headerData.IV);
-        fileEncryptionKey = fileEncryptionKey.Take(fileEncryptionKey.Length - 16).ToArray();
+        if (encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize != 1)
+        {
+            fileEncryptionKey = fileEncryptionKey.Take(fileEncryptionKey.Length - 16).ToArray();
+        }
 
-        // Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
+        Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
 
         // Initialize the stream cipher and decrypt the main data
         cipher.Init(false, new ParametersWithIV(new KeyParameter(fileEncryptionKey), headerData.IV));
@@ -383,7 +386,7 @@ class EncryptionService : IEncryptionService
         {
             originalFileStream.Seek(256+1, SeekOrigin.Begin);
 
-            byte[] buffer = new byte[encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize];
+            byte[] buffer = new byte[encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize / 8];
             int bytesRead;
             while ((bytesRead = binaryReader.Read(buffer, 0, buffer.Length)) > 0)
             {
