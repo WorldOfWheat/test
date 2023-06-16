@@ -9,5 +9,22 @@ class Program
 {
 	public static void Main(string[] args)
 	{
+		Semaphore semaphore = new Semaphore(2, 2);
+		for (int i = 0; i < 10; i++)
+		{
+			Task.Run(() => 
+			{
+				semaphore.WaitOne();
+				try 
+				{
+					Console.Write(i + " ");
+				}
+				finally
+				{
+					semaphore.Release();
+				}
+			});
+		}
+		Thread.Sleep(10000);
 	}
 }
