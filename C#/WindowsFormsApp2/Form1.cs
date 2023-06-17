@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using WindowsFormsApp2;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace WinFormsApp1
 {
@@ -57,38 +59,68 @@ public partial class Form1 : Form
     {
         if (!VerifyPasswordAndMessageBox())
         {
-            // return;
+            return;
         }
 
         writeEncryptionParameters();
+        encryptionParameters.IfEncrypt = true;
+        Semaphore semaphore = new Semaphore(1, 1);
+        List<Task> tasks = new List<Task>();
         foreach (var i in selectFiles)
         {
-            PathParameters pathParameters = new PathParameters();
-            writePathParameters(ref pathParameters);
-            pathParameters.Path = i;
-            Task.Run(() =>
+            try
             {
-                IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
-                encryptionService.EncryptFile(pathParameters);
-            });
+                PathParameters pathParameters = new PathParameters();
+                writePathParameters(ref pathParameters);
+                pathParameters.Path = i;
+                Task task = Task.Run(() =>
+                {
+                    semaphore.WaitOne();
+                    IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
+                    encryptionService.EncryptFile(pathParameters);
+                    semaphore.Release();
+                });
+                tasks.Add(task);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
+        Task.WaitAll(tasks.ToArray());
+        semaphore.Release();
     }
 
     // Event handler for the buttonExecuteDecrypt click event
     private void buttonExecuteDecrypt_Click(object sender, EventArgs e)
     {
         writeEncryptionParameters();
+        encryptionParameters.IfEncrypt = false;
+        Semaphore semaphore = new Semaphore(1, 1);
+        List<Task> tasks = new List<Task>();
         foreach (var i in selectFiles)
         {
-            PathParameters pathParameters = new PathParameters();
-            writePathParameters(ref pathParameters);
-            pathParameters.Path = i;
-            Task.Run(() =>
+            try
             {
-                IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
-                encryptionService.DecryptFile(pathParameters);
-            });
+                PathParameters pathParameters = new PathParameters();
+                writePathParameters(ref pathParameters);
+                pathParameters.Path = i;
+                Task task = Task.Run(() =>
+                {
+                    semaphore.WaitOne();
+                    IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
+                    encryptionService.DecryptFile(pathParameters);
+                    semaphore.Release();
+                });
+                tasks.Add(task);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
+        Task.WaitAll(tasks.ToArray());
+        semaphore.Dispose();
     }
 
     private void writeEncryptionParameters()

@@ -9,22 +9,11 @@ class Program
 {
 	public static void Main(string[] args)
 	{
-		Semaphore semaphore = new Semaphore(2, 2);
-		for (int i = 0; i < 10; i++)
+		string path = @"C:\Users\a3028\Pictures\testFile";
+		using (FileStream fileStream = File.OpenWrite(path))
+		using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
 		{
-			Task.Run(() => 
-			{
-				semaphore.WaitOne();
-				try 
-				{
-					Console.Write(i + " ");
-				}
-				finally
-				{
-					semaphore.Release();
-				}
-			});
+			binaryWriter.Write(new byte[8]);
 		}
-		Thread.Sleep(10000);
 	}
 }
