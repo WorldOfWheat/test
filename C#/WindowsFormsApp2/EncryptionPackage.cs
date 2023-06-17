@@ -36,6 +36,7 @@ public class EncryptionAlgorithmsDetails
 public class EncryptionParameters
 {
     public EncryptionAlgorithms EncryptionAlgorithm { get; set; }
+    public bool IfEncrypt { get; set; }
     public byte[] Key { get; set; }
     public short KeyLength { get; set; }
     public byte[] ExtraEntropy { get; set; }
@@ -55,7 +56,7 @@ public interface IEncryptionService
 }
 
 // Class representing an encryption package
-class EncryptionService : IEncryptionService
+class EncryptionService : IEncryptionService 
 {
     private readonly SecureRandom randomGenerator = new SecureRandom();
     private Dictionary<EncryptionAlgorithms, EncryptionAlgorithmsDetails> encryptionAlgorithmMap;
@@ -90,7 +91,7 @@ class EncryptionService : IEncryptionService
         encryptionAlgorithmMap = new Dictionary<EncryptionAlgorithms, EncryptionAlgorithmsDetails>()
         {
             { EncryptionAlgorithms.AES, new EncryptionAlgorithmsDetails("AES/CFB/PKCS7Padding", 128) },
-            { EncryptionAlgorithms.ChaCha20, new EncryptionAlgorithmsDetails("ChaCha20", 1) },
+            { EncryptionAlgorithms.ChaCha20, new EncryptionAlgorithmsDetails("ChaCha20", 8) },
             { EncryptionAlgorithms.Camellia, new EncryptionAlgorithmsDetails("Camellia/CFB/PKCS7Padding", 128) },
             { EncryptionAlgorithms.Twofish, new EncryptionAlgorithmsDetails("Twofish/CFB/PKCS7Padding", 128) },
             { EncryptionAlgorithms.Blowfish, new EncryptionAlgorithmsDetails("Blowfish/CFB/PKCS7Padding", 128) },
@@ -102,7 +103,7 @@ class EncryptionService : IEncryptionService
 
     private void EncryptionParametersCheck(EncryptionParameters parameters)
     {
-        if (encryptionAlgorithmMap.ContainsKey(parameters.EncryptionAlgorithm) == false)
+        if (encryptionAlgorithmMap.ContainsKey(parameters.EncryptionAlgorithm) == false && parameters.IfEncrypt)
         {
             throw new ArgumentException("Encryption algorithm not specified.");
         }
@@ -141,7 +142,7 @@ class EncryptionService : IEncryptionService
         byte[] writtenHeader = CreateWrittenHeader(headerData);
         WriteHeader(writtenHeader, encryptionFilePath);
 
-        Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
+        // Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
 
         cipher.Init(true, new ParametersWithIV(new KeyParameter(fileEncryptionKey), fileEncryptionIV));
         EncryptMainDataAndWrite(parameters.Path, encryptionFilePath);
@@ -191,12 +192,11 @@ class EncryptionService : IEncryptionService
         {
             encryptFileStream.Seek(256+1, SeekOrigin.Begin);
 
-            byte[] buffer = new byte[encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize / 8];
+            byte[] buffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = binaryReader.Read(buffer, 0, buffer.Length)) > 0)
             {
-                byte[] cipherText = new byte[buffer.Length];
-                cipher.ProcessBytes(buffer, 0, bytesRead, cipherText, 0);
+                byte[] cipherText = cipher.ProcessBytes(buffer, 0, buffer.Length);
                 binaryWriter.Write(cipherText);
             }
             binaryWriter.Flush();
@@ -306,7 +306,7 @@ class EncryptionService : IEncryptionService
         using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
         {
             binaryWriter.Write(headerBytes);
-            Debug.WriteLine(256 - headerBytes.Length);
+            // Debug.WriteLine(256 - headerBytes.Length);
             binaryWriter.Write(new byte[256 - headerBytes.Length]);
             binaryWriter.Flush();
         }
@@ -330,12 +330,12 @@ class EncryptionService : IEncryptionService
         // Derive the protection key and decrypt the file encryption key
         byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, 256);
         byte[] fileEncryptionKey = DecryptBytes(headerData.EncryptedFileEncryptionKey, protectionKey, headerData.IV);
-        if (encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize != 1)
+        if (encryptionAlgorithmMap[(EncryptionAlgorithms) headerData.EncryptionAlgorithm].BlockSize != 8)
         {
             fileEncryptionKey = fileEncryptionKey.Take(fileEncryptionKey.Length - 16).ToArray();
         }
 
-        Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
+        // Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
 
         // Initialize the stream cipher and decrypt the main data
         cipher.Init(false, new ParametersWithIV(new KeyParameter(fileEncryptionKey), headerData.IV));
@@ -386,12 +386,11 @@ class EncryptionService : IEncryptionService
         {
             originalFileStream.Seek(256+1, SeekOrigin.Begin);
 
-            byte[] buffer = new byte[encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm].BlockSize / 8];
+            byte[] buffer = new byte[1024];
             int bytesRead;
             while ((bytesRead = binaryReader.Read(buffer, 0, buffer.Length)) > 0)
             {
-                byte[] plainText = new byte[buffer.Length];
-                cipher.ProcessBytes(buffer, 0, bytesRead, plainText, 0);
+                byte[] plainText = cipher.ProcessBytes(buffer, 0, buffer.Length);
                 binaryWriter.Write(plainText);
             }
             binaryWriter.Flush();
