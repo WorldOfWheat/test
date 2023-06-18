@@ -3,14 +3,26 @@
 #include <stdbool.h>
 #include <string.h>
 
+void foo()
+{
+    printf("foo\n");
+}
+void foo2()
+{
+    printf("foo2\n");
+}
+void foo3()
+{
+    printf("foo3\n");
+}
+
 int main()
 {
-    int n = 0;
-    while (!(n % 27 == 3 && n % 37 == 4 && n % 41 == 5))
+    void (*func[3]) () = {foo, foo2, foo3};
+    for (int i = 0; i <= 2; i++)
     {
-        n++;
+        func[i]();
     }
-    printf("%d\n", n);
 
     return 0;
 }
