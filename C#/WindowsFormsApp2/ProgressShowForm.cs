@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ClassLibraryTest;
 
 namespace WindowsFormsApp2
 {
@@ -15,6 +17,8 @@ namespace WindowsFormsApp2
         public ProgressShowForm()
         {
             InitializeComponent();
+            Class1 class1 = new Class1();
+            Debug.WriteLine(class1.Touppser("test"));
         }
 
         public void UpdateProgress(int progressNow, int progressTotal)

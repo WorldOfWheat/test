@@ -1,0 +1,12 @@
+D:\Git\test\C#\ClassLibraryTest\bin\Release\net6.0\ClassLibraryTest.deps.json
+D:\Git\test\C#\ClassLibraryTest\bin\Release\net6.0\ClassLibraryTest.dll
+D:\Git\test\C#\ClassLibraryTest\bin\Release\net6.0\ClassLibraryTest.pdb
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\ClassLibraryTest.csproj.AssemblyReference.cache
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\ClassLibraryTest.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\ClassLibraryTest.AssemblyInfoInputs.cache
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\ClassLibraryTest.AssemblyInfo.cs
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\ClassLibraryTest.csproj.CoreCompileInputs.cache
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\ClassLibraryTest.dll
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\refint\ClassLibraryTest.dll
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\ClassLibraryTest.pdb
+D:\Git\test\C#\ClassLibraryTest\obj\Release\net6.0\ref\ClassLibraryTest.dll
