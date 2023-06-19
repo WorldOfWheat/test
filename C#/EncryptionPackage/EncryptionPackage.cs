@@ -91,14 +91,14 @@ namespace EncryptionPackage
         {
             this.encryptionParameters = encryptionParameters;
             encryptionAlgorithmMap = new Dictionary<EncryptionAlgorithms, EncryptionAlgorithmsDetails>()
-        {
-            { EncryptionAlgorithms.AES, new EncryptionAlgorithmsDetails("AES/CFB/PKCS7Padding", 128) },
-            { EncryptionAlgorithms.ChaCha20, new EncryptionAlgorithmsDetails("ChaCha20", 8) },
-            { EncryptionAlgorithms.Camellia, new EncryptionAlgorithmsDetails("Camellia/CFB/PKCS7Padding", 128) },
-            { EncryptionAlgorithms.Twofish, new EncryptionAlgorithmsDetails("Twofish/CFB/PKCS7Padding", 128) },
-            { EncryptionAlgorithms.Blowfish, new EncryptionAlgorithmsDetails("Blowfish/CFB/PKCS7Padding", 128) },
-            { EncryptionAlgorithms.TripleDES, new EncryptionAlgorithmsDetails("DESede/CFB/PKCS7Padding", 64) },
-        };
+            {
+                { EncryptionAlgorithms.AES, new EncryptionAlgorithmsDetails("AES/CFB/PKCS7Padding", 128) },
+                { EncryptionAlgorithms.ChaCha20, new EncryptionAlgorithmsDetails("ChaCha20", 1) },
+                { EncryptionAlgorithms.Camellia, new EncryptionAlgorithmsDetails("Camellia/CFB/PKCS7Padding", 128) },
+                { EncryptionAlgorithms.Twofish, new EncryptionAlgorithmsDetails("Twofish/CFB/PKCS7Padding", 128) },
+                { EncryptionAlgorithms.Blowfish, new EncryptionAlgorithmsDetails("Blowfish/CFB/PKCS7Padding", 128) },
+                { EncryptionAlgorithms.TripleDES, new EncryptionAlgorithmsDetails("DESede/CFB/PKCS7Padding", 64) },
+            };
             randomGenerator.SetSeed(encryptionParameters.ExtraEntropy);
             EncryptionParametersCheck(encryptionParameters);
         }
@@ -144,7 +144,7 @@ namespace EncryptionPackage
             byte[] writtenHeader = CreateWrittenHeader(headerData);
             WriteHeader(writtenHeader, encryptionFilePath);
 
-            // Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
+            Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
 
             cipher.Init(true, new ParametersWithIV(new KeyParameter(fileEncryptionKey), fileEncryptionIV));
             EncryptMainDataAndWrite(parameters.Path, encryptionFilePath);
@@ -331,13 +331,20 @@ namespace EncryptionPackage
 
             // Derive the protection key and decrypt the file encryption key
             byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, 256);
+            if (encryptionParameters.EncryptionAlgorithm == EncryptionAlgorithms.TripleDES)
+            {
+                protectionKey = protectionKey.Take(24).ToArray();
+            }
+
             byte[] fileEncryptionKey = DecryptBytes(headerData.EncryptedFileEncryptionKey, protectionKey, headerData.IV);
-            if (encryptionAlgorithmMap[(EncryptionAlgorithms)headerData.EncryptionAlgorithm].BlockSize != 8)
+            int blockSize = encryptionAlgorithmMap[(EncryptionAlgorithms)headerData.EncryptionAlgorithm].BlockSize;
+            // 3DES needs to take 8 bytes
+            if (blockSize == 128)
             {
                 fileEncryptionKey = fileEncryptionKey.Take(fileEncryptionKey.Length - 16).ToArray();
             }
 
-            // Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
+            Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
 
             // Initialize the stream cipher and decrypt the main data
             cipher.Init(false, new ParametersWithIV(new KeyParameter(fileEncryptionKey), headerData.IV));
