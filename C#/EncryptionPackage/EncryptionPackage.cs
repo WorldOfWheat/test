@@ -1,14 +1,9 @@
 ﻿// Importing the required namespaces
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
-using Org.BouncyCastle.Crypto.Paddings;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 
 namespace EncryptionPackage
 {
@@ -24,15 +19,18 @@ namespace EncryptionPackage
 
     public class EncryptionAlgorithmsDetails
     {
-        public EncryptionAlgorithmsDetails(string Name, byte BlockSize)
+        public EncryptionAlgorithmsDetails(string Name, byte BlockSize, short MaxKeyLength, byte IV_Length)
         {
             this.Name = Name;
             this.BlockSize = BlockSize;
+            this.MaxKeyLength = MaxKeyLength;
+            this.IV_Length = IV_Length;
         }
 
         public string Name { get; }
         public byte BlockSize { get; }
-        public short KeyLength { get; }
+        public short MaxKeyLength { get; }
+        public byte IV_Length { get; }
     }
 
     public class EncryptionParameters
@@ -92,12 +90,12 @@ namespace EncryptionPackage
             this.encryptionParameters = encryptionParameters;
             encryptionAlgorithmMap = new Dictionary<EncryptionAlgorithms, EncryptionAlgorithmsDetails>()
             {
-                { EncryptionAlgorithms.AES, new EncryptionAlgorithmsDetails("AES/CFB/PKCS7Padding", 128) },
-                { EncryptionAlgorithms.ChaCha20, new EncryptionAlgorithmsDetails("ChaCha20", 1) },
-                { EncryptionAlgorithms.Camellia, new EncryptionAlgorithmsDetails("Camellia/CFB/PKCS7Padding", 128) },
-                { EncryptionAlgorithms.Twofish, new EncryptionAlgorithmsDetails("Twofish/CFB/PKCS7Padding", 128) },
-                { EncryptionAlgorithms.Blowfish, new EncryptionAlgorithmsDetails("Blowfish/CFB/PKCS7Padding", 128) },
-                { EncryptionAlgorithms.TripleDES, new EncryptionAlgorithmsDetails("DESede/CFB/PKCS7Padding", 64) },
+                [EncryptionAlgorithms.AES] = new EncryptionAlgorithmsDetails("AES/CFB/PKCS7Padding", 128, 256, 128),
+                [EncryptionAlgorithms.ChaCha20] = new EncryptionAlgorithmsDetails("ChaCha20", 1, 256, 96),
+                [EncryptionAlgorithms.Camellia] = new EncryptionAlgorithmsDetails("Camellia/CFB/PKCS7Padding", 128, 256, 128),
+                [EncryptionAlgorithms.Twofish] = new EncryptionAlgorithmsDetails("Twofish/CFB/PKCS7Padding", 128, 256, 128),
+                [EncryptionAlgorithms.Blowfish] = new EncryptionAlgorithmsDetails("Blowfish/CFB/PKCS7Padding", 128, 256, 64),
+                [EncryptionAlgorithms.TripleDES] = new EncryptionAlgorithmsDetails("DESede/CFB/PKCS7Padding", 64, 192, 64),
             };
             randomGenerator.SetSeed(encryptionParameters.ExtraEntropy);
             EncryptionParametersCheck(encryptionParameters);
@@ -215,51 +213,28 @@ namespace EncryptionPackage
             // salt
             randomGenerator.NextBytes(headerData.KeyVerifySalt); // 32 bytes
             randomGenerator.NextBytes(headerData.KeyDerivationSalt); // 32 bytes
-                                                                     // verify hash
+            // verify hash
             headerData.KeyVerifyHash = KeyDerivation(encryptionParameters.Key, headerData.KeyVerifySalt, 256);
             // protection key
-            byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, 256);
-
-            switch (encryptionParameters.EncryptionAlgorithm)
+            EncryptionAlgorithmsDetails encryptionAlgorithmsDetails = encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm];
+            byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, encryptionAlgorithmsDetails.MaxKeyLength);
+            Debug.WriteLine($"Protection Key: {Convert.ToBase64String(protectionKey)}");
+            // IV
+            IV = new byte[encryptionAlgorithmsDetails.IV_Length >> 3];
+            randomGenerator.NextBytes(IV);
+            headerData.IV = IV;
+            // file encryption key
+            if (encryptionParameters.KeyLength == 128)
             {
-                case EncryptionAlgorithms.TripleDES:
-                    // iv
-                    IV = new byte[8];
-                    randomGenerator.NextBytes(IV);
-                    headerData.IV = IV;
-                    // key
-                    if (encryptionParameters.KeyLength == 128)
-                        fileEncryptionKey = new byte[16];
-                    else
-                        fileEncryptionKey = new byte[24];
-                    randomGenerator.NextBytes(fileEncryptionKey);
-                    // protection key is 32 byte, here to turn it to 24 bytes
-                    protectionKey = protectionKey.Take(24).ToArray();
-                    headerData.EncryptedFileEncryptionKey = EncryptBytes(fileEncryptionKey, protectionKey, IV);
-                    break;
-
-                case EncryptionAlgorithms.ChaCha20:
-                    // iv
-                    IV = new byte[12];
-                    randomGenerator.NextBytes(IV);
-                    headerData.IV = IV;
-                    // key
-                    fileEncryptionKey = new byte[32];
-                    randomGenerator.NextBytes(fileEncryptionKey);
-                    headerData.EncryptedFileEncryptionKey = EncryptBytes(fileEncryptionKey, protectionKey, IV);
-                    break;
-
-                default:
-                    // iv
-                    IV = new byte[8];
-                    randomGenerator.NextBytes(IV);
-                    headerData.IV = IV;
-                    // key
-                    fileEncryptionKey = new byte[encryptionParameters.KeyLength / 8];
-                    randomGenerator.NextBytes(fileEncryptionKey);
-                    headerData.EncryptedFileEncryptionKey = EncryptBytes(fileEncryptionKey, protectionKey, IV);
-                    break;
+                fileEncryptionKey = new byte[16];
             }
+            else
+            {
+                fileEncryptionKey = new byte[encryptionAlgorithmsDetails.MaxKeyLength >> 3];
+            }
+            randomGenerator.NextBytes(fileEncryptionKey);
+
+            headerData.EncryptedFileEncryptionKey = EncryptBytes(fileEncryptionKey, protectionKey, IV);
 
             return headerData;
         }
@@ -308,7 +283,7 @@ namespace EncryptionPackage
             using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
             {
                 binaryWriter.Write(headerBytes);
-                // Debug.WriteLine(256 - headerBytes.Length);
+                Debug.WriteLine($"Header Padding: {256 - headerBytes.Length}");
                 binaryWriter.Write(new byte[256 - headerBytes.Length]);
                 binaryWriter.Flush();
             }
@@ -325,23 +300,23 @@ namespace EncryptionPackage
                 throw new Exception("Input key is wrong!");
             }
 
-            cipher = CipherUtilities.GetCipher(encryptionAlgorithmMap[(EncryptionAlgorithms)headerData.EncryptionAlgorithm].Name);
+            EncryptionAlgorithmsDetails encryptionAlgorithmsDetails = encryptionAlgorithmMap[(EncryptionAlgorithms) headerData.EncryptionAlgorithm];
+            cipher = CipherUtilities.GetCipher(encryptionAlgorithmsDetails.Name);
 
             string decryptionPath = GetDecryptionPath(parameters);
 
             // Derive the protection key and decrypt the file encryption key
-            byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, 256);
-            if (encryptionParameters.EncryptionAlgorithm == EncryptionAlgorithms.TripleDES)
-            {
-                protectionKey = protectionKey.Take(24).ToArray();
-            }
+            byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, encryptionAlgorithmsDetails.MaxKeyLength);
+            Debug.WriteLine($"Protection Key: {Convert.ToBase64String(protectionKey)}");
 
             byte[] fileEncryptionKey = DecryptBytes(headerData.EncryptedFileEncryptionKey, protectionKey, headerData.IV);
-            int blockSize = encryptionAlgorithmMap[(EncryptionAlgorithms)headerData.EncryptionAlgorithm].BlockSize;
-            // 3DES needs to take 8 bytes
-            if (blockSize == 128)
+            if (encryptionParameters.KeyLength == 128)
             {
-                fileEncryptionKey = fileEncryptionKey.Take(fileEncryptionKey.Length - 16).ToArray();
+                fileEncryptionKey = fileEncryptionKey.Take(16).ToArray();
+            }
+            else
+            {
+                fileEncryptionKey = fileEncryptionKey.Take(encryptionAlgorithmsDetails.MaxKeyLength >> 3).ToArray();
             }
 
             Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");

@@ -46,7 +46,7 @@ public partial class Form1 : Form
     // Event handler for the buttonExecuteEncrypt click event
     private void buttonExecuteEncrypt_Click(object sender, EventArgs e)
     {
-        if (!CheckEncryptionParameterAndMessageBox()) 
+        if (!CheckEncryptionParameterAndMessageBox())
         {
             return;
         }
@@ -155,7 +155,7 @@ public partial class Form1 : Form
     // Event handler for the password Enter event
     private void password_Enter(object sender, EventArgs e)
     {
-        if (0 == string.Compare("請輸入密碼。注意！如果忘記則無法解密檔案！", password.Text))
+        if (0 == string.Compare("請輸入密碼。注意！如果忘記則無法解開檔案！", password.Text))
         {
             password.Text = "";
             password.PasswordChar = '.';
@@ -189,6 +189,7 @@ public partial class Form1 : Form
         {
             keySize_128.Enabled = false;
             keySize_256.Enabled = false;
+            keySize_256.Checked = true;
             return;
         }
 
@@ -204,6 +205,7 @@ public partial class Form1 : Form
             keySize_256.Text = "192";
         }
     }
+
     // Method to show selected files in the labelSelectPaths label
     private void ShowSelectFiles()
     {
