@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5f8RpEMWPndF2HB8/8h+BSHQUEhfZqO7jlwNb5U3WyaOPpIBAwQxu/oEvJQACTtFhpTr3OpG/CU9H4+tSrRtww==",
+  "dgSpecHash": "DNERNnop8st0weC8QIaruQrecw7r3BnRNJNzL6nHpjvBTPv6dRMFhnGRnf4fpUZNtuw+MIgusjh4b6Z+jHjwww==",
   "success": true,
   "projectFilePath": "D:\\Git\\test\\C#\\EncryptionPackage\\EncryptionPackage.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\USER\\.nuget\\packages\\bouncycastle\\1.8.9\\bouncycastle.1.8.9.nupkg.sha512"
+    "C:\\Users\\a3028\\.nuget\\packages\\bouncycastle\\1.8.9\\bouncycastle.1.8.9.nupkg.sha512"
   ],
   "logs": [
     {

@@ -1,14 +1,17 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
 
-void do_shell()
+void test_function()
 {
-    system("/bin/sh\0");
+    printf("Hello World!\n");
 }
 
 int main()
 {
-    char buffer[20];
+    char buffer[128];
+    buffer[0] = 'A';
+    test_function();
     gets(buffer);
+    printf("%s\n", buffer);
 
     return 0;
 }
