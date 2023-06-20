@@ -7,5 +7,8 @@
     <Compile Update="ProgressShowForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="RepeatPassword.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

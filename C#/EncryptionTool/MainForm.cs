@@ -5,7 +5,7 @@ using EncryptionPackage;
 public partial class MainForm : Form
 {
     private EncryptionParameters encryptionParameters = new EncryptionParameters();
-    private string[] selectFiles;
+    private string[] selectPath;
     private string passwordHintText;
     private string extraEntropyHintText;
 
@@ -25,15 +25,14 @@ public partial class MainForm : Form
     // Event handler for the buttonSelectFile click event
     private void selectFile_Click(object sender, EventArgs e)
     {
-        using (OpenFileDialog selectFile = new OpenFileDialog())
+        using (OpenFileDialog selectDialog = new OpenFileDialog())
         {
-            selectFile.FilterIndex = 0;
-            selectFile.RestoreDirectory = true;
-            selectFile.Multiselect = true;
+            selectDialog.Title = "請選擇檔案或資料夾";
+            selectDialog.Multiselect = true;
 
-            if (selectFile.ShowDialog() == DialogResult.OK)
+            if (selectDialog.ShowDialog() == DialogResult.OK)
             {
-                selectFiles = selectFile.FileNames;
+                selectPath = selectDialog.FileNames.ToArray();
             }
             else
             {
@@ -47,7 +46,7 @@ public partial class MainForm : Form
             bool previousSelectDecryptEnable = selectDecrypt.Enabled;
             selectEncrypt.Enabled = false;
             selectDecrypt.Enabled = false;
-            ShowSelectFiles();
+            ShowselectPath();
             selectEncrypt.Enabled = previousSelectEncryptEnable;
             selectDecrypt.Enabled = previousSelectDecryptEnable;
         });
@@ -95,6 +94,12 @@ public partial class MainForm : Form
             {
                 return;
             }
+            RepeatPasswordForm repeatPasswordForm = new RepeatPasswordForm(password.Text);
+            repeatPasswordForm.ShowDialog();
+            if (!repeatPasswordForm.ifContinue)
+            {
+                return;
+            }
 
             executeEncryptService();
         }
@@ -136,7 +141,7 @@ public partial class MainForm : Form
         if (0 == string.Compare(passwordHintText, password.Text))
         {
             password.Text = "";
-            password.PasswordChar = '.';
+            password.PasswordChar = '*';
         }
     }
 
@@ -198,7 +203,7 @@ public partial class MainForm : Form
         });
         int counter = 0;
 
-        foreach (var i in selectFiles)
+        foreach (var i in selectPath)
         {
             PathParameters pathParameters = new PathParameters();
             WritePathParameters(ref pathParameters);
@@ -224,9 +229,9 @@ public partial class MainForm : Form
             tasks.Add(task);
         }
 
-        while (counter < selectFiles.Length)
+        while (counter < selectPath.Length)
         {
-            progressShowForm.UpdateProgress(counter, selectFiles.Length);
+            progressShowForm.UpdateProgress(counter, selectPath.Length);
         }
         progressShowForm.Close();
 
@@ -248,7 +253,7 @@ public partial class MainForm : Form
         });
         int counter = 0;
 
-        foreach (var i in selectFiles)
+        foreach (var i in selectPath)
         {
             PathParameters pathParameters = new PathParameters();
             WritePathParameters(ref pathParameters);
@@ -271,13 +276,13 @@ public partial class MainForm : Form
                 semaphore.Release();
                 counter++;
             });
-            progressShowForm.UpdateProgress(counter, selectFiles.Length);
+            progressShowForm.UpdateProgress(counter, selectPath.Length);
             tasks.Add(task);
         }
 
-        while (counter < selectFiles.Length)
+        while (counter < selectPath.Length)
         {
-            progressShowForm.UpdateProgress(counter, selectFiles.Length);
+            progressShowForm.UpdateProgress(counter, selectPath.Length);
         }
         progressShowForm.Close();
 
@@ -286,12 +291,12 @@ public partial class MainForm : Form
     }
 
     // Method to show selected files in the labelSelectPaths label
-    private void ShowSelectFiles()
+    private void ShowselectPath()
     {
         selectPathsList.Items.Clear();
-        for (int i = 0; i < selectFiles.Length; i++)
+        for (int i = 0; i < selectPath.Length; i++)
         {
-            selectPathsList.Items.Add(selectFiles[i]);
+            selectPathsList.Items.Add(selectPath[i]);
         }
     }
 
@@ -333,7 +338,7 @@ public partial class MainForm : Form
             MessageBox.Show("請填入密碼", "項目錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return false;
         }
-        if (selectFiles == null || selectFiles.Length == 0)
+        if (selectPath == null || selectPath.Length == 0)
         {
             MessageBox.Show("請選擇檔案", "項目錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return false;
