@@ -218,7 +218,7 @@ namespace EncryptionPackage
             // protection key
             EncryptionAlgorithmsDetails encryptionAlgorithmsDetails = encryptionAlgorithmMap[encryptionParameters.EncryptionAlgorithm];
             byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, encryptionAlgorithmsDetails.MaxKeyLength);
-            Debug.WriteLine($"Protection Key: {Convert.ToBase64String(protectionKey)}");
+            // Debug.WriteLine($"Protection Key: {Convert.ToBase64String(protectionKey)}");
             // IV
             IV = new byte[encryptionAlgorithmsDetails.IV_Length >> 3];
             randomGenerator.NextBytes(IV);
@@ -307,10 +307,10 @@ namespace EncryptionPackage
 
             // Derive the protection key and decrypt the file encryption key
             byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, encryptionAlgorithmsDetails.MaxKeyLength);
-            Debug.WriteLine($"Protection Key: {Convert.ToBase64String(protectionKey)}");
+            // Debug.WriteLine($"Protection Key: {Convert.ToBase64String(protectionKey)}");
 
             byte[] fileEncryptionKey = DecryptBytes(headerData.EncryptedFileEncryptionKey, protectionKey, headerData.IV);
-            if (encryptionParameters.KeyLength == 128)
+            if (!headerData.FileEncryptionKeyLength)
             {
                 fileEncryptionKey = fileEncryptionKey.Take(16).ToArray();
             }

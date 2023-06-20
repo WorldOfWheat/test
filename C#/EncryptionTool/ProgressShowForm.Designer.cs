@@ -1,71 +1,90 @@
-﻿namespace WindowsFormsApp2
+﻿partial class ProgressShowForm
 {
-    partial class ProgressShowForm
+    /// <summary>
+    /// Required designer variable.
+    /// </summary>
+    private System.ComponentModel.IContainer components = null;
+
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+    protected override void Dispose(bool disposing)
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
+        if (disposing && (components != null))
         {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
+            components.Dispose();
         }
-
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.TestingButton = new System.Windows.Forms.Button();
-            this.SuspendLayout();
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(201, 165);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(371, 23);
-            this.progressBar.TabIndex = 0;
-            this.progressBar.Value = 50;
-            // 
-            // TestingButton
-            // 
-            this.TestingButton.Location = new System.Drawing.Point(179, 240);
-            this.TestingButton.Name = "TestingButton";
-            this.TestingButton.Size = new System.Drawing.Size(75, 23);
-            this.TestingButton.TabIndex = 1;
-            this.TestingButton.Text = "button1";
-            this.TestingButton.UseVisualStyleBackColor = true;
-            this.TestingButton.Click += new System.EventHandler(this.TestingButton_Click);
-            // 
-            // ProgressShowForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.TestingButton);
-            this.Controls.Add(this.progressBar);
-            this.Name = "ProgressShowForm";
-            this.Text = "ProcessShow";
-            this.ResumeLayout(false);
-
-        }
-
-        #endregion
-
-        private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.Button TestingButton;
+        base.Dispose(disposing);
     }
+
+    #region Windows Form Designer generated code
+
+    /// <summary>
+    /// Required method for Designer support - do not modify
+    /// the contents of this method with the code editor.
+    /// </summary>
+    private void InitializeComponent()
+    {
+        progressBar = new ProgressBar();
+        cancel = new Button();
+        tableLayoutPanel1 = new TableLayoutPanel();
+        tableLayoutPanel1.SuspendLayout();
+        SuspendLayout();
+        // 
+        // progressBar
+        // 
+        progressBar.Location = new Point(3, 37);
+        progressBar.Margin = new Padding(3, 4, 3, 4);
+        progressBar.Name = "progressBar";
+        progressBar.Size = new Size(428, 25);
+        progressBar.TabIndex = 0;
+        progressBar.Value = 50;
+        // 
+        // cancel
+        // 
+        cancel.Anchor = AnchorStyles.Top;
+        cancel.Location = new Point(139, 70);
+        cancel.Margin = new Padding(3, 4, 3, 4);
+        cancel.Name = "cancel";
+        cancel.Size = new Size(155, 26);
+        cancel.TabIndex = 1;
+        cancel.Text = "取消";
+        cancel.UseVisualStyleBackColor = true;
+        cancel.Click += cancel_Click;
+        // 
+        // tableLayoutPanel1
+        // 
+        tableLayoutPanel1.ColumnCount = 1;
+        tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+        tableLayoutPanel1.Controls.Add(progressBar, 0, 1);
+        tableLayoutPanel1.Controls.Add(cancel, 0, 2);
+        tableLayoutPanel1.Location = new Point(12, 12);
+        tableLayoutPanel1.Name = "tableLayoutPanel1";
+        tableLayoutPanel1.RowCount = 3;
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
+        tableLayoutPanel1.Size = new Size(434, 100);
+        tableLayoutPanel1.TabIndex = 2;
+        // 
+        // ProgressShowForm
+        // 
+        AutoScaleDimensions = new SizeF(8F, 18F);
+        AutoScaleMode = AutoScaleMode.Font;
+        ClientSize = new Size(459, 127);
+        Controls.Add(tableLayoutPanel1);
+        Margin = new Padding(3, 4, 3, 4);
+        MaximizeBox = false;
+        Name = "ProgressShowForm";
+        Text = "進度";
+        tableLayoutPanel1.ResumeLayout(false);
+        ResumeLayout(false);
+    }
+
+    #endregion
+
+    private ProgressBar progressBar;
+    private Button cancel;
+    private TableLayoutPanel tableLayoutPanel1;
 }

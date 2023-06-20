@@ -8,8 +8,6 @@ D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\ClassLibraryTest.dll
 D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\EasyModbus.dll
 D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\EncryptionPackage.dll
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.csproj.AssemblyReference.cache
-D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\Form1.resources
-D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\WindowsFormsApp2.ProgressShowForm.resources
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.csproj.GenerateResource.cache
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.GeneratedMSBuildEditorConfig.editorconfig
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.AssemblyInfoInputs.cache
@@ -21,3 +19,5 @@ D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\refint\EncryptionTool.d
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.pdb
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.genruntimeconfig.cache
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\ref\EncryptionTool.dll
+D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\MainForm.resources
+D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\ProgressShowForm.resources

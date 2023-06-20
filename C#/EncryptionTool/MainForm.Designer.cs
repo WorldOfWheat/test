@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 
-partial class Form1
+partial class MainForm
 {
     /// <summary>
     ///  Required designer variable.
@@ -30,12 +30,13 @@ partial class Form1
     private void InitializeComponent()
     {
         tableLayoutPanel1 = new TableLayoutPanel();
-        password = new TextBox();
+        selectEncrypt = new Button();
+        selectDecrypt = new Button();
         flowLayoutPanel1 = new FlowLayoutPanel();
         labelSelectPaths = new Label();
-        executeEncrypt = new Button();
-        executeDecrypt = new Button();
-        buttonSelectFile = new Button();
+        selectFile = new Button();
+        password = new TextBox();
+        execute = new Button();
         tableLayoutPanel2 = new TableLayoutPanel();
         encryptionAlgorithmSelector = new ComboBox();
         prefixUse = new CheckBox();
@@ -55,35 +56,47 @@ partial class Form1
         tableLayoutPanel1.ColumnCount = 2;
         tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
         tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-        tableLayoutPanel1.Controls.Add(password, 0, 2);
-        tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 1);
-        tableLayoutPanel1.Controls.Add(executeEncrypt, 0, 3);
-        tableLayoutPanel1.Controls.Add(executeDecrypt, 1, 3);
-        tableLayoutPanel1.Controls.Add(buttonSelectFile, 0, 0);
-        tableLayoutPanel1.Location = new Point(12, 12);
+        tableLayoutPanel1.Controls.Add(selectEncrypt, 0, 0);
+        tableLayoutPanel1.Controls.Add(selectDecrypt, 1, 0);
+        tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 2);
+        tableLayoutPanel1.Controls.Add(selectFile, 0, 1);
+        tableLayoutPanel1.Controls.Add(password, 0, 3);
+        tableLayoutPanel1.Controls.Add(execute, 0, 4);
+        tableLayoutPanel1.Location = new Point(12, 11);
         tableLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
         tableLayoutPanel1.Name = "tableLayoutPanel1";
-        tableLayoutPanel1.RowCount = 4;
-        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 25.50844F));
-        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50.66989F));
-        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 8.620703F));
-        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 15.20097F));
-        tableLayoutPanel1.Size = new Size(379, 586);
+        tableLayoutPanel1.RowCount = 5;
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10.4836092F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 13.2337246F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 52.4180679F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 7.02926159F));
+        tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.83534F));
+        tableLayoutPanel1.Size = new Size(379, 475);
         tableLayoutPanel1.TabIndex = 0;
         // 
-        // password
+        // selectEncrypt
         // 
-        password.Anchor = AnchorStyles.Left;
-        tableLayoutPanel1.SetColumnSpan(password, 2);
-        password.Font = new Font("DFKai-SB", 9F, FontStyle.Regular, GraphicsUnit.Point);
-        password.Location = new Point(3, 457);
-        password.Margin = new Padding(3, 2, 3, 2);
-        password.Name = "password";
-        password.Size = new Size(372, 25);
-        password.TabIndex = 4;
-        password.Text = "請輸入密碼。注意！如果忘記則無法解開檔案！";
-        password.Enter += password_Enter;
-        password.Leave += password_Leave;
+        selectEncrypt.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
+        selectEncrypt.Location = new Point(3, 2);
+        selectEncrypt.Margin = new Padding(3, 2, 3, 2);
+        selectEncrypt.Name = "selectEncrypt";
+        selectEncrypt.Size = new Size(183, 45);
+        selectEncrypt.TabIndex = 0;
+        selectEncrypt.Text = "加密";
+        selectEncrypt.UseVisualStyleBackColor = true;
+        selectEncrypt.Click += selectEncrypt_Click;
+        // 
+        // selectDecrypt
+        // 
+        selectDecrypt.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
+        selectDecrypt.Location = new Point(192, 2);
+        selectDecrypt.Margin = new Padding(3, 2, 3, 2);
+        selectDecrypt.Name = "selectDecrypt";
+        selectDecrypt.Size = new Size(184, 45);
+        selectDecrypt.TabIndex = 1;
+        selectDecrypt.Text = "解密";
+        selectDecrypt.UseVisualStyleBackColor = true;
+        selectDecrypt.Click += selectDecrypt_Click;
         // 
         // flowLayoutPanel1
         // 
@@ -91,10 +104,10 @@ partial class Form1
         flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
         tableLayoutPanel1.SetColumnSpan(flowLayoutPanel1, 2);
         flowLayoutPanel1.Controls.Add(labelSelectPaths);
-        flowLayoutPanel1.Location = new Point(3, 151);
+        flowLayoutPanel1.Location = new Point(3, 113);
         flowLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
         flowLayoutPanel1.Name = "flowLayoutPanel1";
-        flowLayoutPanel1.Size = new Size(373, 288);
+        flowLayoutPanel1.Size = new Size(373, 244);
         flowLayoutPanel1.TabIndex = 1;
         // 
         // labelSelectPaths
@@ -103,46 +116,51 @@ partial class Form1
         labelSelectPaths.Font = new Font("PMingLiU", 12F, FontStyle.Regular, GraphicsUnit.Point);
         labelSelectPaths.Location = new Point(3, 0);
         labelSelectPaths.Name = "labelSelectPaths";
-        labelSelectPaths.Size = new Size(53, 20);
+        labelSelectPaths.Size = new Size(45, 16);
         labelSelectPaths.TabIndex = 0;
         labelSelectPaths.Text = "label1";
         // 
-        // executeEncrypt
+        // selectFile
         // 
-        executeEncrypt.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
-        executeEncrypt.Location = new Point(3, 497);
-        executeEncrypt.Margin = new Padding(3, 2, 3, 2);
-        executeEncrypt.Name = "executeEncrypt";
-        executeEncrypt.Size = new Size(183, 86);
-        executeEncrypt.TabIndex = 0;
-        executeEncrypt.Text = "加密";
-        executeEncrypt.UseVisualStyleBackColor = true;
-        executeEncrypt.Click += buttonExecuteEncrypt_Click;
+        tableLayoutPanel1.SetColumnSpan(selectFile, 2);
+        selectFile.Enabled = false;
+        selectFile.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
+        selectFile.Location = new Point(3, 51);
+        selectFile.Margin = new Padding(3, 2, 3, 2);
+        selectFile.Name = "selectFile";
+        selectFile.Size = new Size(373, 58);
+        selectFile.TabIndex = 5;
+        selectFile.Text = "選取檔案";
+        selectFile.UseVisualStyleBackColor = true;
+        selectFile.Click += selectFile_Click;
         // 
-        // executeDecrypt
+        // password
         // 
-        executeDecrypt.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
-        executeDecrypt.Location = new Point(192, 497);
-        executeDecrypt.Margin = new Padding(3, 2, 3, 2);
-        executeDecrypt.Name = "executeDecrypt";
-        executeDecrypt.Size = new Size(183, 86);
-        executeDecrypt.TabIndex = 1;
-        executeDecrypt.Text = "解密";
-        executeDecrypt.UseVisualStyleBackColor = true;
-        executeDecrypt.Click += buttonExecuteDecrypt_Click;
+        password.Anchor = AnchorStyles.Left;
+        tableLayoutPanel1.SetColumnSpan(password, 2);
+        password.Enabled = false;
+        password.Font = new Font("DFKai-SB", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+        password.Location = new Point(3, 364);
+        password.Margin = new Padding(3, 2, 3, 2);
+        password.Name = "password";
+        password.Size = new Size(373, 23);
+        password.TabIndex = 4;
+        password.Text = "請輸入密碼。注意！如果忘記則無法解開檔案！";
+        password.Enter += password_Enter;
+        password.Leave += password_Leave;
         // 
-        // buttonSelectFile
+        // execute
         // 
-        tableLayoutPanel1.SetColumnSpan(buttonSelectFile, 2);
-        buttonSelectFile.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
-        buttonSelectFile.Location = new Point(3, 2);
-        buttonSelectFile.Margin = new Padding(3, 2, 3, 2);
-        buttonSelectFile.Name = "buttonSelectFile";
-        buttonSelectFile.Size = new Size(372, 141);
-        buttonSelectFile.TabIndex = 5;
-        buttonSelectFile.Text = "選取檔案";
-        buttonSelectFile.UseVisualStyleBackColor = true;
-        buttonSelectFile.Click += buttonSelectFile_Click_1;
+        tableLayoutPanel1.SetColumnSpan(execute, 2);
+        execute.Enabled = false;
+        execute.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
+        execute.Location = new Point(3, 395);
+        execute.Name = "execute";
+        execute.Size = new Size(373, 77);
+        execute.TabIndex = 6;
+        execute.Text = "執行";
+        execute.UseVisualStyleBackColor = true;
+        execute.Click += execute_Click;
         // 
         // tableLayoutPanel2
         // 
@@ -154,30 +172,30 @@ partial class Form1
         tableLayoutPanel2.Controls.Add(cipherBitsSelectGroup, 0, 1);
         tableLayoutPanel2.Controls.Add(deleteOriginalFile, 0, 2);
         tableLayoutPanel2.Controls.Add(extraEntropy, 0, 4);
-        tableLayoutPanel2.Location = new Point(413, 12);
-        tableLayoutPanel2.Margin = new Padding(4, 6, 4, 6);
+        tableLayoutPanel2.Location = new Point(410, 11);
+        tableLayoutPanel2.Margin = new Padding(4, 5, 4, 5);
         tableLayoutPanel2.Name = "tableLayoutPanel2";
         tableLayoutPanel2.RowCount = 5;
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15.38461F));
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15.38461F));
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15.38461F));
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15.38461F));
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 38.46154F));
-        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 33F));
-        tableLayoutPanel2.Size = new Size(347, 581);
+        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 10.6232738F));
+        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 15.9904537F));
+        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 10.501193F));
+        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 12.4105015F));
+        tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 51.0739861F));
+        tableLayoutPanel2.Size = new Size(347, 419);
         tableLayoutPanel2.TabIndex = 1;
         // 
         // encryptionAlgorithmSelector
         // 
         encryptionAlgorithmSelector.Anchor = AnchorStyles.Left;
         tableLayoutPanel2.SetColumnSpan(encryptionAlgorithmSelector, 2);
+        encryptionAlgorithmSelector.Enabled = false;
         encryptionAlgorithmSelector.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
         encryptionAlgorithmSelector.FormattingEnabled = true;
         encryptionAlgorithmSelector.Items.AddRange(new object[] { "AES", "ChaCha20", "Camellia", "Twofish", "Blowfish", "3DES" });
-        encryptionAlgorithmSelector.Location = new Point(4, 29);
-        encryptionAlgorithmSelector.Margin = new Padding(4, 6, 4, 6);
+        encryptionAlgorithmSelector.Location = new Point(4, 9);
+        encryptionAlgorithmSelector.Margin = new Padding(4, 5, 4, 5);
         encryptionAlgorithmSelector.Name = "encryptionAlgorithmSelector";
-        encryptionAlgorithmSelector.Size = new Size(337, 31);
+        encryptionAlgorithmSelector.Size = new Size(337, 26);
         encryptionAlgorithmSelector.TabIndex = 2;
         encryptionAlgorithmSelector.SelectedIndexChanged += encryptionAlgorithmSelector_SelectedIndexChanged;
         // 
@@ -186,11 +204,12 @@ partial class Form1
         prefixUse.Anchor = AnchorStyles.Left;
         prefixUse.AutoSize = true;
         tableLayoutPanel2.SetColumnSpan(prefixUse, 2);
+        prefixUse.Enabled = false;
         prefixUse.Font = new Font("DFKai-SB", 12F, FontStyle.Regular, GraphicsUnit.Point);
-        prefixUse.Location = new Point(4, 289);
-        prefixUse.Margin = new Padding(4, 6, 4, 6);
+        prefixUse.Location = new Point(4, 160);
+        prefixUse.Margin = new Padding(4, 5, 4, 5);
         prefixUse.Name = "prefixUse";
-        prefixUse.Size = new Size(191, 44);
+        prefixUse.Size = new Size(154, 36);
         prefixUse.TabIndex = 1;
         prefixUse.Text = "是否使用檔名前綴\r\nENC_、DEC_";
         prefixUse.UseVisualStyleBackColor = true;
@@ -202,11 +221,11 @@ partial class Form1
         cipherBitsSelectGroup.Controls.Add(keySize_128);
         cipherBitsSelectGroup.Controls.Add(keySize_256);
         cipherBitsSelectGroup.Font = new Font("DFKai-SB", 12F, FontStyle.Regular, GraphicsUnit.Point);
-        cipherBitsSelectGroup.Location = new Point(4, 95);
-        cipherBitsSelectGroup.Margin = new Padding(4, 6, 4, 6);
+        cipherBitsSelectGroup.Location = new Point(4, 49);
+        cipherBitsSelectGroup.Margin = new Padding(4, 5, 4, 5);
         cipherBitsSelectGroup.Name = "cipherBitsSelectGroup";
-        cipherBitsSelectGroup.Padding = new Padding(4, 6, 4, 6);
-        cipherBitsSelectGroup.Size = new Size(339, 77);
+        cipherBitsSelectGroup.Padding = new Padding(4, 5, 4, 5);
+        cipherBitsSelectGroup.Size = new Size(339, 54);
         cipherBitsSelectGroup.TabIndex = 2;
         cipherBitsSelectGroup.TabStop = false;
         cipherBitsSelectGroup.Text = "密鑰長度 (bits)";
@@ -216,11 +235,12 @@ partial class Form1
         keySize_128.Anchor = AnchorStyles.Top;
         keySize_128.AutoSize = true;
         keySize_128.Checked = true;
+        keySize_128.Enabled = false;
         keySize_128.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-        keySize_128.Location = new Point(54, 32);
-        keySize_128.Margin = new Padding(4, 6, 4, 6);
+        keySize_128.Location = new Point(53, 25);
+        keySize_128.Margin = new Padding(4, 5, 4, 5);
         keySize_128.Name = "keySize_128";
-        keySize_128.Size = new Size(64, 27);
+        keySize_128.Size = new Size(53, 22);
         keySize_128.TabIndex = 3;
         keySize_128.TabStop = true;
         keySize_128.Text = "128";
@@ -230,11 +250,12 @@ partial class Form1
         // 
         keySize_256.Anchor = AnchorStyles.Top;
         keySize_256.AutoSize = true;
+        keySize_256.Enabled = false;
         keySize_256.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-        keySize_256.Location = new Point(219, 32);
-        keySize_256.Margin = new Padding(4, 6, 4, 6);
+        keySize_256.Location = new Point(221, 25);
+        keySize_256.Margin = new Padding(4, 5, 4, 5);
         keySize_256.Name = "keySize_256";
-        keySize_256.Size = new Size(64, 27);
+        keySize_256.Size = new Size(53, 22);
         keySize_256.TabIndex = 4;
         keySize_256.Text = "256";
         keySize_256.UseVisualStyleBackColor = true;
@@ -246,11 +267,12 @@ partial class Form1
         deleteOriginalFile.Checked = true;
         deleteOriginalFile.CheckState = CheckState.Checked;
         tableLayoutPanel2.SetColumnSpan(deleteOriginalFile, 2);
+        deleteOriginalFile.Enabled = false;
         deleteOriginalFile.Font = new Font("DFKai-SB", 12F, FontStyle.Regular, GraphicsUnit.Point);
-        deleteOriginalFile.Location = new Point(4, 210);
-        deleteOriginalFile.Margin = new Padding(4, 6, 4, 6);
+        deleteOriginalFile.Location = new Point(4, 121);
+        deleteOriginalFile.Margin = new Padding(4, 5, 4, 5);
         deleteOriginalFile.Name = "deleteOriginalFile";
-        deleteOriginalFile.Size = new Size(151, 24);
+        deleteOriginalFile.Size = new Size(122, 20);
         deleteOriginalFile.TabIndex = 0;
         deleteOriginalFile.Text = "是否刪除原檔";
         deleteOriginalFile.UseVisualStyleBackColor = true;
@@ -259,26 +281,28 @@ partial class Form1
         // extraEntropy
         // 
         tableLayoutPanel2.SetColumnSpan(extraEntropy, 2);
+        extraEntropy.Enabled = false;
         extraEntropy.Font = new Font("Arial", 12.75F, FontStyle.Regular, GraphicsUnit.Point);
-        extraEntropy.Location = new Point(4, 362);
-        extraEntropy.Margin = new Padding(4, 6, 4, 6);
+        extraEntropy.Location = new Point(4, 209);
+        extraEntropy.Margin = new Padding(4, 5, 4, 5);
         extraEntropy.Multiline = true;
         extraEntropy.Name = "extraEntropy";
         extraEntropy.ScrollBars = ScrollBars.Vertical;
-        extraEntropy.Size = new Size(337, 212);
+        extraEntropy.Size = new Size(337, 205);
         extraEntropy.TabIndex = 3;
-        extraEntropy.Text = "請在這裡打上一些東西，你不需要記得你輸入了什麼。";
+        extraEntropy.Text = "請在這裡打上一些東西，你不需要記得你輸入了什麼。\r\n這是額外的熵，用於增加亂數的品質。";
         extraEntropy.Enter += extraEntropy_Enter;
         extraEntropy.Leave += extraEntropy_Leave;
         // 
         // Form1
         // 
-        AutoScaleDimensions = new SizeF(8F, 20F);
+        AutoScaleDimensions = new SizeF(8F, 18F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(768, 606);
+        ClientSize = new Size(770, 494);
         Controls.Add(tableLayoutPanel2);
         Controls.Add(tableLayoutPanel1);
         Margin = new Padding(3, 2, 3, 2);
+        MaximizeBox = false;
         Name = "Form1";
         Text = "檔案加密工具";
         Load += Form1_Load_1;
@@ -296,12 +320,12 @@ partial class Form1
     #endregion
 
     private TableLayoutPanel tableLayoutPanel1;
-    private Button executeEncrypt;
+    private Button selectEncrypt;
     private TextBox password;
-    private Button buttonSelectFile;
+    private Button selectFile;
     private FlowLayoutPanel flowLayoutPanel1;
     private Label labelSelectPaths;
-    private Button executeDecrypt;
+    private Button selectDecrypt;
     private TableLayoutPanel tableLayoutPanel2;
     private CheckBox deleteOriginalFile;
     private CheckBox prefixUse;
@@ -310,4 +334,5 @@ partial class Form1
     private RadioButton keySize_256;
     private GroupBox cipherBitsSelectGroup;
     private TextBox extraEntropy;
+    private Button execute;
 }
