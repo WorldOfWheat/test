@@ -78,6 +78,8 @@
         MaximizeBox = false;
         Name = "ProgressShowForm";
         Text = "進度";
+        FormClosing += ProgressShowForm_FormClosing;
+        Load += ProgressShowForm_Load;
         tableLayoutPanel1.ResumeLayout(false);
         ResumeLayout(false);
     }

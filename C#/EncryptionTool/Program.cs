@@ -8,15 +8,6 @@ internal static class Program
     {
         Application.EnableVisualStyles();
         Application.SetCompatibleTextRenderingDefault(false);
-        ProgressShowForm progressShowForm = new ProgressShowForm();
-        Task.Run(() =>
-        {
-            Application.Run(progressShowForm);
-        });
-        for (int i = 0; i < 2000; i++)
-        {
-            Task.Delay(100).Wait();
-            progressShowForm.UpdateProgress(i, 2000);
-        }
+        Application.Run(new MainForm());
     }
 }

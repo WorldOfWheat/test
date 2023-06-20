@@ -3,9 +3,6 @@ D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\EncryptionTool.deps.jso
 D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\EncryptionTool.runtimeconfig.json
 D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\EncryptionTool.dll
 D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\EncryptionTool.pdb
-D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\BouncyCastle.Crypto.dll
-D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\ClassLibraryTest.dll
-D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\EasyModbus.dll
 D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\EncryptionPackage.dll
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.csproj.AssemblyReference.cache
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.csproj.GenerateResource.cache
@@ -21,3 +18,4 @@ D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.genrunti
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\ref\EncryptionTool.dll
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\MainForm.resources
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\ProgressShowForm.resources
+D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\BouncyCastle.Crypto.dll

@@ -1,6 +1,7 @@
-﻿
-public partial class ProgressShowForm : Form
+﻿public partial class ProgressShowForm : Form
 {
+    public bool isClosed = false;
+
     public ProgressShowForm()
     {
         InitializeComponent();
@@ -11,14 +12,18 @@ public partial class ProgressShowForm : Form
         progressBar.Value = Convert.ToInt32(((double)progressNow / progressTotal) * 100.0);
     }
 
-    public void ProcessFinish()
+    private void cancel_Click(object sender, EventArgs e)
     {
         Close();
     }
 
-    private void cancel_Click(object sender, EventArgs e)
+    private void ProgressShowForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-        cancel.Enabled = false;
-        Close();
+        isClosed = true;
+    }
+
+    private void ProgressShowForm_Load(object sender, EventArgs e)
+    {
+        isClosed = false;
     }
 }

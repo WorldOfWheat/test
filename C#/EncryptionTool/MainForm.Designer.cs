@@ -30,10 +30,9 @@ partial class MainForm
     private void InitializeComponent()
     {
         tableLayoutPanel1 = new TableLayoutPanel();
+        selectPathsList = new ListBox();
         selectEncrypt = new Button();
         selectDecrypt = new Button();
-        flowLayoutPanel1 = new FlowLayoutPanel();
-        labelSelectPaths = new Label();
         selectFile = new Button();
         password = new TextBox();
         execute = new Button();
@@ -46,7 +45,6 @@ partial class MainForm
         deleteOriginalFile = new CheckBox();
         extraEntropy = new TextBox();
         tableLayoutPanel1.SuspendLayout();
-        flowLayoutPanel1.SuspendLayout();
         tableLayoutPanel2.SuspendLayout();
         cipherBitsSelectGroup.SuspendLayout();
         SuspendLayout();
@@ -56,9 +54,9 @@ partial class MainForm
         tableLayoutPanel1.ColumnCount = 2;
         tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
         tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+        tableLayoutPanel1.Controls.Add(selectPathsList, 0, 2);
         tableLayoutPanel1.Controls.Add(selectEncrypt, 0, 0);
         tableLayoutPanel1.Controls.Add(selectDecrypt, 1, 0);
-        tableLayoutPanel1.Controls.Add(flowLayoutPanel1, 0, 2);
         tableLayoutPanel1.Controls.Add(selectFile, 0, 1);
         tableLayoutPanel1.Controls.Add(password, 0, 3);
         tableLayoutPanel1.Controls.Add(execute, 0, 4);
@@ -73,6 +71,18 @@ partial class MainForm
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.83534F));
         tableLayoutPanel1.Size = new Size(379, 475);
         tableLayoutPanel1.TabIndex = 0;
+        // 
+        // selectPathsList
+        // 
+        tableLayoutPanel1.SetColumnSpan(selectPathsList, 2);
+        selectPathsList.Enabled = false;
+        selectPathsList.Font = new Font("Arial", 11.25F, FontStyle.Regular, GraphicsUnit.Point);
+        selectPathsList.FormattingEnabled = true;
+        selectPathsList.ItemHeight = 17;
+        selectPathsList.Location = new Point(3, 114);
+        selectPathsList.Name = "selectPathsList";
+        selectPathsList.Size = new Size(373, 242);
+        selectPathsList.TabIndex = 1;
         // 
         // selectEncrypt
         // 
@@ -97,28 +107,6 @@ partial class MainForm
         selectDecrypt.Text = "解密";
         selectDecrypt.UseVisualStyleBackColor = true;
         selectDecrypt.Click += selectDecrypt_Click;
-        // 
-        // flowLayoutPanel1
-        // 
-        flowLayoutPanel1.AutoScroll = true;
-        flowLayoutPanel1.BorderStyle = BorderStyle.FixedSingle;
-        tableLayoutPanel1.SetColumnSpan(flowLayoutPanel1, 2);
-        flowLayoutPanel1.Controls.Add(labelSelectPaths);
-        flowLayoutPanel1.Location = new Point(3, 113);
-        flowLayoutPanel1.Margin = new Padding(3, 2, 3, 2);
-        flowLayoutPanel1.Name = "flowLayoutPanel1";
-        flowLayoutPanel1.Size = new Size(373, 244);
-        flowLayoutPanel1.TabIndex = 1;
-        // 
-        // labelSelectPaths
-        // 
-        labelSelectPaths.AutoSize = true;
-        labelSelectPaths.Font = new Font("PMingLiU", 12F, FontStyle.Regular, GraphicsUnit.Point);
-        labelSelectPaths.Location = new Point(3, 0);
-        labelSelectPaths.Name = "labelSelectPaths";
-        labelSelectPaths.Size = new Size(45, 16);
-        labelSelectPaths.TabIndex = 0;
-        labelSelectPaths.Text = "label1";
         // 
         // selectFile
         // 
@@ -204,7 +192,6 @@ partial class MainForm
         prefixUse.Anchor = AnchorStyles.Left;
         prefixUse.AutoSize = true;
         tableLayoutPanel2.SetColumnSpan(prefixUse, 2);
-        prefixUse.Enabled = false;
         prefixUse.Font = new Font("DFKai-SB", 12F, FontStyle.Regular, GraphicsUnit.Point);
         prefixUse.Location = new Point(4, 160);
         prefixUse.Margin = new Padding(4, 5, 4, 5);
@@ -267,7 +254,6 @@ partial class MainForm
         deleteOriginalFile.Checked = true;
         deleteOriginalFile.CheckState = CheckState.Checked;
         tableLayoutPanel2.SetColumnSpan(deleteOriginalFile, 2);
-        deleteOriginalFile.Enabled = false;
         deleteOriginalFile.Font = new Font("DFKai-SB", 12F, FontStyle.Regular, GraphicsUnit.Point);
         deleteOriginalFile.Location = new Point(4, 121);
         deleteOriginalFile.Margin = new Padding(4, 5, 4, 5);
@@ -294,22 +280,21 @@ partial class MainForm
         extraEntropy.Enter += extraEntropy_Enter;
         extraEntropy.Leave += extraEntropy_Leave;
         // 
-        // Form1
+        // MainForm
         // 
         AutoScaleDimensions = new SizeF(8F, 18F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(770, 494);
         Controls.Add(tableLayoutPanel2);
         Controls.Add(tableLayoutPanel1);
+        FormBorderStyle = FormBorderStyle.FixedDialog;
         Margin = new Padding(3, 2, 3, 2);
         MaximizeBox = false;
-        Name = "Form1";
+        Name = "MainForm";
         Text = "檔案加密工具";
         Load += Form1_Load_1;
         tableLayoutPanel1.ResumeLayout(false);
         tableLayoutPanel1.PerformLayout();
-        flowLayoutPanel1.ResumeLayout(false);
-        flowLayoutPanel1.PerformLayout();
         tableLayoutPanel2.ResumeLayout(false);
         tableLayoutPanel2.PerformLayout();
         cipherBitsSelectGroup.ResumeLayout(false);
@@ -323,8 +308,6 @@ partial class MainForm
     private Button selectEncrypt;
     private TextBox password;
     private Button selectFile;
-    private FlowLayoutPanel flowLayoutPanel1;
-    private Label labelSelectPaths;
     private Button selectDecrypt;
     private TableLayoutPanel tableLayoutPanel2;
     private CheckBox deleteOriginalFile;
@@ -335,4 +318,5 @@ partial class MainForm
     private GroupBox cipherBitsSelectGroup;
     private TextBox extraEntropy;
     private Button execute;
+    private ListBox selectPathsList;
 }

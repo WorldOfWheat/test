@@ -17,7 +17,6 @@ public partial class MainForm : Form
     // Method called when Form1 is loaded
     private void Form1_Load_1(object sender, EventArgs e)
     {
-        labelSelectPaths.Text = "";
         Control.CheckForIllegalCrossThreadCalls = false;
         passwordHintText = password.Text;
         extraEntropyHintText = extraEntropy.Text;
@@ -41,6 +40,7 @@ public partial class MainForm : Form
                 return;
             }
         }
+
         Task.Run(() =>
         {
             bool previousSelectEncryptEnable = selectEncrypt.Enabled;
@@ -64,12 +64,8 @@ public partial class MainForm : Form
         execute.Enabled = true;
         // right panel
         encryptionAlgorithmSelector.Enabled = true;
-        keySize_128.Enabled = true;
-        keySize_256.Enabled = true;
-        deleteOriginalFile.Enabled = true;
-        prefixUse.Enabled = true;
+        cipherBitsSelectGroup.Enabled = true;
         extraEntropy.Enabled = true;
-
     }
 
     // Event handler for the buttonExecuteDecrypt click event
@@ -83,12 +79,8 @@ public partial class MainForm : Form
         execute.Enabled = true;
         // right panel
         encryptionAlgorithmSelector.Enabled = false;
-        keySize_128.Enabled = false;
-        keySize_256.Enabled = false;
-        deleteOriginalFile.Enabled = false;
-        prefixUse.Enabled = false;
+        cipherBitsSelectGroup.Enabled = false;
         extraEntropy.Enabled = false;
-
     }
 
     private void execute_Click(object sender, EventArgs e)
@@ -104,11 +96,11 @@ public partial class MainForm : Form
                 return;
             }
 
-            executeEncryptAndMessageBox();
+            executeEncryptService();
         }
         else
         {
-            executeDecryptAndMessageBox();
+            executeDecryptService();
         }
     }
 
@@ -192,12 +184,20 @@ public partial class MainForm : Form
         }
     }
 
-    private void executeEncryptAndMessageBox()
+    private void executeEncryptService()
     {
         WriteEncryptionParameters();
         encryptionParameters.IfEncrypt = true;
         Semaphore semaphore = new Semaphore(2, 2);
         List<Task> tasks = new List<Task>();
+
+        ProgressShowForm progressShowForm = new ProgressShowForm();
+        Task.Run(() =>
+        {
+            progressShowForm.ShowDialog();
+        });
+        int counter = 0;
+
         foreach (var i in selectFiles)
         {
             PathParameters pathParameters = new PathParameters();
@@ -206,29 +206,48 @@ public partial class MainForm : Form
             Task task = Task.Run(() =>
             {
                 semaphore.WaitOne();
-                IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
-                try
+                if (!progressShowForm.isClosed)
                 {
-                    encryptionService.EncryptFile(pathParameters);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"{ex.Message}\n{i}\n加密失敗，可能是選擇了錯誤的檔案", "檔案錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
+                    try
+                    {
+                        encryptionService.EncryptFile(pathParameters);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"{ex.Message}\n{i}\n加密失敗，可能是選擇了錯誤的檔案", "檔案錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 semaphore.Release();
+                counter++;
             });
             tasks.Add(task);
         }
+
+        while (counter < selectFiles.Length)
+        {
+            progressShowForm.UpdateProgress(counter, selectFiles.Length);
+        }
+        progressShowForm.Close();
+
         Task.WaitAll(tasks.ToArray());
         semaphore.Dispose();
     }
 
-    private void executeDecryptAndMessageBox()
+    private void executeDecryptService()
     {
         WriteEncryptionParameters();
         encryptionParameters.IfEncrypt = false;
         Semaphore semaphore = new Semaphore(2, 2);
         List<Task> tasks = new List<Task>();
+
+        ProgressShowForm progressShowForm = new ProgressShowForm();
+        Task.Run(() =>
+        {
+            progressShowForm.ShowDialog();
+        });
+        int counter = 0;
+
         foreach (var i in selectFiles)
         {
             PathParameters pathParameters = new PathParameters();
@@ -237,19 +256,31 @@ public partial class MainForm : Form
             Task task = Task.Run(() =>
             {
                 semaphore.WaitOne();
-                IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
-                try
+                if (!progressShowForm.isClosed)
                 {
-                    encryptionService.DecryptFile(pathParameters);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"{ex.Message}\n{i}\n解密失敗，可能是選擇了錯誤的檔案", "檔案錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    IEncryptionService encryptionService = new EncryptionService(encryptionParameters);
+                    try
+                    {
+                        encryptionService.DecryptFile(pathParameters);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"{ex.Message}\n{i}\n解密失敗，可能是選擇了錯誤的檔案", "檔案錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
                 semaphore.Release();
+                counter++;
             });
+            progressShowForm.UpdateProgress(counter, selectFiles.Length);
             tasks.Add(task);
         }
+
+        while (counter < selectFiles.Length)
+        {
+            progressShowForm.UpdateProgress(counter, selectFiles.Length);
+        }
+        progressShowForm.Close();
+
         Task.WaitAll(tasks.ToArray());
         semaphore.Dispose();
     }
@@ -257,13 +288,11 @@ public partial class MainForm : Form
     // Method to show selected files in the labelSelectPaths label
     private void ShowSelectFiles()
     {
-        labelSelectPaths.Text = "";
-        StringBuilder stringBuilder = new StringBuilder();
+        selectPathsList.Items.Clear();
         for (int i = 0; i < selectFiles.Length; i++)
         {
-            stringBuilder.AppendLine(selectFiles[i]);
+            selectPathsList.Items.Add(selectFiles[i]);
         }
-        labelSelectPaths.Text = stringBuilder.ToString();
     }
 
     // Method to verify password and display message boxes

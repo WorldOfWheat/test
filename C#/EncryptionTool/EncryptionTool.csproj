@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -9,18 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>packages\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
-    <Reference Include="ClassLibraryTest">
-      <HintPath>packages\ClassLibraryTest.dll</HintPath>
-    </Reference>
-    <Reference Include="EasyModbus">
-      <HintPath>packages\EasyModbus.dll</HintPath>
-    </Reference>
+    <None Remove="packages\BouncyCastle.Crypto.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="EncryptionPackage">
       <HintPath>packages\EncryptionPackage.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>
