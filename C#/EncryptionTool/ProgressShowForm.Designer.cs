@@ -30,6 +30,7 @@
         cancel = new Button();
         tableLayoutPanel1 = new TableLayoutPanel();
         progressCount = new Label();
+        errorList = new ListView();
         tableLayoutPanel1.SuspendLayout();
         SuspendLayout();
         // 
@@ -39,14 +40,14 @@
         progressBar.Location = new Point(3, 37);
         progressBar.Margin = new Padding(3, 4, 3, 4);
         progressBar.Name = "progressBar";
-        progressBar.Size = new Size(428, 25);
+        progressBar.Size = new Size(614, 25);
         progressBar.TabIndex = 0;
         progressBar.Value = 50;
         // 
         // cancel
         // 
         cancel.Anchor = AnchorStyles.Top;
-        cancel.Location = new Point(139, 70);
+        cancel.Location = new Point(232, 70);
         cancel.Margin = new Padding(3, 4, 3, 4);
         cancel.Name = "cancel";
         cancel.Size = new Size(155, 26);
@@ -68,7 +69,7 @@
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
         tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.3333321F));
-        tableLayoutPanel1.Size = new Size(434, 100);
+        tableLayoutPanel1.Size = new Size(620, 100);
         tableLayoutPanel1.TabIndex = 2;
         // 
         // progressCount
@@ -82,11 +83,21 @@
         progressCount.TabIndex = 2;
         progressCount.Text = "progressCount";
         // 
+        // errorList
+        // 
+        errorList.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+        errorList.Location = new Point(12, 118);
+        errorList.Name = "errorList";
+        errorList.Size = new Size(620, 215);
+        errorList.TabIndex = 3;
+        errorList.UseCompatibleStateImageBehavior = false;
+        // 
         // ProgressShowForm
         // 
         AutoScaleDimensions = new SizeF(8F, 18F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(459, 345);
+        ClientSize = new Size(644, 345);
+        Controls.Add(errorList);
         Controls.Add(tableLayoutPanel1);
         Margin = new Padding(3, 4, 3, 4);
         MaximizeBox = false;
@@ -105,4 +116,5 @@
     private Button cancel;
     private TableLayoutPanel tableLayoutPanel1;
     private Label progressCount;
+    private ListView errorList;
 }

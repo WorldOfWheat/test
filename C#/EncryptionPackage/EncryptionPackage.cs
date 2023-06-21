@@ -452,6 +452,5 @@ namespace EncryptionPackage
             }
             return true;
         }
-
     }
 }

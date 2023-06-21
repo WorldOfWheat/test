@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using EncryptionPackage;
 
@@ -27,8 +25,8 @@ public partial class MainForm : Form
         selectPathsList.GridLines = true;
         selectPathsList.Columns.Add("路徑");
         //
-        ContextMenuStrip contextMenuStrip = new ContextMenuStrip(); // 滑鼠右鍵選單
-        selectPathsList.ContextMenuStrip = contextMenuStrip; // 將 Form1 的滑鼠右鍵選單設定為 contextMenuStrip
+        ContextMenuStrip contextMenuStrip = new ContextMenuStrip();
+        selectPathsList.ContextMenuStrip = contextMenuStrip;
         ToolStripMenuItem toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem(); // 滑鼠右鍵選單選項
         toolStripMenuItem.Text = "刪除";
         toolStripMenuItem.Click += (sender, e) => 
@@ -244,7 +242,7 @@ public partial class MainForm : Form
                     }
                     catch (Exception ex)
                     {
-                        progressShowForm.AddError($"{ex.Message}\n{i}\n解密失敗，可能是選擇了錯誤的檔案");
+                        progressShowForm.AddError(pathParameters.Path, ex.Message);
                     }
                 }
                 semaphore.Release();
@@ -257,6 +255,8 @@ public partial class MainForm : Form
         {
             progressShowForm.UpdateProgress(counter, selectPathsCount);
         }
+        // need to update again, because error will kill the task
+        progressShowForm.UpdateProgress(counter, selectPathsCount);
         progressShowForm.Close();
 
         Task.WaitAll(tasks.ToArray());
@@ -295,7 +295,7 @@ public partial class MainForm : Form
                     }
                     catch (Exception ex)
                     {
-                        progressShowForm.AddError($"{ex.Message}\n{i}\n解密失敗，可能是選擇了錯誤的檔案");
+                        progressShowForm.AddError(pathParameters.Path, ex.Message);
                     }
                 }
                 semaphore.Release();
@@ -308,6 +308,8 @@ public partial class MainForm : Form
         {
             progressShowForm.UpdateProgress(counter, selectPathsCount);
         }
+        // need to update again, because error will kill the task
+        progressShowForm.UpdateProgress(counter, selectPathsCount);
         progressShowForm.Close();
 
         Task.WaitAll(tasks.ToArray());
@@ -331,7 +333,6 @@ public partial class MainForm : Form
         execute.Enabled = true;
     }
 
-    // Method to verify password and display message boxes
     private bool VerifyPasswordAndMessageBox()
     {
         string password = this.password.Text;
