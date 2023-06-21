@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using EncryptionPackage;
@@ -5,7 +6,7 @@ using EncryptionPackage;
 public partial class MainForm : Form
 {
     private EncryptionParameters encryptionParameters = new EncryptionParameters();
-    private string[] selectPath;
+    private SortedSet<string> selectPaths = new SortedSet<string>();
     private string passwordHintText;
     private string extraEntropyHintText;
 
@@ -18,8 +19,31 @@ public partial class MainForm : Form
     private void Form1_Load_1(object sender, EventArgs e)
     {
         Control.CheckForIllegalCrossThreadCalls = false;
+        //
         passwordHintText = password.Text;
         extraEntropyHintText = extraEntropy.Text;
+        //
+        selectPathsList.View = View.Details;
+        selectPathsList.GridLines = true;
+        selectPathsList.Columns.Add("路徑");
+        //
+        ContextMenuStrip contextMenuStrip = new ContextMenuStrip(); // 滑鼠右鍵選單
+        selectPathsList.ContextMenuStrip = contextMenuStrip; // 將 Form1 的滑鼠右鍵選單設定為 contextMenuStrip
+        ToolStripMenuItem toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem(); // 滑鼠右鍵選單選項
+        toolStripMenuItem.Text = "刪除";
+        toolStripMenuItem.Click += (sender, e) => 
+        { 
+            if (selectPathsList.SelectedItems.Count <= 0)
+            {
+                return;
+            }
+            foreach (ListViewItem i in selectPathsList.SelectedItems)
+            {
+                selectPaths.Remove(i.Text);
+            }
+            Task.Run(() => { showSelectPathAndLockExecuteButton(); });
+        };
+        contextMenuStrip.Items.Add(toolStripMenuItem);
     }
 
     // Event handler for the buttonSelectFile click event
@@ -32,7 +56,11 @@ public partial class MainForm : Form
 
             if (selectDialog.ShowDialog() == DialogResult.OK)
             {
-                selectPath = selectDialog.FileNames.ToArray();
+                selectPaths.Clear();
+                foreach (var i in selectDialog.FileNames)
+                {
+                    selectPaths.Add(i);
+                }
             }
             else
             {
@@ -42,13 +70,7 @@ public partial class MainForm : Form
 
         Task.Run(() =>
         {
-            bool previousSelectEncryptEnable = selectEncrypt.Enabled;
-            bool previousSelectDecryptEnable = selectDecrypt.Enabled;
-            selectEncrypt.Enabled = false;
-            selectDecrypt.Enabled = false;
-            ShowselectPath();
-            selectEncrypt.Enabled = previousSelectEncryptEnable;
-            selectDecrypt.Enabled = previousSelectDecryptEnable;
+            showSelectPathAndLockExecuteButton();
         });
     }
 
@@ -94,6 +116,7 @@ public partial class MainForm : Form
             {
                 return;
             }
+
             RepeatPasswordForm repeatPasswordForm = new RepeatPasswordForm(password.Text);
             repeatPasswordForm.ShowDialog();
             if (!repeatPasswordForm.ifContinue)
@@ -201,9 +224,10 @@ public partial class MainForm : Form
         {
             progressShowForm.ShowDialog();
         });
-        int counter = 0;
 
-        foreach (var i in selectPath)
+        int counter = 0;
+        int selectPathsCount = selectPaths.Count;
+        foreach (var i in selectPaths)
         {
             PathParameters pathParameters = new PathParameters();
             WritePathParameters(ref pathParameters);
@@ -220,7 +244,7 @@ public partial class MainForm : Form
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"{ex.Message}\n{i}\n加密失敗，可能是選擇了錯誤的檔案", "檔案錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        progressShowForm.AddError($"{ex.Message}\n{i}\n解密失敗，可能是選擇了錯誤的檔案");
                     }
                 }
                 semaphore.Release();
@@ -229,9 +253,9 @@ public partial class MainForm : Form
             tasks.Add(task);
         }
 
-        while (counter < selectPath.Length)
+        while (counter < selectPathsCount)
         {
-            progressShowForm.UpdateProgress(counter, selectPath.Length);
+            progressShowForm.UpdateProgress(counter, selectPathsCount);
         }
         progressShowForm.Close();
 
@@ -251,9 +275,10 @@ public partial class MainForm : Form
         {
             progressShowForm.ShowDialog();
         });
-        int counter = 0;
 
-        foreach (var i in selectPath)
+        int counter = 0;
+        int selectPathsCount = selectPaths.Count;
+        foreach (var i in selectPaths)
         {
             PathParameters pathParameters = new PathParameters();
             WritePathParameters(ref pathParameters);
@@ -270,19 +295,18 @@ public partial class MainForm : Form
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"{ex.Message}\n{i}\n解密失敗，可能是選擇了錯誤的檔案", "檔案錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        progressShowForm.AddError($"{ex.Message}\n{i}\n解密失敗，可能是選擇了錯誤的檔案");
                     }
                 }
                 semaphore.Release();
                 counter++;
             });
-            progressShowForm.UpdateProgress(counter, selectPath.Length);
             tasks.Add(task);
         }
 
-        while (counter < selectPath.Length)
+        while (counter < selectPathsCount)
         {
-            progressShowForm.UpdateProgress(counter, selectPath.Length);
+            progressShowForm.UpdateProgress(counter, selectPathsCount);
         }
         progressShowForm.Close();
 
@@ -291,13 +315,20 @@ public partial class MainForm : Form
     }
 
     // Method to show selected files in the labelSelectPaths label
-    private void ShowselectPath()
+    private void showSelectPathAndLockExecuteButton()
     {
+        execute.Enabled = false;
+        selectPathsList.BeginUpdate();
+        //
         selectPathsList.Items.Clear();
-        for (int i = 0; i < selectPath.Length; i++)
+        foreach (var i in selectPaths)
         {
-            selectPathsList.Items.Add(selectPath[i]);
+            selectPathsList.Items.Add(i);
         }
+        selectPathsList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+        //
+        selectPathsList.EndUpdate();
+        execute.Enabled = true;
     }
 
     // Method to verify password and display message boxes
@@ -338,7 +369,7 @@ public partial class MainForm : Form
             MessageBox.Show("請填入密碼", "項目錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return false;
         }
-        if (selectPath == null || selectPath.Length == 0)
+        if (selectPaths.Count == 0)
         {
             MessageBox.Show("請選擇檔案", "項目錯誤", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return false;
