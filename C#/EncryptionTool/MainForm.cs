@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using EncryptionPackage;
 
@@ -242,24 +243,24 @@ public partial class MainForm : Form
                     }
                     catch (Exception ex)
                     {
-                        progressShowForm.AddError(pathParameters.Path, ex.Message);
+                        lock (progressShowForm)
+                        {
+                            progressShowForm.AddError(pathParameters.Path, ex.Message);
+                        }
                     }
                 }
                 semaphore.Release();
-                counter++;
+                lock (progressShowForm)
+                {
+                    counter++;
+                    progressShowForm.UpdateProgress(counter, selectPathsCount);
+                }
             });
             tasks.Add(task);
         }
 
-        while (counter < selectPathsCount)
-        {
-            progressShowForm.UpdateProgress(counter, selectPathsCount);
-        }
-        // need to update again, because error will kill the task
-        progressShowForm.UpdateProgress(counter, selectPathsCount);
-        progressShowForm.Close();
-
         Task.WaitAll(tasks.ToArray());
+        progressShowForm.Close();
         semaphore.Dispose();
     }
 
@@ -295,24 +296,24 @@ public partial class MainForm : Form
                     }
                     catch (Exception ex)
                     {
-                        progressShowForm.AddError(pathParameters.Path, ex.Message);
+                        lock (progressShowForm)
+                        {
+                            progressShowForm.AddError(pathParameters.Path, ex.Message);
+                        }
                     }
                 }
                 semaphore.Release();
-                counter++;
+                lock (progressShowForm)
+                {
+                    counter++;
+                    progressShowForm.UpdateProgress(counter, selectPathsCount);
+                }
             });
             tasks.Add(task);
         }
 
-        while (counter < selectPathsCount)
-        {
-            progressShowForm.UpdateProgress(counter, selectPathsCount);
-        }
-        // need to update again, because error will kill the task
-        progressShowForm.UpdateProgress(counter, selectPathsCount);
-        progressShowForm.Close();
-
         Task.WaitAll(tasks.ToArray());
+        progressShowForm.Close();
         semaphore.Dispose();
     }
 
