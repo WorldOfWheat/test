@@ -1,17 +1,11 @@
-#include <bits/stdc++.h>
-
-void test_function()
-{
-    printf("Hello World!\n");
-}
+#include <stdio.h>
 
 int main()
 {
-    char buffer[128];
-    buffer[0] = 'A';
-    test_function();
-    gets(buffer);
-    printf("%s\n", buffer);
+    for (int i = 0; i < 5; i++)
+    {
+        printf("%d ", i);
+    }
 
     return 0;
 }
