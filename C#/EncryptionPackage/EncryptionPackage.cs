@@ -1,5 +1,4 @@
-﻿// Importing the required namespaces
-using Org.BouncyCastle.Crypto;
+﻿using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
@@ -7,6 +6,15 @@ using System.Diagnostics;
 
 namespace EncryptionPackage
 {
+    public enum ErrorCode
+    {
+        InvaildKey,
+        InvaildFile,
+        InvaildEncryptionAlgorithm,
+        PathParametersIsInvalid,
+        EncryptionParametersIsInvalid,
+    }
+
     public enum EncryptionAlgorithms
     {
         AES,
@@ -37,14 +45,14 @@ namespace EncryptionPackage
     {
         public EncryptionAlgorithms EncryptionAlgorithm { get; set; }
         public bool IfEncrypt { get; set; }
-        public byte[] Key { get; set; }
+        public byte[]? Key { get; set; }
         public short KeyLength { get; set; }
-        public byte[] ExtraEntropy { get; set; }
+        public byte[]? ExtraEntropy { get; set; }
     }
 
     public class PathParameters
     {
-        public string Path { get; set; }
+        public string? Path { get; set; }
         public bool IfUsePrefix { get; set; }
         public bool IfDeleteOriginalPath { get; set; }
     }
@@ -58,6 +66,7 @@ namespace EncryptionPackage
     // Class representing an encryption package
     public class EncryptionService : IEncryptionService
     {
+
         private readonly SecureRandom randomGenerator = new SecureRandom();
         private Dictionary<EncryptionAlgorithms, EncryptionAlgorithmsDetails> encryptionAlgorithmMap;
         private IBufferedCipher cipher;
@@ -71,7 +80,7 @@ namespace EncryptionPackage
             public byte[] KeyDerivationSalt = new byte[32];
             public byte[] KeyVerifyHash = new byte[32];
             public byte[] IV = new byte[8];
-            public byte[] EncryptedFileEncryptionKey;
+            public byte[]? EncryptedFileEncryptionKey;
 
             // Override the ToString method to provide a string representation of the header data
             public override string ToString()
@@ -105,15 +114,15 @@ namespace EncryptionPackage
         {
             if (encryptionAlgorithmMap.ContainsKey(parameters.EncryptionAlgorithm) == false && parameters.IfEncrypt)
             {
-                throw new ArgumentException("Encryption algorithm not specified.");
+                throw new ArgumentException(((int) ErrorCode.InvaildEncryptionAlgorithm).ToString());
             }
             if (parameters.Key == null || parameters.Key.Length == 0)
             {
-                throw new ArgumentNullException(nameof(parameters.Key));
+                throw new ArgumentNullException(((int) ErrorCode.InvaildKey).ToString());
             }
             if (parameters.KeyLength != (short)128 && parameters.KeyLength != (short)256)
             {
-                throw new ArgumentException("Invalid key length", nameof(parameters.Key));
+                throw new ArgumentException(((int) ErrorCode.InvaildKey).ToString());
             }
         }
 
@@ -121,11 +130,11 @@ namespace EncryptionPackage
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException(nameof(parameters));
+                throw new ArgumentNullException(((int) ErrorCode.PathParametersIsInvalid).ToString());
             }
             if (string.IsNullOrEmpty(parameters.Path))
             {
-                throw new ArgumentNullException(nameof(parameters.Path));
+                throw new ArgumentNullException(((int) ErrorCode.PathParametersIsInvalid).ToString());
             }
         }
 
@@ -136,13 +145,11 @@ namespace EncryptionPackage
 
             string encryptionFilePath = GetEncryptionPath(parameters);
 
-            byte[] fileEncryptionKey = null;
-            byte[] fileEncryptionIV = null;
+            byte[]? fileEncryptionKey = null;
+            byte[]? fileEncryptionIV = null;
             HeaderData headerData = GenerateHeaderData(ref fileEncryptionKey, ref fileEncryptionIV);
             byte[] writtenHeader = CreateWrittenHeader(headerData);
             WriteHeader(writtenHeader, encryptionFilePath);
-
-            Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
 
             cipher.Init(true, new ParametersWithIV(new KeyParameter(fileEncryptionKey), fileEncryptionIV));
             EncryptMainDataAndWrite(parameters.Path, encryptionFilePath);
@@ -184,7 +191,6 @@ namespace EncryptionPackage
 
         private void EncryptMainDataAndWrite(string originalPath, string encryptPath)
         {
-            // Debug.WriteLine($"{originalPath}\n{encryptPath}");
             using (FileStream originalFileStream = File.OpenRead(originalPath))
             using (BinaryReader binaryReader = new BinaryReader(originalFileStream))
             using (FileStream encryptFileStream = File.OpenWrite(encryptPath))
@@ -192,7 +198,7 @@ namespace EncryptionPackage
             {
                 encryptFileStream.Seek(256 + 1, SeekOrigin.Begin);
 
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[4096];
                 int bytesRead;
                 while ((bytesRead = binaryReader.Read(buffer, 0, buffer.Length)) > 0)
                 {
@@ -250,28 +256,22 @@ namespace EncryptionPackage
                 // file encryption key length
                 binaryWriter.Write(headerData.FileEncryptionKeyLength);
                 // salt
-                binaryWriter.Write((byte)headerData.KeyVerifySalt.Length);
-                // Debug.WriteLine((byte) headerData.KeyVerifySalt.Length);
+                binaryWriter.Write((byte) headerData.KeyVerifySalt.Length);
                 binaryWriter.Write(headerData.KeyVerifySalt);
 
-                binaryWriter.Write((byte)headerData.KeyDerivationSalt.Length);
-                // Debug.WriteLine((byte) headerData.KeyDerivationSalt.Length);
+                binaryWriter.Write((byte) headerData.KeyDerivationSalt.Length);
                 binaryWriter.Write(headerData.KeyDerivationSalt);
                 // hash
-                binaryWriter.Write((byte)headerData.KeyVerifyHash.Length);
-                // Debug.WriteLine((byte) headerData.KeyVerifyHash.Length);
+                binaryWriter.Write((byte) headerData.KeyVerifyHash.Length);
                 binaryWriter.Write(headerData.KeyVerifyHash);
                 //iv
-                binaryWriter.Write((byte)headerData.IV.Length);
-                // Debug.WriteLine((byte) headerData.IV.Length);
+                binaryWriter.Write((byte) headerData.IV.Length);
                 binaryWriter.Write(headerData.IV);
                 // encryption key 
-                binaryWriter.Write((byte)headerData.EncryptedFileEncryptionKey.Length);
-                // Debug.WriteLine((byte) headerData.EncryptedFileEncryptionKey.Length);
+                binaryWriter.Write((byte) headerData.EncryptedFileEncryptionKey.Length);
                 binaryWriter.Write(headerData.EncryptedFileEncryptionKey);
 
                 binaryWriter.Flush();
-                // Debug.WriteLine("");
 
                 return memoryStream.ToArray();
             }
@@ -283,7 +283,6 @@ namespace EncryptionPackage
             using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
             {
                 binaryWriter.Write(headerBytes);
-                Debug.WriteLine($"Header Padding: {256 - headerBytes.Length}");
                 binaryWriter.Write(new byte[256 - headerBytes.Length]);
                 binaryWriter.Flush();
             }
@@ -297,7 +296,7 @@ namespace EncryptionPackage
             // Verify the input key
             if (!KeyVerify(headerData))
             {
-                throw new Exception("Input key is wrong!");
+                throw new ArgumentException(((int) ErrorCode.InvaildKey).ToString());
             }
 
             EncryptionAlgorithmsDetails encryptionAlgorithmsDetails = encryptionAlgorithmMap[(EncryptionAlgorithms) headerData.EncryptionAlgorithm];
@@ -305,10 +304,7 @@ namespace EncryptionPackage
 
             string decryptionPath = GetDecryptionPath(parameters);
 
-            // Derive the protection key and decrypt the file encryption key
             byte[] protectionKey = KeyDerivation(encryptionParameters.Key, headerData.KeyDerivationSalt, encryptionAlgorithmsDetails.MaxKeyLength);
-            // Debug.WriteLine($"Protection Key: {Convert.ToBase64String(protectionKey)}");
-
             byte[] fileEncryptionKey = DecryptBytes(headerData.EncryptedFileEncryptionKey, protectionKey, headerData.IV);
             if (!headerData.FileEncryptionKeyLength)
             {
@@ -318,8 +314,6 @@ namespace EncryptionPackage
             {
                 fileEncryptionKey = fileEncryptionKey.Take(encryptionAlgorithmsDetails.MaxKeyLength >> 3).ToArray();
             }
-
-            Debug.WriteLine($"File Encryption Key: {Convert.ToBase64String(fileEncryptionKey)} {fileEncryptionKey.Length} bytes");
 
             // Initialize the stream cipher and decrypt the main data
             cipher.Init(false, new ParametersWithIV(new KeyParameter(fileEncryptionKey), headerData.IV));
@@ -403,22 +397,17 @@ namespace EncryptionPackage
                 headerData.FileEncryptionKeyLength = binaryReader.ReadBoolean();
                 // salt
                 byte byteRead = binaryReader.ReadByte();
-                // Debug.WriteLine(byteRead);
                 headerData.KeyVerifySalt = binaryReader.ReadBytes(byteRead);
                 byteRead = binaryReader.ReadByte();
-                // Debug.WriteLine(byteRead);
                 headerData.KeyDerivationSalt = binaryReader.ReadBytes(byteRead);
                 // hash
                 byteRead = binaryReader.ReadByte();
-                // Debug.WriteLine(byteRead);
                 headerData.KeyVerifyHash = binaryReader.ReadBytes(byteRead);
                 // iv
                 byteRead = binaryReader.ReadByte();
-                // Debug.WriteLine(byteRead);
                 headerData.IV = binaryReader.ReadBytes(byteRead);
                 // encrypted file encryption key
                 byteRead = binaryReader.ReadByte();
-                // Debug.WriteLine(byteRead);
                 headerData.EncryptedFileEncryptionKey = binaryReader.ReadBytes(byteRead);
 
                 return headerData;
@@ -430,7 +419,7 @@ namespace EncryptionPackage
         {
             if (key == null)
             {
-                throw new ArgumentNullException(nameof(key));
+                throw new ArgumentNullException(((int) ErrorCode.InvaildKey).ToString());
             }
             Pkcs5S2ParametersGenerator generator = new Pkcs5S2ParametersGenerator();
             generator.Init(key, salt, 10000);
