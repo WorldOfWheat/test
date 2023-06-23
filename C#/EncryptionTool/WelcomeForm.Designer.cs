@@ -65,11 +65,11 @@
             info.Anchor = AnchorStyles.None;
             info.AutoSize = true;
             info.Font = new Font("DFKai-SB", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
-            info.Location = new Point(6, 9);
+            info.Location = new Point(11, 9);
             info.Name = "info";
-            info.Size = new Size(208, 84);
+            info.Size = new Size(197, 84);
             info.TabIndex = 1;
-            info.Text = "歡迎使用加密工具！\r\n作者：小麥\r\n版本：v1.0\r\n本程式使用MIT條款";
+            info.Text = "歡迎使用加密工具\r\n作者：小麥\r\n版本：v1.0\r\n本程式使用MIT條款";
             info.TextAlign = ContentAlignment.MiddleCenter;
             info.UseWaitCursor = true;
             // 
