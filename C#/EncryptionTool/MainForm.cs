@@ -30,8 +30,8 @@ public partial class MainForm : Form
         selectPathsList.ContextMenuStrip = contextMenuStrip;
         ToolStripMenuItem toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem(); // 滑鼠右鍵選單選項
         toolStripMenuItem.Text = "刪除";
-        toolStripMenuItem.Click += (sender, e) => 
-        { 
+        toolStripMenuItem.Click += (sender, e) =>
+        {
             if (selectPathsList.SelectedItems.Count <= 0)
             {
                 return;

@@ -20,3 +20,4 @@ D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\MainForm.resources
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\ProgressShowForm.resources
 D:\Git\test\C#\EncryptionTool\bin\Release\net6.0-windows\BouncyCastle.Crypto.dll
 D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\RepeatPasswordForm.resources
+D:\Git\test\C#\EncryptionTool\obj\Release\net6.0-windows\EncryptionTool.WelcomeForm.resources

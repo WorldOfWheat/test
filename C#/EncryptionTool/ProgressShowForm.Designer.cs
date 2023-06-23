@@ -102,6 +102,7 @@
         Margin = new Padding(3, 4, 3, 4);
         MaximizeBox = false;
         Name = "ProgressShowForm";
+        StartPosition = FormStartPosition.CenterParent;
         Text = "進度";
         FormClosing += ProgressShowForm_FormClosing;
         Load += ProgressShowForm_Load;

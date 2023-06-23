@@ -289,6 +289,7 @@ partial class MainForm
         Margin = new Padding(3, 2, 3, 2);
         MaximizeBox = false;
         Name = "MainForm";
+        StartPosition = FormStartPosition.CenterParent;
         Text = "檔案加密工具";
         Load += Form1_Load_1;
         tableLayoutPanel1.ResumeLayout(false);

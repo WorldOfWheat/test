@@ -33,7 +33,7 @@
     {
         errorList.BeginUpdate();
         //
-        ListViewItem newRow = new ListViewItem(path); 
+        ListViewItem newRow = new ListViewItem(path);
         newRow.SubItems.Add(errorMsg);
         errorList.Items.Add(newRow);
         // errorList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
