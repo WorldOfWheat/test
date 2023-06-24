@@ -1,4 +1,7 @@
+# C C++ 
 *.out
 *.exe
-C#/**/bin/*
-C#/**/obj/*
+
+# C#
+CS/**/bin/*
+CS/**/obj/*
