@@ -119,12 +119,7 @@ partial class MainForm
         password.Location = new Point(3, 405);
         password.Margin = new Padding(3, 2, 3, 2);
         password.Name = "password";
-<<<<<<< HEAD
-        password.RightToLeft = RightToLeft.No;
-        password.Size = new Size(373, 23);
-=======
         password.Size = new Size(373, 27);
->>>>>>> 1762ab8783018bd8d9a894babb620509ba22e092
         password.TabIndex = 4;
         password.Text = "請輸入密碼。注意！如果忘記則無法解開檔案！";
         password.Enter += password_Enter;

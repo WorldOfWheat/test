@@ -1,4 +1,6 @@
-﻿public partial class ProgressShowForm : Form
+﻿using System.Diagnostics;
+
+public partial class ProgressShowForm : Form
 {
     public bool isClosed = false;
 
@@ -16,6 +18,7 @@
         errorList.Columns.Add("路徑");
         errorList.Columns.Add("錯誤訊息");
         errorList.Columns[0].Width = 350;
+        errorList.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.HeaderSize);
     }
 
     private void ProgressShowForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -30,6 +33,11 @@
 
     public void AddError(string path, string errorMsg)
     {
+        if (isClosed)
+        {
+            return;
+        }
+        //
         errorList.BeginUpdate();
         //
         ListViewItem newRow = new ListViewItem(path);
