@@ -16,7 +16,6 @@
         errorList.Columns.Add("路徑");
         errorList.Columns.Add("錯誤訊息");
         errorList.Columns[0].Width = 350;
-        errorList.Columns[1].Width = 200;
     }
 
     private void ProgressShowForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -36,7 +35,7 @@
         ListViewItem newRow = new ListViewItem(path);
         newRow.SubItems.Add(errorMsg);
         errorList.Items.Add(newRow);
-        // errorList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+        errorList.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.ColumnContent);
         //
         errorList.EndUpdate();
     }

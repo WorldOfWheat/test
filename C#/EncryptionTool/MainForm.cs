@@ -4,6 +4,15 @@ using EncryptionPackage;
 
 public partial class MainForm : Form
 {
+    private Dictionary<ErrorCode, string> errorMessage = new Dictionary<ErrorCode, string>()
+    {
+        [ErrorCode.PathParametersIsInvalid] = "[BUG] 檔案設定錯誤",
+        [ErrorCode.EncryptionParametersIsInvalid] = "[BUG] 加密設定錯誤",
+        [ErrorCode.InvaildEncryptionAlgorithm] = "[BUG] 找不到選定的加密演算法",
+        [ErrorCode.InvaildKey] = "無效的密碼，請再次檢查密碼是否輸入正確",
+        [ErrorCode.InvaildFile] = "無效的檔嬤，請再次檢查是否選擇的錯誤的檔案",
+    };
+
     private EncryptionParameters encryptionParameters = new EncryptionParameters();
     private SortedSet<string> selectPaths = new SortedSet<string>();
     private string passwordHintText;
@@ -109,6 +118,7 @@ public partial class MainForm : Form
         {
             return;
         }
+
         if (!selectEncrypt.Enabled)
         {
             if (!VerifyPasswordAndMessageBox())
@@ -213,6 +223,8 @@ public partial class MainForm : Form
 
     private void executeEncryptService()
     {
+        // lock the current form to prevent operations
+        Enabled = false;
         WriteEncryptionParameters();
         encryptionParameters.IfEncrypt = true;
         Semaphore semaphore = new Semaphore(2, 2);
@@ -245,7 +257,7 @@ public partial class MainForm : Form
                     {
                         lock (progressShowForm)
                         {
-                            progressShowForm.AddError(pathParameters.Path, ex.Message);
+                            progressShowForm.AddError(pathParameters.Path, errorMessage[(ErrorCode) Convert.ToByte(ex.Message)]);
                         }
                     }
                 }
@@ -262,10 +274,14 @@ public partial class MainForm : Form
         Task.WaitAll(tasks.ToArray());
         progressShowForm.Close();
         semaphore.Dispose();
+        // unlock the current form
+        Enabled = true;
     }
 
     private void executeDecryptService()
     {
+        // lock the current form to prevent operations
+        Enabled = false;
         WriteEncryptionParameters();
         encryptionParameters.IfEncrypt = false;
         Semaphore semaphore = new Semaphore(2, 2);
@@ -298,7 +314,7 @@ public partial class MainForm : Form
                     {
                         lock (progressShowForm)
                         {
-                            progressShowForm.AddError(pathParameters.Path, ex.Message);
+                            progressShowForm.AddError(pathParameters.Path, errorMessage[(ErrorCode) Convert.ToByte(ex.Message)]);
                         }
                     }
                 }
@@ -315,6 +331,8 @@ public partial class MainForm : Form
         Task.WaitAll(tasks.ToArray());
         progressShowForm.Close();
         semaphore.Dispose();
+        // unlock the current form
+        Enabled = true;
     }
 
     // Method to show selected files in the labelSelectPaths label
