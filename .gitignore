@@ -5,3 +5,7 @@
 # C#
 CS/**/bin/*
 CS/**/obj/*
+
+# Python
+Python/**/build/*
+Python/**/dist/*
