@@ -40,21 +40,21 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.Controls.Add(confirm, 0, 1);
             tableLayoutPanel1.Controls.Add(info, 0, 0);
-            tableLayoutPanel1.Location = new Point(12, 13);
+            tableLayoutPanel1.Location = new Point(12, 12);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 66.442955F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 33.55705F));
-            tableLayoutPanel1.Size = new Size(311, 220);
+            tableLayoutPanel1.Size = new Size(228, 159);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // confirm
             // 
             confirm.Anchor = AnchorStyles.None;
             confirm.Font = new Font("DFKai-SB", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            confirm.Location = new Point(96, 162);
+            confirm.Location = new Point(55, 113);
             confirm.Name = "confirm";
-            confirm.Size = new Size(118, 42);
+            confirm.Size = new Size(118, 38);
             confirm.TabIndex = 0;
             confirm.Text = "確定";
             confirm.UseVisualStyleBackColor = true;
@@ -65,9 +65,9 @@
             info.Anchor = AnchorStyles.None;
             info.AutoSize = true;
             info.Font = new Font("DFKai-SB", 15.75F, FontStyle.Regular, GraphicsUnit.Point);
-            info.Location = new Point(30, 19);
+            info.Location = new Point(15, 10);
             info.Name = "info";
-            info.Size = new Size(250, 108);
+            info.Size = new Size(197, 84);
             info.TabIndex = 1;
             info.Text = "歡迎使用加密工具\r\n作者：小麥\r\n版本：v1.0\r\n本程式使用MIT條款";
             info.TextAlign = ContentAlignment.MiddleCenter;
@@ -75,9 +75,9 @@
             // 
             // WelcomeForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(8F, 18F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(335, 245);
+            ClientSize = new Size(250, 179);
             Controls.Add(tableLayoutPanel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
