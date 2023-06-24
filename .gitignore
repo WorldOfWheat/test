@@ -1,3 +1,4 @@
 *.out
 *.exe
-C#\bin
+C#/**/bin/*
+C#/**/obj/*
