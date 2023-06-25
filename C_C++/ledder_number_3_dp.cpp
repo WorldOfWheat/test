@@ -5,8 +5,8 @@ using namespace std;
 
 int main()
 {
-    int n = 5, m = 2;
-    string str = "11";
+    int n = 10, m = 1;
+    string str = "17";
     vector<vector<int>> dp;
     dp.resize(10, vector<int>(n + 1));
     dp[str.back() - '0'][m] = 1;
@@ -17,15 +17,6 @@ int main()
             dp[i][j] += dp[i][j - 1] + dp[i-1][j];
             dp[i][j] %= MOD;
         }
-    }
-
-    for (int i = 9; i >= 1; i--)
-    {
-        for (int j = 1; j <= n; j++)
-        {
-            cout << dp[i][j] << ' ';
-        }
-        cout << '\n';
     }
 
     int sum = 0;

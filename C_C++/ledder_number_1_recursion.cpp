@@ -3,33 +3,29 @@
 
 using namespace std;
 
-vector<vector<int>> dp;
 int sum = 0;
 
-int dfs(int start_number, int length_now, int total_length)
+void dfs(int start_number, int length_now, int total_length)
 {
     if (length_now == total_length) 
     {
-        cout << start_number << endl;
-        return 1;
+        sum++;
+        return;
     }
 
     for (int i = start_number; i <= 9; i++)
     {
-        dp[length_now][start_number] += dfs(i, length_now + 1, total_length);
-        dp[length_now][start_number] %= MOD;
+        dfs(i, length_now + 1, total_length);
     }
-
-    return dp[length_now][start_number];
 }
 
 int main()
 {
-    int n = 2, m = 5;
-    string str = "18";
-    dp.resize(m + 1, vector<int>(9 + 1));
+    int n = 10, m = 1;
+    string str = "17";
 
-    cout << dfs(str.back() - '0', n + 1, m) << ' ' << sum << endl;
+    dfs(str.back() - '0', m, n);
+    cout << sum << '\n';
 
     return 0;
 }
