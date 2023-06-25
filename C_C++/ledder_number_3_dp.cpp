@@ -5,27 +5,51 @@ using namespace std;
 
 int main()
 {
-    int n = 10, m = 1;
-    string str = "17";
-    vector<vector<int>> dp;
-    dp.resize(10, vector<int>(n + 1));
-    dp[str.back() - '0'][m] = 1;
-    for (int i = str.back() - '0'; i <= 9; i++)
-    {
-        for (int j = m + 1; j <= n; j++)
-        {
-            dp[i][j] += dp[i][j - 1] + dp[i-1][j];
-            dp[i][j] %= MOD;
-        }
-    }
+    ifstream ifs;
+    ofstream ofs;
+    string output_path = "test_case\\solution2.txt";
+    ofs.open(output_path);
 
-    int sum = 0;
-    for (int i = 1; i <= 9 ; i++)
+    for (int i = 1; i <= 100; i++)
     {
-        sum += dp[i][n];
-        sum %= MOD;
+        string input_path = "test_case\\" + to_string(i) + ".txt";
+        ifs.open(input_path);
+        if (ifs.fail())
+        {
+            ifs.close();
+            continue;
+        }
+
+        int n, m;
+        string str;
+        // cin >> n >> m >> str;
+        ifs >> n >> m >> str;
+
+        ifs.close();
+
+        vector<vector<int>> dp;
+        dp.resize(10, vector<int>(n + 1));
+        dp[str.back() - '0'][m] = 1;
+        for (int i = str.back() - '0'; i <= 9; i++)
+        {
+            for (int j = m + 1; j <= n; j++)
+            {
+                dp[i][j] += dp[i][j - 1] + dp[i-1][j];
+                dp[i][j] %= MOD;
+            }
+        }
+
+        int sum = 0;
+        for (int i = 1; i <= 9 ; i++)
+        {
+            sum += dp[i][n];
+            sum %= MOD;
+        }
+
+        // cout << sum << endl;
+        ofs << sum << endl;
     }
-    cout << sum << endl;
+    ofs.close();
 
     return 0;
 }
