@@ -5,14 +5,14 @@ using namespace std;
 
 int main()
 {
-    int n = 1, m = 1e6;
-    string str = "1";
+    int n = 10, m = 1;
+    string str = "17";
     vector<vector<int>> dp;
-    dp.resize(10, vector<int>(m + 1));
-    dp[str.back() - '0'][n] = 1;
+    dp.resize(10, vector<int>(n + 1));
+    dp[str.back() - '0'][m] = 1;
     for (int i = str.back() - '0'; i <= 9; i++)
     {
-        for (int j = n + 1; j <= m; j++)
+        for (int j = m + 1; j <= n; j++)
         {
             dp[i][j] += dp[i][j - 1] + dp[i-1][j];
             dp[i][j] %= MOD;
@@ -22,7 +22,7 @@ int main()
     int sum = 0;
     for (int i = 1; i <= 9 ; i++)
     {
-        sum += dp[i][m];
+        sum += dp[i][n];
         sum %= MOD;
     }
     cout << sum << endl;
