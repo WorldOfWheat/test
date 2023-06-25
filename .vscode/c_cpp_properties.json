@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${default}"
+                "${default}",
+                "${workspaceFolder}/C_C++"
             ],
             "defines": [
                 "_DEBUG",
@@ -11,7 +12,9 @@
                 "_UNICODE"
             ],
             "compilerPath": "C:/TDM-GCC-64/bin/g++.exe",
-            "intelliSenseMode": "windows-msvc-x64"
+            "intelliSenseMode": "windows-gcc-x64",
+            "cppStandard": "c++20",
+            "cStandard": "c23"
         }
     ],
     "version": 4
