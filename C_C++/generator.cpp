@@ -1,63 +1,87 @@
 #include <bits/stdc++.h>
-#define part_1
+#define part_2
 
 using namespace std;
 
-mt19937 random;
+mt19937_64 random;
 
-void generateTest(int n, int m, int max_digit)
+string generateTest(int n, int max_m, int max_digit)
 {
-    cout << n << ' ' << m << endl;
+    stringstream sst;
 
-    vector<int> digit_percents(max_digit + 1, 0);
-    int sum_of_percent = 0;
-    for (int i = 1; i <= max_digit; i++)
+    string sequence = "";
+    while (sequence.length() < max_m)
     {
-        digit_percents[i] = random() % 100 + 1;
-        cout << digit_percents[i] << '\n';
-        sum_of_percent += digit_percents[i];
-    }
-    cout << sum_of_percent << endl;
-    for (int i = 1; i <= max_digit; i++)
-    {
-        digit_percents[i] = digit_percents[i] / sum_of_percent;
+        sequence += to_string(random());
     }
 
-    return;
-    vector<int> test_sequences(9 + 1);
-    stringstream ss;
-    for (int i = 1; i <= max_digit; i++)
+    sequence = sequence.substr(0, max_m);
+    sort(sequence.begin(), sequence.end());
+    int zero_index = sequence.find_last_of('0');
+    if (zero_index != -1)
     {
-        int random_number = random() % m + 1;
-        for (int j = 0; j < random_number; j++)
-        {
-            ss << i;
-        }
+        sequence = sequence.substr(zero_index + 1);
+    }
+    sequence = sequence.substr(0, sequence.find(max_digit + '0'));
+
+    if (sequence.empty())
+    {
+        return "0";
     }
 
-    cout << ss.str() << endl;
+    sst << n << ' ';
+    sst << sequence.length() << '\n';
+    sst << sequence << '\n';
+
+    return sst.str();
 }
 
 int main(int argc, char *argv[])
 {
     random.seed(time(NULL));
+
+    int test_amount;
+    cin >> test_amount;
 #ifdef part_1
     int max_str_length = 20;
-#elif part_2
+#endif
+#ifdef part_2
     int max_str_length = 1e3;
-#elif part_3
+#endif 
+#ifdef part_3
     int max_str_length = 1e6;
 #endif
+#ifdef handwrite
+    int max_str_length;
+    cin >> max_str_length;
+#endif
 
-    int n = 0, m = 0;
-    do
+    ofstream ofs;
+
+    for (int i = 1; i <= test_amount; i++)
     {
-        n = random() % max_str_length + 1;
-        m = random() % max_str_length + 1;
-    }
-    while (!(n > m));
+        string path = "test_case\\" + to_string(i) + ".txt";
+        ofs.open(path);
 
-    generateTest(n, m, 4);
+        int n = random() % max_str_length + 1;
+        int m = 0;
+        int digit;
+        m = random() % n + 1;
+        digit = random() % 10 + 1;
+        string test_case = generateTest(n, m, digit);
+
+        if (test_case != "0")
+        {
+            ofs << test_case;
+            ofs.close();
+        }
+        else
+        {
+            ofs.close();
+            remove(path.c_str());
+            i--;
+        }
+    }
 
     return 0;
 }
