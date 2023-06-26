@@ -28,8 +28,8 @@ int dfs(int start_number, int length_now, int total_length)
 
 int main()
 {
-    int n = 1, m = 1e3;
-    string str = "1";
+    int n = 5, m = 1;
+    string str = "18";
     dp.resize(m + 1, vector<int>(9 + 1));
 
     cout << dfs(str.back() - '0', n, m) << endl;
