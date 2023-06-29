@@ -11,6 +11,7 @@
         "utility": "c",
         "valarray": "c",
         "iostream": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "ostream": "cpp"
     }
 }
