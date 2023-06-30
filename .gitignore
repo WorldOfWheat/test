@@ -1,12 +1,13 @@
 # C C++ 
 *.out
 *.exe
+C_C++/.cph/**
 
 # C#
-CS/**/bin/*
-CS/**/obj/*
-CS/**/.vs/*
+CS/**/bin/**
+CS/**/obj/**
+CS/**/.vs/**
 
 # Python
-Python/**/build/*
-Python/**/dist/*
+Python/**/build/**
+Python/**/dist/**
