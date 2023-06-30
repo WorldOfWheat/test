@@ -6,43 +6,61 @@ using namespace std;
 
 int n;
 vector<vector<bool>> checked;
-vector<vector<bool>> checked2;
 
-vector<pair<int, int>> getCoordinates(pair<int, int> coordinate)
+vector<pair<int, int>> getCoordinates(int graph_size, pair<int, int> coordinate)
 {
 	vector<pair<int, int>> res;
 	int x = coordinate.first;
 	int y = coordinate.second;
-	res.push_back({x - 2, y - 1});
-	res.push_back({x - 2, y + 1});
-	res.push_back({x - 1, y - 2});
-	res.push_back({x - 1, y + 2});
-	res.push_back({x + 2, y - 1});
-	res.push_back({x + 2, y + 1});
-	res.push_back({x + 1, y - 2});
-	res.push_back({x + 1, y + 2});
+	if (x - 2 >= 0 && y - 1 >= 0)
+	{
+		res.push_back({x - 2, y - 1});
+	}
+	if (x - 2 >= 0 && y + 1 < graph_size)
+	{
+		res.push_back({x - 2, y + 1});
+	}
+	if (x - 1 >= 0 && y - 2 >= 0)
+	{
+		res.push_back({x - 1, y - 2});
+	}
+	if (x - 1 >= 0 && y + 2 < graph_size)
+	{
+		res.push_back({x - 1, y + 2});
+	}
+	if (x + 2 < graph_size && y - 1 >= 0)
+	{
+		res.push_back({x + 2, y - 1});
+	}
+	if (x + 2 < graph_size && y + 1 < graph_size)
+	{
+		res.push_back({x + 2, y + 1});
+	}
+	if (x + 1 < graph_size && y - 2 >= 0)
+	{
+		res.push_back({x + 1, y - 2});
+	}
+	if (x + 1 < graph_size && y + 2 < graph_size)
+	{
+		res.push_back({x + 1, y + 2});
+	}
 
 	return res;
 }
 
-int dfs(int graph_size, pair<int, int> coordinate, int count)
+int fun(int graph_size, pair<int, int> coordinate)
 {
-	if (count == 2)
+	ll res = 0;
+	for (int i = 0; i < graph_size; i++)
 	{
-		return 1;
-	}
-
-	int res = 0;
-	for (int i = 1; i <= graph_size; i++)
-	{
-		for (int j = 1; j <= graph_size; j++)
+		for (int j = 0; j < graph_size; j++)
 		{
 			if (checked[i][j])
 			{
 				continue;
 			}
 
-			res += dfs(graph_size, {i, j}, count + 1);
+			res++;
 		}
 	}
 
@@ -51,24 +69,29 @@ int dfs(int graph_size, pair<int, int> coordinate, int count)
 
 void solve() 
 {
+	// for (auto i : getCoordinates(6, {3, 3}))
+	// {
+	// 	cout << i.first << ' ' << i.second << '\n';
+	// }
 	cin >> n;
-	checked.resize(n, vector<bool>(n));
-	checked2.resize(n, vector<bool>(n));
 	for (int i = 1; i <= n; i++)
 	{
-		for (int j = 1; j <= i; j++)
+		ll ans = 0;
+		for (int j = 0; j < i; j++)
 		{
-			for (int k = 1; k <= i; k++)
+			for (int k = 0; k < i; k++)
 			{
 				checked.clear();
-				checked[i][k] = 1;
-				for (auto l : getCoordinates({j, k}))
+				checked.resize(n, vector<bool>(n, 0));
+				checked[j][k] = 1;
+				for (auto l : getCoordinates(i, {j, k}))
 				{
 					checked[l.first][l.second] = 1;
 				}
-				cout << dfs(i, {j, k}, 1) << '\n';
+				ans += fun(i, {j, k});
 			}
 		}
+		cout << ans/2 << '\n';
 	}
 }
 
