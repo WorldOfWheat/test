@@ -1,7 +1,7 @@
 # C C++ 
 *.out
 *.exe
-C_C++/.cph/**
+.cph/
 
 # C#
 CS/**/bin/**
