@@ -4,14 +4,24 @@ typedef long long ll;
 
 using namespace std;
 
-int n;
-
 void solve() 
 {
-	cin >> n;
-	for (ll i = 1; i <= n; i++)
+	int arr[5]; // Dangerous
+	for (int i = 0; i < 5; i++)
 	{
-		cout << ( ((i * i) * ((i * i) - 1)) / 2 ) - ( (2 * (i - 2) * (i - 1)) + (2 * (i - 2) * (i - 1)) ) << '\n';
+		arr[i] = i;
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		cout << arr[i] << ' ';
+	}
+	cout << endl;
+
+	// Dangerous
+	for (int i = 1; i <= 5; i++)
+	{
+		cout << arr[i] << ' ';
 	}
 }
 
