@@ -4,6 +4,7 @@ typedef long long ll;
 
 using namespace std;
 
+<<<<<<< HEAD
 int n;
 set<ll> se;
 set<ll> se2;
@@ -16,6 +17,26 @@ void solve()
 	{
 		cout << "NO" << '\n';
 		return;
+=======
+void solve() 
+{
+	int arr[5]; // Dangerous
+	for (int i = 0; i < 5; i++)
+	{
+		arr[i] = i;
+	}
+
+	for (int i = 0; i < 5; i++)
+	{
+		cout << arr[i] << ' ';
+	}
+	cout << endl;
+
+	// Dangerous
+	for (int i = 1; i <= 5; i++)
+	{
+		cout << arr[i] << ' ';
+>>>>>>> b39827bfdcedd0358399f07b0b28ac74cf4406e4
 	}
 	cout << "YES" << '\n';
 	ll mid = sum / 2;
