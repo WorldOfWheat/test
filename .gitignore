@@ -1,6 +1,7 @@
 # C C++ 
 *.out
 *.exe
+*.bin
 .cph/
 
 # C#
