@@ -6,9 +6,7 @@ using namespace std;
 
 void solve() 
 {
-	char ch[5];
-	cin >> ch;
-	cout << ch << '\n';
+	cout << 5 << ' ' << 6 << '\n';
 }
 
 int main() 
