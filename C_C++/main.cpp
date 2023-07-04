@@ -4,39 +4,72 @@ typedef long long ll;
 
 using namespace std;
 
-const ll MOD = 1e9 + 7;
-int n;
+vector<int> offset_x = {1, -1, 0, 0};
+vector<int> offset_y = {0, 0, 1, -1};
+vector<vector<bool>> graph;
+vector<vector<bool>> checked;
 
-ll fast_pow(int x, int y)
+void print_graph()
 {
-	if (y == 0)
+	for (auto i : graph)
+	{
+		for (auto j : i)
+		{
+			cout << j;
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
+ll dfs(int x, int y, int max_x, int max_y)
+{
+	if (x + 1 == max_x && y + 1 == max_y)
 	{
 		return 1;
 	}
-	if (y == 1)
+
+	int res = 0;
+	for (int i = 0; i < 4; i++)
 	{
-		return x;
+		int dx = x + offset_x[i];
+		int dy = y + offset_y[i];
+		if (dx < 0 || dx >= max_x)
+		{
+			continue;
+		}
+		if (dy < 0 || dy >= max_y)
+		{
+			continue;
+		}
+		if (checked[dx][dy])
+		{
+			continue;
+		}
+
+		checked[dx][dy] = 1;
+		res += dfs(dx, dy, max_x, max_y);
+		graph[dx][dy] = 0;
+		checked[dx][dy] = 0;
 	}
 
-	ll k = fast_pow(x, y / 2) % MOD;
-	if (y % 2)
-	{
-		return x * k * k % MOD;
-	}
-	return k * k % MOD;
+	return res;
 }
 
 void solve() 
 {
-	cin >> n;
-	cout << (fast_pow(2, n)) << '\n';
+	graph.resize(7, vector<bool>(7));
+	checked.resize(7, vector<bool>(7));
+	checked[0][0] = 1;
+	cout << dfs(0, 0, 6, 6) << '\n';
+	checked[0][0] = 0;
 }
 
 int main() 
 {
 	ios::sync_with_stdio(false);
 	cin.tie(0);
-    cout.tie(0);
+    // cout.tie(0);
 
 	solve();
 
