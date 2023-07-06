@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test page</title>
+        <style type="text/css">
+            body {
+                background-color: rgb(150, 150, 255);
+                background-image: url("https://bit.ly/448sXi6");
+                background-repeat: no-repeat;
+                background-position: 500px, 100px;
+                background-attachment: fixed;
+                background-size: 250px;
+            }
+            h1 {
+                color: red;
+                background-color: rgb(0, 255, 255);
+                letter-spacing: 10px;
+                word-spacing: 30px;
+                line-height: 2;
+            }
+            h2 {
+                color: rgb(0, 0, 200);
+            } 
+            h3 {
+                text-align: center;
+            }
+            h4 {
+                text-align: right;
+            }
+            p {
+                color: #00ff00;
+                font-family: Georgia, Verdana, Serif;
+                font-style: italic;
+                font-size: 20px;
+                font-weight: lighter; /* 字體粗細 */
+                text-align: justify;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- comment -->
+        <h1>This is h1</h2>
+        <h2>h2</h2>
+        <h3>h3</h3>
+        <h4>h4</h4>
+        <h5>h5</h5>
+        <h6>h6</h6>
+        <hr/>
+        Text Text Text Text Text Text 
+        <p>
+            Vivamus quis facilisis nisl, viverra venenatis magna. 
+            In sed ipsum tempor, faucibus dolor eget, malesuada nibh. 
+            Vestibulum finibus dictum tortor, sit amet placerat risus. 
+            Etiam id arcu neque. 
+            Donec pulvinar commodo nibh, eget vulputate lacus faucibus ac. 
+            Integer risus justo, fermentum at eleifend vitae, ornare quis mauris. 
+            In auctor quam id augue pulvinar rhoncus. 
+            Praesent blandit tortor vitae magna dictum dapibus. 
+            Nunc et blandit enim.
+        </p>
+        <!--image-->
+        <img src="https://bit.ly/3rbgr2M" alt="Google" width="200" height="100">
+        <br/>
+        <img src="https://bit.ly/3rbgr2M" alt="Google" style="width: 100px; height: 200px">
+        <!--hypertext-->
+        <a href="https://www.google.com/">this is Google</a>
+        <br/>
+        <a href="../HTML_CSS/testPage.html">Get Yellow</a>
+        <br/>
+        <a href="../HTML_CSS/testPage.html#Lorem ipsum2">Get Yellow Lorem ipsum</a>
+        <!--table-->
+        <table border="5" cellpadding="10" cellspacing="10" width="80%">
+            <caption>this is a table</caption>
+            <tr>
+                <th rowspan="7">Score</th>
+            </tr>
+            <tr>
+                <th colspan="2">Scoreboard</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+            </tr>
+            <tr>
+                <td>Mike</td>
+                <td>80</td>
+            </tr>
+            <tr>
+                <td>Make</td>
+                <td>100</td>
+            </tr>
+            <tr>
+                <td>Muke</td>
+                <td>92</td>
+            </tr>
+            <tr>
+                <td>Meke</td>
+                <td>81</td>
+            </tr>
+        </table>
+        <!--Lists-->
+        <table border="2">
+            <!--unorderd list-->
+            <tr>
+                <td>
+                    <ul>
+                        <li>Point 1</li>
+                        <li>Point 2</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul type="circle">
+                        <li>Point 1</li>
+                        <li>Point 2</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul type="square">
+                        <li>Point 1</li>
+                        <li>Point 2</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul type="none">
+                        <li>Point 1</li>
+                        <li>Point 2</li>
+                    </ul>
+                </td>
+            </tr>
+            <!--orderd list-->
+            <tr>
+                <td>
+                    <ol>
+                        <li>First</li>
+                        <li>Second</li>
+                        <li>Third</li>
+                    </ol>
+                </td>
+                <td>
+                    <ol type="a">
+                        <li>First</li>
+                        <li>Second</li>
+                        <li>Third</li>
+                    </ol>
+                </td>
+                <td>
+                    <ol type="A">
+                        <li>First</li>
+                        <li>Second</li>
+                        <li>Third</li>
+                    </ol>
+                </td>
+                <td>
+                    <ol type="I">
+                        <li>First</li>
+                        <li>Second</li>
+                        <li>Third</li>
+                    </ol>
+                </td>
+                <td>
+                    <ol type="i">
+                        <li>First</li>
+                        <li>Second</li>
+                        <li>Third</li>
+                    </ol>
+                </td>
+            </tr>
+        </table>
+        <ul>
+            <li>Sandwich</li>
+            <ol>
+                <li>yummmy</li>
+                <li>healthy</li>
+                <li>fresh</li>
+            </ol>
+            <li>Hamburger</li>
+            <ol>
+                <li>fat</li>
+                <li>greasy</li>
+                <li>too salty</li>
+            </ol>
+        </ul>
+        <!--definition lists-->
+        <dt>Sandwich</dt>
+        <dd>Yummy</dd>
+        <dt>Hamburger</dt>
+        <dd>fat</dd>
+        <!--iframe-->
+        <iframe src="../HTML/testPage.html" width="400px" height="200px"></iframe>
+        <br/>
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/jNQXAC9IVRw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        <!--form-->
+        <form>
+            Username: <input type="text" name="username" size="3" maxlength="5"/>
+            <br/>
+            Password: <input type="password" name="password"/>
+            <br/>
+            Gender: 
+                <input type="radio" name="gender" value="male" checked/>Male
+                <input type="radio" name="gender" value="female"/>Female
+            <br/>
+            Courses:
+                <input type="checkbox" name="options" value="HTML" checked/>HTML
+                <input type="checkbox" name="options" value="CSS"/>CSS
+            <br/>
+            Age Group: 
+                <select name="age">
+                    <option>10-20</option>
+                    <option>21-30</option>
+                    <option>31-40</option>
+                </select>
+            <br/>
+            Comment: <textarea name="comment" rows="7" cols="40"></textarea>
+            <br/>
+            <input type="submit" value="Submit"/>
+            <input type="reset" value="Reset"/>
+            <input type="button" value="Click Me!!"/>
+        </form>
+    </body>
+<html>
