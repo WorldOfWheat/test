@@ -4,6 +4,7 @@ typedef long long ll;
 
 using namespace std;
 
+<<<<<<< HEAD
 string str;
 
 void solve() 
@@ -32,6 +33,11 @@ void solve()
 	}
 
 	cout << ans << '\n';
+=======
+void solve() 
+{
+
+>>>>>>> 30938c8563bb50d4370d382020c720cc055b5839
 }
 
 int main() 
