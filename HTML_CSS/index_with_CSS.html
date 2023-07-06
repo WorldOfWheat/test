@@ -2,10 +2,56 @@
 <html>
     <head>
         <title>Test page</title>
+        <style type="text/css">
+            body {
+                background-color: rgb(150, 150, 255);
+                background-image: url("https://bit.ly/448sXi6");
+                background-repeat: no-repeat;
+                background-position: 500px, 100px;
+                background-attachment: fixed;
+                background-size: 250px;
+            }
+            a:link {
+                color: red;
+            }
+            a:hover {
+                color: lightcoral
+            }
+            a:active {
+                color: greenyellow
+            }
+            a:visited {
+                color: black
+            }
+            h1 {
+                color: red;
+                background-color: rgb(0, 255, 255);
+                letter-spacing: 10px;
+                word-spacing: 30px;
+                line-height: 2;
+            }
+            h2 {
+                color: rgb(0, 0, 200);
+            } 
+            h3 {
+                text-align: center;
+            }
+            h4 {
+                text-align: right;
+            }
+            p {
+                color: #00ff00;
+                font-family: Georgia, Verdana, Serif;
+                font-style: italic;
+                font-size: 20px;
+                font-weight: lighter; /* 字體粗細 */
+                text-align: justify;
+            }
+        </style>
     </head>
     <body>
         <!-- comment -->
-        <h1>h1</h2>
+        <h1>This is h1</h2>
         <h2>h2</h2>
         <h3>h3</h3>
         <h4>h4</h4>
@@ -14,25 +60,15 @@
         <hr/>
         Text Text Text Text Text Text 
         <p>
-            Text2 Text2 
-            Text2 Text2 
-            <br/>
-            line break
-            <br/>
-            Text2 Text2 
-        </p>
-        <p>
-            <b>bold</b> <br/>
-            <i>italics</i> <br/>
-            <u>underline</u> <br/>
-            <s>strike</s> <br/>
-        </p>
-        <p>
-            x<sup>superscript</sup> <br/>
-            x<sub>subscript</sub> <br/>
-        </p>
-        <p>
-            <pre>preserve       white      space</pre>
+            Vivamus quis facilisis nisl, viverra venenatis magna. 
+            In sed ipsum tempor, faucibus dolor eget, malesuada nibh. 
+            Vestibulum finibus dictum tortor, sit amet placerat risus. 
+            Etiam id arcu neque. 
+            Donec pulvinar commodo nibh, eget vulputate lacus faucibus ac. 
+            Integer risus justo, fermentum at eleifend vitae, ornare quis mauris. 
+            In auctor quam id augue pulvinar rhoncus. 
+            Praesent blandit tortor vitae magna dictum dapibus. 
+            Nunc et blandit enim.
         </p>
         <!--image-->
         <img src="https://bit.ly/3rbgr2M" alt="Google" width="200" height="100">
@@ -44,7 +80,7 @@
         <br/>
         <a href="../HTML_CSS/testPage.html">Get Yellow</a>
         <br/>
-        <a href="../HTML_CSS/testPage.html#Lorem ipsum2">Get Lorem ipsum</a>
+        <a href="../HTML_CSS/testPage.html#Lorem ipsum2">Get Yellow Lorem ipsum</a>
         <!--table-->
         <table border="5" cellpadding="10" cellspacing="10" width="80%">
             <caption>this is a table</caption>
@@ -163,7 +199,7 @@
         <dt>Hamburger</dt>
         <dd>fat</dd>
         <!--iframe-->
-        <iframe src="../HTML/testPage.html" width="400px" height="200px"></iframe>
+        <iframe src="testPage.html" width="400px" height="200px"></iframe>
         <br/>
         <iframe width="560" height="315" src="https://www.youtube.com/embed/jNQXAC9IVRw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         <!--form-->
