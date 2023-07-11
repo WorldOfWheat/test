@@ -4,6 +4,7 @@ using namespace std;
 
 int main()
 {
-    char ch[32];
-    gets(ch);
+
+
+    return 0;
 }

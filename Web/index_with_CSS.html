@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test page</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <style type="text/css">
+            body {
+                background-color: rgb(150, 150, 255);
+                background-image: url("https://bit.ly/448sXi6");
+                background-repeat: no-repeat;
+                background-position: 500px, 100px;
+                background-attachment: fixed;
+                background-size: 250px;
+            }
+            a {
+                position: fixed;
+                text-align: left;
+                left: 500px;
+            }
+            a:link {
+                color: red;
+            }
+            a:hover {
+                color: lightcoral
+            }
+            a:active {
+                color: greenyellow
+            }
+            a:visited {
+                color: black
+            }
+            table {
+                border: 2px solid;
+            }
+            tr {
+                background-color: orange;
+            }
+            th {
+                color: white;
+            }
+            td {
+                color: purple;
+                border: solid 3px green
+            }
+            #text1 {
+                color: rgb(0, 0, 200);
+                background-color: rgb(0, 255, 255);
+                border-style: dotted;
+                border-top-style: solid;
+            }
+            #text2 {
+                color: red;
+                letter-spacing: 4px;
+                word-spacing: 30px;
+                line-height: 2;
+                border-style: solid;
+                border-width: 5px;
+                border-left-color: brown;
+            }
+            #text3 {
+                color: #00ff00;
+                border-style: dashed;
+                border-color: darkorange;
+            }
+            #text4 {
+                text-align: center;
+                border-style: inset;
+                padding: 30px;
+                padding-bottom: 0px;
+            }
+            #text5 {
+                text-align: right;
+                border-style: outset;
+                margin: 100px;
+                margin-top: 0px;
+            }
+            #text6 {
+                text-align: justify;
+                border: 5px solid blueviolet;
+            }
+            p {
+                font-family: Georgia, Verdana, Serif;
+                font-style: italic;
+                font-size: 20px;
+                font-weight: lighter; /* 字體粗細 */
+            }
+            span {
+                font-size: 36px;
+                color: darkmagenta ;
+            }
+            .groupText {
+                color: darkgoldenrod;
+            }
+            div p {
+                font-size: 30px;
+            }
+            body > table tr {
+                background-color: lightgreen;
+                position: relative;
+            }
+            .table1 {
+                position: relative;
+                left: 60px;
+            }
+            .table2 {
+                position: absolute;
+                top: 120px;
+                left: 380px;
+            }
+            .table2 tr {
+                background-color: lightskyblue;
+            }
+            .tables {
+                margin-top: 5px;
+                padding: 20px;
+                border: solid;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="../HTML_CSS/testPage.html">Get Yellow</a>
+        <table>
+            <caption>I'm not in div.</caption>
+            <tr>
+                <th>Column1</th>
+                <th>Column2</th>
+                <th>Column3</th>
+            </tr>
+            <tr>
+                <td>Data1</td>
+                <td>Data2</td>
+                <td>Data3</td>
+            </tr>
+        </table>
+        <div class="tables">
+            <div class="table1">
+                <table>
+                    <caption>I'm not in div.</caption>
+                    <tr>
+                        <th>Column1</th>
+                        <th>Column2</th>
+                        <th>Column3</th>
+                    </tr>
+                    <tr>
+                        <td>Data1</td>
+                        <td>Data2</td>
+                        <td>Data3</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table2">
+                <table>
+                    <caption>I'm not in div.</caption>
+                    <tr>
+                        <th>Column1</th>
+                        <th>Column2</th>
+                        <th>Column3</th>
+                    </tr>
+                    <tr>
+                        <td>Data1</td>
+                        <td>Data2</td>
+                        <td>Data3</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <p id="text1">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam diam ipsum, volutpat sed mauris vel, rutrum vehicula tortor. Proin sed. 
+        </p>
+        <p id="text2">
+            Donec eget malesuada ante. Ut tempus turpis blandit, eleifend nulla et, interdum arcu. Sed vitae dictum eros. Vestibulum in massa. 
+        </p>
+        <p id="text3">
+            Sed sed augue elit. Etiam vulputate odio dolor, at blandit elit ornare nec. Donec non leo tortor. Nulla gravida arcu. 
+        </p>
+        <p id="text4">
+            Vestibulum <span>tortor, tristique non</span> ligula nec, imperdiet maximus lorem. Sed vulputate, velit in pretium sollicitudin, nisl orci porta nisi. 
+        </p>
+        <p id="text5">
+            Phasellus sollicitudin nunc dapibus tortor consequat tincidunt. Curabitur malesuada feugiat rhoncus. Duis vehicula, ipsum eget cursus tincidunt, lorem mauris laoreet. 
+        </p>
+        <p id="text6">
+            Mauris dignissim diam vitae fermentum ullamcorper. Etiam fermentum, mi eu luctus feugiat, lectus sapien eleifend tortor, in sagittis ante tortor. 
+        </p>
+        <div class="groupText">
+            <p id="text7">
+                Etiam fermentum, ex eu porttitor dignissim, felis metus commodo dolor, eu dictum neque velit quis turpis. Pellentesque faucibus metus placerat. 
+            </p>
+            <p id="text8">
+                Ut tincidunt mattis tellus ac convallis. Nunc congue pharetra est, ut semper massa porta nec. Donec massa ligula, ultricies eu. 
+            </p>
+            <p id="text9">
+                Sed bibendum ante quis erat bibendum, ac luctus augue aliquam. Donec enim arcu, porta sed massa non, posuere ultrices elit. 
+            </p>
+            <p id="text10">
+                Integer non diam id turpis auctor pretium. Nam et sollicitudin eros. Fusce aliquam nunc in urna placerat scelerisque. Proin et. 
+            </p>
+        </div>
+        <p id="text11" style="color: firebrick;">
+            et magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies leo integer malesuada nunc vel risus commodo viverra maecenas
+        </p>
+        <p id="text12">
+            blandit cursus risus at ultrices mi tempus imperdiet nulla malesuada pellentesque elit eget gravida cum sociis natoque penatibus et magnis
+        </p>
+    </body>
+<html>
