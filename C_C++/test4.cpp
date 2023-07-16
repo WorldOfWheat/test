@@ -30,6 +30,27 @@ pii get_ok_coordinate(int height, int width)
     int x, y;
     while (true)
     {
+        x = get_random_between(2, height);
+        y = get_random_between(2, height);
+
+        auto lower = coordinates.lower_bound({x, y});
+
+        if (lower != coordinates.end())
+        {
+            if (abs(lower->first - x) < 4 && abs(lower->second - x) < 4)
+            {
+                continue;
+            }
+        }
+
+        if (lower != coordinates.begin())
+        {
+            lower--;
+            if (abs(lower->first - x) < 4 && abs(lower->second - x) < 4)
+            {
+                continue;
+            }
+        }
 
         break;
     }
