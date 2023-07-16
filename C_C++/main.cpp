@@ -6,9 +6,8 @@ using namespace std;
 
 void solve() 
 {
-	constexpr int LENGTH = 5;
-	int arr[LENGTH] = {10, 20, 30, 40, 50}; 
-	cout << (*(*(&arr) + 3)) << '\n';
+	char ch = -100;
+	cout << ch << '\n';
 }
 
 int main() 
