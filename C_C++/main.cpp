@@ -6,8 +6,14 @@ using namespace std;
 
 void solve() 
 {
-	char ch = -100;
-	cout << ch << '\n';
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			cout << "Eason is dian" << ' ';
+		}
+		cout << endl;
+	}
 }
 
 int main() 
