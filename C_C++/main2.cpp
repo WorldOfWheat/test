@@ -7,6 +7,7 @@ using namespace std;
 
 int n, m;
 int k;
+stringstream ss;
 
 int string_to_int(string str)
 {
@@ -52,7 +53,7 @@ void solve()
 	ifs >> k;
 	int index = 0;
 	bool is_get = false;
-	for (int i = 0; i < k; k++)
+	for (int i = 0; i < k; i++)
 	{
 		string command;
 		ifs >> command;
@@ -65,7 +66,9 @@ void solve()
 		else if (command == "get")
 		{
 			pii p = get_row_column(index, n, m);
-			is_get = str[p.first][p.second] = '#';
+			p.first--;
+			p.second--;
+			is_get = str[p.first][p.second] == '#';
 			if (is_get)
 			{
 				for (int j = -1; j <= 1; j++)
@@ -78,38 +81,62 @@ void solve()
 		}
 		else 
 		{
-			pii p = get_row_column(index, n, m);
-			bool if_can_put = true;
-			for (int j = -1; j <= 1; j++)
+			if (is_get)
 			{
-				if (str[p.first - 1][p.second + j] != '-')
+				pii p = get_row_column(index, n, m);
+				p.first--;
+				p.second--;
+				bool if_can_put = true;
+				for (int j = -1; j <= 1; j++)
 				{
-					if_can_put = false;
+					if (p.second + j < 0 || p.first - 1 < 0 || str[p.first - 1][p.second + j] != '-')
+					{
+						if_can_put = false;
+					}
+					if (p.second + j < 0 || p.first - 1 < 0 || str[p.first][p.second + j] != '-')
+					{
+						if_can_put = false;
+					}
+					if (p.second + j < 0 || p.first - 1 < 0 || str[p.first + 1][p.second + j] != '-')
+					{
+						if_can_put = false;
+					}
 				}
-				if (str[p.first][p.second + j] != '-')
+				if (!if_can_put)
 				{
-					if_can_put = false;
+					ss << "collision" << '\n';
+					continue;
 				}
-				if (str[p.first + 1][p.second + j] != '-')
-				{
-					if_can_put = false;
-				}
-			}
-			if (!if_can_put)
-			{
-				cout << "collision" << '\n';
-				continue;
-			}
 
-			for (int j = -1; j <= 1; j++)
-			{
-				str[p.first - 1][p.second + j] = '*';
-				str[p.first][p.second + j] = '*';
-				str[p.first + 1][p.second + j] = '*';
+				for (int j = -1; j <= 1; j++)
+				{
+					str[p.first - 1][p.second + j] = '*';
+					str[p.first][p.second + j] = '*';
+					str[p.first + 1][p.second + j] = '*';
+				}
 				str[p.first][p.second] = '#';
+				ss << "put successful" << '\n';
+				is_get = false;
 			}
-			cout << "put successful" << '\n';
+			else 
+			{
+				ss << "put nothing" << '\n';
+			}
 		}
+	}
+
+	ofstream ofs;
+	ofs.open("D:\\tests\\a1.txt");
+	if (ofs.fail())
+	{
+		cout << "Fail" << '\n';
+	}
+
+	ofs << ss.str();
+
+	for (auto i : str)
+	{
+		cout << i; 
 	}
 }
 

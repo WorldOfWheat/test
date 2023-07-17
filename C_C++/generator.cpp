@@ -84,6 +84,8 @@ int main()
     // size
     int height = get_random_between(50, 100 + 1);
     int width = get_random_between(50, 100 + 1);
+    // int height = get_random_between(10, 10 + 1);
+    // int width = get_random_between(10, 10 + 1);
     ss << height << ' ' << width << '\n';
 
     // generate points
@@ -124,7 +126,8 @@ int main()
     }
 
     // test moment
-    int moment = get_random_between(100, 10000 + 1);
+    int moment = 1000;
+    // int moment = 10;
 
     int command_count = 0;
     // generate move points
@@ -136,7 +139,10 @@ int main()
         if (!if_execute)
         {
             ss2 << "ptp p" << index << '\n';
-            command_count++;
+            ss2 << "get" << '\n';
+            ss2 << "ptp p" << get_random_between(0, coordinates.size()) << '\n';
+            ss2 << "put" << '\n';
+            command_count += 4;
             continue;
         }
         
