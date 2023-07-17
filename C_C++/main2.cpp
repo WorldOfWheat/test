@@ -4,7 +4,6 @@ typedef long long ll;
 
 using namespace std;
 
-
 void solve() 
 {
 }

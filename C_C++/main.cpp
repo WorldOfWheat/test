@@ -4,13 +4,8 @@ typedef long long ll;
 
 using namespace std;
 
-int n, m;
-vector<int> ve;
-
 void solve() 
 {
-	cout << setprecision(2) << 1.0 / 1.0;
-
 }
 
 int main() 
