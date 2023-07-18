@@ -36,7 +36,7 @@ pii get_row_column(int index, int height, int width)
 void solve() 
 {
 	ifstream ifs;
-	ifs.open("D:\\tests\\1.txt");
+	ifs.open("D:\\tests\\example_3.txt");
 	if (ifs.fail())
 	{
 		cout << "Fail" << '\n';
@@ -137,6 +137,11 @@ void solve()
 	}
 
 	ofs << ss.str();
+
+	for (auto i : str)
+	{
+		cout << i << endl;
+	}
 }
 
 int main() 

@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+// #define example
 #define pii pair<int, int>
 
 using namespace std;
@@ -95,26 +96,26 @@ int main()
         ss2.str("");
         ss2.clear();
         // size
-#if example
-        int height = get_random_between(5, 10 + 1);
-        int width = get_random_between(5, 10 + 1);
+#ifdef example
+        int height = get_random_between(10, 20 + 1);
+        int width = 10;
 #else
         int height = get_random_between(50, 100 + 1);
         int width = get_random_between(50, 100 + 1);
 #endif
         ss << height << ' ' << width << '\n';
         // generate points
-#if example
+#ifdef example
         for (int i = 0; i < 2; i++)
 #else
         for (int i = 0; i < 12; i++)
+#endif
         {
             pii coordinate = get_ok_coordinate(height, width);
             coordinates.insert(coordinate);
             se_x.insert(coordinate.first);
             se_y.insert(coordinate.second);
         }
-#endif
         
         // write workpiece
         graph.resize(height + 1, vector<char>(width + 1, '-'));
@@ -145,18 +146,22 @@ int main()
         }
 
         // test moment
+#ifdef example
+        int moment = 2;
+#else
         int moment = 1000;
+#endif
         // int moment = 10;
 
         int command_count = 0;
         // generate move points
         for (int i = 0; i < moment; i++)
         {
-            int index = get_random_between(1, height * width + 1);
-
             int if_execute = get_random_between(0, 2);
             if (!if_execute)
             {
+                // to promise that the random won't select workpiece
+                int index = get_random_between(1, height * width + 1);
                 ss2 << "ptp p" << index << '\n';
                 ss2 << "get" << '\n';
                 ss2 << "ptp p" << get_random_between(0, coordinates.size()) << '\n';
@@ -219,7 +224,11 @@ int main()
         }
 
         ofstream ofs;
+#ifdef example
+        ofs.open("D:\\tests\\example_" + to_string(q) + ".txt");
+#else
         ofs.open("D:\\tests\\" + to_string(q) + ".txt");
+#endif
         ss << command_count << '\n' << ss2.str();
         ofs << (ss.str()) << '\n';
     }
