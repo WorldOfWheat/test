@@ -158,14 +158,18 @@ int main()
         for (int i = 0; i < moment; i++)
         {
             int if_execute = get_random_between(0, 2);
-            if (!if_execute)
+            if (!if_execute) // put nothing
             {
-                // to promise that the random won't select workpiece
-                int index = get_random_between(1, height * width + 1);
+                pii p = get_ok_coordinate(height, width);
+                int index = (p.first - 1) * width + p.second;
                 ss2 << "ptp p" << index << '\n';
                 ss2 << "get" << '\n';
-                ss2 << "ptp p" << get_random_between(0, coordinates.size()) << '\n';
+
+                p = get_ok_coordinate(height, width);
+                index = (p.first - 1) * width + p.second;
+                ss2 << "ptp p" << index << '\n';
                 ss2 << "put" << '\n';
+
                 command_count += 4;
                 continue;
             }
