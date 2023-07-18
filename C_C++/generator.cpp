@@ -81,105 +81,95 @@ int main()
 {
     mt.seed(get_random_seed());
 
-    // size
-    int height = get_random_between(50, 100 + 1);
-    int width = get_random_between(50, 100 + 1);
-    // int height = get_random_between(10, 10 + 1);
-    // int width = get_random_between(10, 10 + 1);
-    ss << height << ' ' << width << '\n';
-
-    // generate points
-    for (int i = 0; i < 10; i++)
+    for (int q = 1; q <= 30; q++)
     {
-        pii coordinate = get_ok_coordinate(height, width);
-        coordinates.insert(coordinate);
-        se_x.insert(coordinate.first);
-        se_y.insert(coordinate.second);
-    }
-    
-    // write workpiece
-    graph.resize(height + 1, vector<char>(width + 1, '-'));
-    for (auto i : coordinates)
-    {
-        int x = i.first;
-        int y = i.second;
+        se_x.clear();
+        se_y.clear();
+        coordinates.clear();
+        graph.clear();
+        ss.str("");
+        ss.clear();
+        ss2.str("");
+        ss2.clear();
 
-        graph[x][y] = '#';
-        graph[x-1][y-1] = '*';
-        graph[x-1][y] = '*';
-        graph[x-1][y+1] = '*';
-        graph[x][y-1] = '*';
-        graph[x][y+1] = '*';
-        graph[x+1][y-1] = '*';
-        graph[x+1][y] = '*';
-        graph[x+1][y+1] = '*';
-    }
+        cout << q << endl;
+        // size
+        int height = get_random_between(50, 100 + 1);
+        int width = get_random_between(50, 100 + 1);
+        ss << height << ' ' << width << '\n';
 
-    // print graph
-    for (int i = 1; i <= height; i++)
-    {
-        for (int j = 1; j <= width; j++)
+        // generate points
+        for (int i = 0; i < 10; i++)
         {
-            ss << graph[i][j];
-        }
-        ss << '\n';
-    }
-
-    // test moment
-    int moment = 1000;
-    // int moment = 10;
-
-    int command_count = 0;
-    // generate move points
-    for (int i = 0; i < moment; i++)
-    {
-        int index = get_random_between(1, height * width + 1);
-
-        int if_execute = get_random_between(0, 2);
-        if (!if_execute)
-        {
-            ss2 << "ptp p" << index << '\n';
-            ss2 << "get" << '\n';
-            ss2 << "ptp p" << get_random_between(0, coordinates.size()) << '\n';
-            ss2 << "put" << '\n';
-            command_count += 4;
-            continue;
-        }
-        
-        auto it = coordinates.begin();
-        it = next(it, get_random_between(0, coordinates.size()));
-        pii coordinate = *it;
-
-        int x = coordinate.first;
-        int y = coordinate.second;
-        ss2 << "ptp p" << (x - 1) * width + y << '\n';
-        ss2 << "get" << '\n';
-        command_count += 2;
-        se_x.erase(x);
-        se_y.erase(y);
-        coordinates.erase(coordinate);
-
-        int success_or_fail = get_random_between(0, 2);
-        if (success_or_fail)
-        {
-            coordinate = get_ok_coordinate(height, width);
+            pii coordinate = get_ok_coordinate(height, width);
+            coordinates.insert(coordinate);
             se_x.insert(coordinate.first);
             se_y.insert(coordinate.second);
-            coordinates.insert(coordinate);
         }
-        else
+        
+        // write workpiece
+        graph.resize(height + 1, vector<char>(width + 1, '-'));
+        for (auto i : coordinates)
         {
-            coordinate = get_not_ok_coordinate(height, width);
-        }
-        x = coordinate.first;
-        y = coordinate.second;
-        ss2 << "ptp p" << (x - 1) * width + y << '\n';
-        ss2 << "put" << '\n';
-        command_count += 2;
+            int x = i.first;
+            int y = i.second;
 
-        while (!success_or_fail)
+            graph[x][y] = '#';
+            graph[x-1][y-1] = '*';
+            graph[x-1][y] = '*';
+            graph[x-1][y+1] = '*';
+            graph[x][y-1] = '*';
+            graph[x][y+1] = '*';
+            graph[x+1][y-1] = '*';
+            graph[x+1][y] = '*';
+            graph[x+1][y+1] = '*';
+        }
+
+        // print graph
+        for (int i = 1; i <= height; i++)
         {
-            success_or_fail = get_random_between(0, 2);
+            for (int j = 1; j <= width; j++)
+            {
+                ss << graph[i][j];
+            }
+            ss << '\n';
+        }
+
+        // test moment
+        int moment = 1000;
+        // int moment = 10;
+
+        int command_count = 0;
+        // generate move points
+        for (int i = 0; i < moment; i++)
+        {
+            int index = get_random_between(1, height * width + 1);
+
+            int if_execute = get_random_between(0, 2);
+            if (!if_execute)
+            {
+                ss2 << "ptp p" << index << '\n';
+                ss2 << "get" << '\n';
+                ss2 << "ptp p" << get_random_between(0, coordinates.size()) << '\n';
+                ss2 << "put" << '\n';
+                command_count += 4;
+                continue;
+            }
+            
+            auto it = coordinates.begin();
+            it = next(it, get_random_between(0, coordinates.size()));
+            pii coordinate = *it;
+
+            int x = coordinate.first;
+            int y = coordinate.second;
+            ss2 << "ptp p" << (x - 1) * width + y << '\n';
+            ss2 << "get" << '\n';
+            command_count += 2;
+            se_x.erase(x);
+            se_y.erase(y);
+            coordinates.erase(coordinate);
+
+            int success_or_fail = get_random_between(0, 2);
             if (success_or_fail)
             {
                 coordinate = get_ok_coordinate(height, width);
@@ -196,13 +186,34 @@ int main()
             ss2 << "ptp p" << (x - 1) * width + y << '\n';
             ss2 << "put" << '\n';
             command_count += 2;
-        }
-    }
 
-    ofstream ofs;
-    ofs.open("D:\\tests\\1.txt");
-    ss << command_count << '\n' << ss2.str();
-    ofs << (ss.str()) << '\n';
+            while (!success_or_fail)
+            {
+                success_or_fail = get_random_between(0, 2);
+                if (success_or_fail)
+                {
+                    coordinate = get_ok_coordinate(height, width);
+                    se_x.insert(coordinate.first);
+                    se_y.insert(coordinate.second);
+                    coordinates.insert(coordinate);
+                }
+                else
+                {
+                    coordinate = get_not_ok_coordinate(height, width);
+                }
+                x = coordinate.first;
+                y = coordinate.second;
+                ss2 << "ptp p" << (x - 1) * width + y << '\n';
+                ss2 << "put" << '\n';
+                command_count += 2;
+            }
+        }
+
+        ofstream ofs;
+        ofs.open("D:\\tests\\" + to_string(q) + ".txt");
+        ss << command_count << '\n' << ss2.str();
+        ofs << (ss.str()) << '\n';
+    }
 
     return 0;
 }

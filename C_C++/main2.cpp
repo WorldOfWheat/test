@@ -89,15 +89,19 @@ void solve()
 				bool if_can_put = true;
 				for (int j = -1; j <= 1; j++)
 				{
-					if (p.second + j < 0 || p.first - 1 < 0 || str[p.first - 1][p.second + j] != '-')
+					if (p.second + j < 0)
 					{
 						if_can_put = false;
 					}
-					if (p.second + j < 0 || p.first - 1 < 0 || str[p.first][p.second + j] != '-')
+					if (p.first - 1 < 0 || str[p.first - 1][p.second + j] != '-')
 					{
 						if_can_put = false;
 					}
-					if (p.second + j < 0 || p.first - 1 < 0 || str[p.first + 1][p.second + j] != '-')
+					if (str[p.first][p.second + j] != '-')
+					{
+						if_can_put = false;
+					}
+					if (str[p.first + 1][p.second + j] != '-')
 					{
 						if_can_put = false;
 					}
@@ -133,11 +137,6 @@ void solve()
 	}
 
 	ofs << ss.str();
-
-	for (auto i : str)
-	{
-		cout << i; 
-	}
 }
 
 int main() 
