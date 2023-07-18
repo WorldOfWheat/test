@@ -83,6 +83,9 @@ int main()
 
     for (int q = 1; q <= 30; q++)
     {
+        cout << q << endl;
+
+        // init all container
         se_x.clear();
         se_y.clear();
         coordinates.clear();
@@ -91,21 +94,27 @@ int main()
         ss.clear();
         ss2.str("");
         ss2.clear();
-
-        cout << q << endl;
         // size
+#if example
+        int height = get_random_between(5, 10 + 1);
+        int width = get_random_between(5, 10 + 1);
+#else
         int height = get_random_between(50, 100 + 1);
         int width = get_random_between(50, 100 + 1);
+#endif
         ss << height << ' ' << width << '\n';
-
         // generate points
-        for (int i = 0; i < 10; i++)
+#if example
+        for (int i = 0; i < 2; i++)
+#else
+        for (int i = 0; i < 12; i++)
         {
             pii coordinate = get_ok_coordinate(height, width);
             coordinates.insert(coordinate);
             se_x.insert(coordinate.first);
             se_y.insert(coordinate.second);
         }
+#endif
         
         // write workpiece
         graph.resize(height + 1, vector<char>(width + 1, '-'));
