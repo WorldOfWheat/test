@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-// #define example
+#define example
 #define pii pair<int, int>
 
 using namespace std;
@@ -72,10 +72,23 @@ pii get_not_ok_coordinate(int height, int width)
     int x = it->first;
     int y = it->second;
 
-    x += get_random_between(-1, 1 + 1);
-    y += get_random_between(-1, 1 + 1);
+    // x += get_random_between(-1, 1 + 1);
+    // y += get_random_between(-1, 1 + 1);
 
     return make_pair(x, y);
+}
+
+bool is_ok_coordinate(pii coordinate, int height, int width)
+{
+    int x = coordinate.first;
+    int y = coordinate.second;
+    auto lower_x = se_x.lower_bound(x);
+    auto lower_y = se_y.lower_bound(y);
+    if ((lower_x != se_x.end() && *lower_x == x) && (lower_y != se_y.end() && *lower_y == y))
+    {
+        return false;
+    }
+    return true;
 }
 
 int main()
@@ -158,14 +171,20 @@ int main()
         for (int i = 0; i < moment; i++)
         {
             int if_execute = get_random_between(0, 2);
-            if (!if_execute) // put nothing
+            // put nothing
+            if (!if_execute) 
             {
-                pii p = get_ok_coordinate(height, width);
+                pii p = {get_random_between(1, height + 1), get_random_between(1, width + 1)};
+                while (is_ok_coordinate(p, height, width))
+                {
+                    p = {get_random_between(1, height + 1), get_random_between(1, width + 1)};
+                }
+
                 int index = (p.first - 1) * width + p.second;
                 ss2 << "ptp p" << index << '\n';
                 ss2 << "get" << '\n';
 
-                p = get_ok_coordinate(height, width);
+                p = {get_random_between(1, height + 1), get_random_between(1, width + 1)};
                 index = (p.first - 1) * width + p.second;
                 ss2 << "ptp p" << index << '\n';
                 ss2 << "put" << '\n';
@@ -174,6 +193,7 @@ int main()
                 continue;
             }
             
+            // get workpisse
             auto it = coordinates.begin();
             it = next(it, get_random_between(0, coordinates.size()));
             pii coordinate = *it;
@@ -187,6 +207,7 @@ int main()
             se_y.erase(y);
             coordinates.erase(coordinate);
 
+            // success or collusion
             int success_or_fail = get_random_between(0, 2);
             if (success_or_fail)
             {

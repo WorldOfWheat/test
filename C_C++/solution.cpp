@@ -35,112 +35,120 @@ pii get_row_column(int index, int height, int width)
 
 void solve() 
 {
-	ifstream ifs;
-	ifs.open("D:\\tests\\example_3.txt");
-	if (ifs.fail())
+	for (int q = 1; q <= 30; q++)
 	{
-		cout << "Fail" << '\n';
-	}
-
-	ifs >> n >> m;
-	string str[n];
-	for (int i = 0; i < n; i++)
-	{
-		ifs >> str[i];
-		str[i] += '\n';
-	}
-
-	ifs >> k;
-	int index = 0;
-	bool is_get = false;
-	for (int i = 0; i < k; i++)
-	{
-		string command;
-		ifs >> command;
-		if (command == "ptp")
+		cout << q << endl;
+		//
+		//init
+		ss.str("");
+		ss.clear();
+		//
+		ifstream ifs;
+		ifs.open("D:\\tests\\example_" + to_string(q) + ".txt");
+		if (ifs.fail())
 		{
-			string point;
-			ifs >> point;
-			index = string_to_int(point.substr(1));
+			cout << "Fail" << '\n';
 		}
-		else if (command == "get")
+
+		ifs >> n >> m;
+		string str[n];
+		for (int i = 0; i < n; i++)
 		{
-			pii p = get_row_column(index, n, m);
-			p.first--;
-			p.second--;
-			is_get = str[p.first][p.second] == '#';
-			if (is_get)
+			ifs >> str[i];
+			str[i] += '\n';
+		}
+
+		ifs >> k;
+		int index = 0;
+		bool is_get = false;
+		for (int i = 0; i < k; i++)
+		{
+			string command;
+			ifs >> command;
+			if (command == "ptp")
 			{
-				for (int j = -1; j <= 1; j++)
-				{
-					str[p.first - 1][p.second + j] = '-';
-					str[p.first][p.second + j] = '-';
-					str[p.first + 1][p.second + j] = '-';
-				}
+				string point;
+				ifs >> point;
+				index = string_to_int(point.substr(1));
 			}
-		}
-		else 
-		{
-			if (is_get)
+			else if (command == "get")
 			{
 				pii p = get_row_column(index, n, m);
 				p.first--;
 				p.second--;
-				bool if_can_put = true;
-				for (int j = -1; j <= 1; j++)
+				is_get = str[p.first][p.second] == '#';
+				if (is_get)
 				{
-					if (p.second + j < 0)
+					for (int j = -1; j <= 1; j++)
 					{
-						if_can_put = false;
-					}
-					if (p.first - 1 < 0 || str[p.first - 1][p.second + j] != '-')
-					{
-						if_can_put = false;
-					}
-					if (str[p.first][p.second + j] != '-')
-					{
-						if_can_put = false;
-					}
-					if (str[p.first + 1][p.second + j] != '-')
-					{
-						if_can_put = false;
+						str[p.first - 1][p.second + j] = '-';
+						str[p.first][p.second + j] = '-';
+						str[p.first + 1][p.second + j] = '-';
 					}
 				}
-				if (!if_can_put)
-				{
-					ss << "collision" << '\n';
-					continue;
-				}
-
-				for (int j = -1; j <= 1; j++)
-				{
-					str[p.first - 1][p.second + j] = '*';
-					str[p.first][p.second + j] = '*';
-					str[p.first + 1][p.second + j] = '*';
-				}
-				str[p.first][p.second] = '#';
-				ss << "put successful" << '\n';
-				is_get = false;
 			}
 			else 
 			{
-				ss << "put nothing" << '\n';
+				if (is_get)
+				{
+					pii p = get_row_column(index, n, m);
+					p.first--;
+					p.second--;
+					bool if_can_put = true;
+					for (int j = -1; j <= 1; j++)
+					{
+						if (p.second + j < 0 || p.second + j >= m)
+						{
+							if_can_put = false;
+							break;
+						}
+						if (p.first - 1 < 0 || str[p.first - 1][p.second + j] != '-')
+						{
+							if_can_put = false;
+							break;
+						}
+						if (str[p.first][p.second + j] != '-')
+						{
+							if_can_put = false;
+							break;
+						}
+						if (p.first + 1 >= n || str[p.first + 1][p.second + j] != '-')
+						{
+							if_can_put = false;
+							break;
+						}
+					}
+					if (!if_can_put)
+					{
+						ss << "collision" << '\n';
+						continue;
+					}
+
+					for (int j = -1; j <= 1; j++)
+					{
+						str[p.first - 1][p.second + j] = '*';
+						str[p.first][p.second + j] = '*';
+						str[p.first + 1][p.second + j] = '*';
+					}
+					str[p.first][p.second] = '#';
+					ss << "put successful" << '\n';
+					is_get = false;
+				}
+				else 
+				{
+					ss << "put nothing" << '\n';
+				}
 			}
 		}
-	}
 
-	ofstream ofs;
-	ofs.open("D:\\tests\\a1.txt");
-	if (ofs.fail())
-	{
-		cout << "Fail" << '\n';
-	}
+		ofstream ofs;
+		ofs.open("D:\\tests\\a" + to_string(q) + ".txt");
+		if (ofs.fail())
+		{
+			cout << "Fail" << '\n';
+		}
 
-	ofs << ss.str();
-
-	for (auto i : str)
-	{
-		cout << i << endl;
+		ofs << ss.str();
 	}
 }
 
