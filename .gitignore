@@ -10,5 +10,5 @@ CS/**/obj/**
 CS/**/.vs/**
 
 # Python
-Python/**/build/**
-Python/**/dist/**
+Python/mini_project/**/build/**
+Python/mini_project/**/dist/**
