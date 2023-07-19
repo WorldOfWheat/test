@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define example
+// #define example
 #define pii pair<int, int>
 
 using namespace std;
@@ -12,23 +12,6 @@ set<pii> coordinates;
 vector<vector<char>> graph;
 stringstream ss;
 stringstream ss2;
-
-int get_random_seed()
-{
-    int* rand_seed_array = (int*) malloc(sizeof(int) * 100);
-    long long rand_seed = 0;
-    for (int i = 0; i < 100; i++)
-    {
-        rand_seed += *(rand_seed_array + i);
-    }
-
-    return rand_seed;
-}
-
-int get_random_between(int minimum, int maximum)
-{
-    return mt() % (maximum - minimum) + minimum;
-}
 
 pii get_ok_coordinate(int height, int width) 
 {
@@ -71,9 +54,6 @@ pii get_not_ok_coordinate(int height, int width)
     it = next(it, index);
     int x = it->first;
     int y = it->second;
-
-    // x += get_random_between(-1, 1 + 1);
-    // y += get_random_between(-1, 1 + 1);
 
     return make_pair(x, y);
 }

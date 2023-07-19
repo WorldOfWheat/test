@@ -7,7 +7,6 @@ using namespace std;
 
 int n, m;
 int k;
-stringstream ss;
 
 int string_to_int(string str)
 {
@@ -40,7 +39,6 @@ void solve()
 	for (int i = 0; i < n; i++)
 	{
 		cin >> str[i];
-		str[i] += '\n';
 	}
 
 	cin >> k;
@@ -82,26 +80,30 @@ void solve()
 				bool if_can_put = true;
 				for (int j = -1; j <= 1; j++)
 				{
-					if (p.second + j < 0)
+					if (p.second + j < 0 || p.second + j >= m)
 					{
 						if_can_put = false;
+						break;
 					}
 					if (p.first - 1 < 0 || str[p.first - 1][p.second + j] != '-')
 					{
 						if_can_put = false;
+						break;
 					}
 					if (str[p.first][p.second + j] != '-')
 					{
 						if_can_put = false;
+						break;
 					}
-					if (str[p.first + 1][p.second + j] != '-')
+					if (p.first + 1 >= n || str[p.first + 1][p.second + j] != '-')
 					{
 						if_can_put = false;
+						break;
 					}
 				}
 				if (!if_can_put)
 				{
-					ss << "collision" << '\n';
+					cout << "collision" << '\n';
 					continue;
 				}
 
@@ -112,17 +114,15 @@ void solve()
 					str[p.first + 1][p.second + j] = '*';
 				}
 				str[p.first][p.second] = '#';
-				ss << "put successful" << '\n';
+				cout << "put successful" << '\n';
 				is_get = false;
 			}
 			else 
 			{
-				ss << "put nothing" << '\n';
+				cout << "put nothing" << '\n';
 			}
 		}
 	}
-
-	cout << ss.str() << '\n';
 }
 
 int main() 

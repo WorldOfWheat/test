@@ -55,7 +55,6 @@ void solve()
 		for (int i = 0; i < n; i++)
 		{
 			ifs >> str[i];
-			str[i] += '\n';
 		}
 
 		ifs >> k;
