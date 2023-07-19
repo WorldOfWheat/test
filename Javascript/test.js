@@ -1,2 +1,2 @@
-let str = "test";
-console.log(String.fromCharCode(str[0].charCodeAt() + 5));
+var arr = ['test', 55, 5.1];
+console.log(arr);
