@@ -2,7 +2,9 @@
 *.out
 *.exe
 *.bin
-.cph/
+C_C++/.cph/**
+C_C++/librarys/**
+
 
 # C#
 CS/**/bin/**

@@ -11,13 +11,11 @@ vector<ll> ve;
 
 int test(ll x)
 {
-	// cout << "1: " << x << endl;
 	ll sum = 0;
 	for (auto i : ve)
 	{
 		sum += (i + 2ll * x) * (i + 2ll * x);
 	}
-	// cout << "2: " << sum << endl;
 
 	if (sum < m)
 	{

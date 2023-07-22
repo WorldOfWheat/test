@@ -4,7 +4,6 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/C_C++"
             ],
             "defines": [
                 "_DEBUG",

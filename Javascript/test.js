@@ -1,10 +1,13 @@
-var test = {
-    "name": 5,
-    "name2": 6,
-    "name3": 7,
+function getRandomBetween(minimum, maximum) {
+    console.log(a);
+    return Math.floor(Math.random() * (maximum - minimum)) + minimum;
 }
 
-console.log(test);
-test.age = 5;
-delete test.name;
-console.log(test);
+const person = {
+    PI: 3.14,
+}
+
+Object.freeze(person);
+person.PI = 11111;
+
+console.log(person);
