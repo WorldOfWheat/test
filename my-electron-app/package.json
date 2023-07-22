@@ -1,7 +1,7 @@
 {
-  "name": "test",
+  "name": "my-electron-app",
   "version": "1.0.0",
-  "description": "just for test",
+  "description": "test",
   "main": "main.js",
   "scripts": {
     "start": "electron .",

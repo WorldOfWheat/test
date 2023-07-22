@@ -1,0 +1,26 @@
+body {
+    background-color: rgb(25, 25, 25);
+    color: whitesmoke;
+}
+
+p {
+    word-wrap: break-word;
+}
+
+.main_table {
+    width: 1000px;
+    margin: auto;
+    table-layout: fixed;
+}
+
+.selection_bar {
+    width: 10%;
+    border-style: dashed;
+}
+
+.main_info {
+    border-style: dashed;
+    width: 90%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
