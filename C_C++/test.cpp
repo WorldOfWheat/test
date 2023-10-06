@@ -8,7 +8,10 @@ typedef pair<int, int> pii;
 
 void solve()
 {
-    ranges::copy(views::iota(1, 500), ostream_iterator<int>(cout, " "));
+    int a = (int) 'a';
+    cout << a << '\n';
+    cout << oct << a << '\n';
+    cout << hex << a;
 }
 
 int main()
