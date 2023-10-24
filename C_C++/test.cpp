@@ -1,31 +1,4 @@
 #include <bits/stdc++.h>
-<<<<<<< HEAD
-#include <ranges> 
-
-using namespace std;
-
-typedef long long ll;
-typedef pair<int, int> pii;
-
-void solve()
-{
-    int a = (int) 'a';
-    cout << a << '\n';
-    cout << oct << a << '\n';
-    cout << hex << a;
-}
-
-int main()
-{
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-
-    solve();
-
-    return 0;
-}
-=======
 #define int long long
 #define V vector<int>
 #define VV vector<V>
@@ -44,20 +17,52 @@ int main()
 
 using namespace std;
 
-int n;
-VP arr;
+mt19937 mt;
+int n, m;
+
+int qpow(int x, int y, int mod) 
+{
+    int res = 1;
+    while (y > 0) 
+    {
+        if (y & 1) 
+        {
+            res *= x;
+            res %= mod;
+        }
+        y >>= 1;
+        x *= x;
+        x %= mod;
+    }
+    return res;
+}
+
+bool is_prime(int x) {
+    if (x <= 2) {
+        return x == 2;
+    }
+    for (int i = 0; i < 10; i++) {
+        int k = (mt() % ((x - 1) - 2 + 1) + 2);
+        if (qpow(k, x - 1, x) != 1) {
+            return false;
+        }
+    }
+    return true;
+}
 
 void solve() 
 {
-    cin >> n;
-    arr.resize(n);
-    for (auto &i : arr) {
-        cin >> i.F >> i.S;
+    while (cin >> n >> m) {
+        int ans = 0;
+        for (int i = n; i <= m; i++) 
+        {
+            if (is_prime(i)) 
+            {
+                ans++;
+            }
+        }
+        cout << ans << endl;
     }
-    
-    sort(b2e(arr));
-
-    
 }
 
 signed main() 
@@ -70,4 +75,3 @@ signed main()
 
 	return 0;
 }
->>>>>>> 9749cab (Add new algorithm practice)
