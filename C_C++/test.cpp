@@ -20,6 +20,7 @@ using namespace std;
 mt19937 mt;
 int n, m;
 
+<<<<<<< HEAD
 int qpow(int x, int y, int mod) 
 {
     int res = 1;
@@ -35,35 +36,31 @@ int qpow(int x, int y, int mod)
         x %= mod;
     }
     return res;
-}
+=======
+int t, n;
+vector<ll> table;
 
-bool is_prime(int x) {
-    if (x <= 2) {
-        return x == 2;
-    }
-    for (int i = 0; i < 10; i++) {
-        int k = (mt() % ((x - 1) - 2 + 1) + 2);
-        if (qpow(k, x - 1, x) != 1) {
-            return false;
-        }
-    }
-    return true;
-}
-
-void solve() 
+void pre() 
 {
-    while (cin >> n >> m) {
-        int ans = 0;
-        for (int i = n; i <= m; i++) 
-        {
-            if (is_prime(i)) 
-            {
-                ans++;
-            }
-        }
-        cout << ans << endl;
+    table.push_back(9);
+    ll now = 89;
+    for (int i = 2; i < 18; i++) {
+        table.push_back(i * now);
+        now *= 10;
+        now += 9;
     }
 }
+
+void solve()
+{
+    pre();
+
+    cin >> t;
+    while (t--) {
+        cin >> n;
+        auto it = lower_bound(table.begin(), table.end(), n);
+        cout << (it - table.begin()) << '\n';
+    }
 
 signed main() 
 {
