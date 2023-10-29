@@ -6,25 +6,25 @@ typedef long long ll;
 typedef pair<int, int> pii;
 
 int n;
-map<int, int> ma;
+vector<int> arr;
 
 void solve()
 {
     cin >> n;
-    for (int i = 0; i < n; i++)
+
+    arr.resize(n);
+
+    for (auto &i : arr)
     {
-        int a, b;
-        cin >> a >> b;
-        ma[a] += 1;
-        ma[b] -= 1;
+        cin >> i;
     }
 
-    int now = 0;
-    int ans = 0;
-    for (auto i : ma)
+    ll ans = -1e18;
+    ll now = 0;
+    for (int i = 0; i < arr.size(); i++)
     {
-        now += i.second;
-        ans = max(ans, now);
+        now = max((ll) arr[i], now + arr[i]);
+        ans = max(now, ans);
     }
 
     cout << ans << '\n';

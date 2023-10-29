@@ -5,12 +5,13 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
-int n;
-vector<int> arr;
+ll n;
 
 void solve()
 {
+    cin >> n;
 
+    cout << ((n / 2) + 1)  * ((n / 2 + n % 2) + 1) << "\n";
 }
 
 int main()

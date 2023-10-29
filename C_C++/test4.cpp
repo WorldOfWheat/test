@@ -5,8 +5,7 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
-int n;
-vector<int> arr;
+ll n;
 
 void solve()
 {

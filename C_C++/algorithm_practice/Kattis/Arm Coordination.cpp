@@ -5,12 +5,16 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
-int n;
-vector<int> arr;
+int n, m;
+int k;
 
 void solve()
 {
-
+    cin >> n >> m >> k;
+    cout << n - k << ' ' << m + k << '\n';
+    cout << n + k << ' ' << m + k << '\n';
+    cout << n + k << ' ' << m - k << '\n';
+    cout << n - k << ' ' << m - k << '\n';
 }
 
 int main()
