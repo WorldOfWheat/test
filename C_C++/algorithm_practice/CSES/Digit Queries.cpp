@@ -13,16 +13,16 @@ vector<ll> table3;
 
 void pre() 
 {   
-    table.push_back(9);
-    table2.push_back(1);
-    table3.push_back(1);
-    ll now = 90;
-    for (int i = 2; i <= 17; i++) 
+    ll now = 9;
+    ll sum = 0;
+    ll start = 1;
+    for (int i = 1; i <= 17; i++) 
     {
-        table.push_back(i * now);
+        table.push_back(i * now + sum);
+        sum += i * now;
         now *= 10;
-        table2.push_back(table2.back() * 10);
-        table3.push_back(i);
+        table2.push_back(start);
+        start *= 10;
     }
     // for (int i = 0; i < table.size(); i++) cout << table[i] << '\n';
     // for (int i = 0; i < table2.size(); i++) cout << table2[i] << '\n';
@@ -43,12 +43,15 @@ void solve()
         }
         auto it = lower_bound(table.begin(), table.end(), n);
         int index = it - table.begin();
-        int digit = n - (table[index - 1]);
-        int th = (digit - 1) / (table3[index]);
-        int num = table2[index] + th;
-        char num_digit = to_string(num)[(digit - 1) % table3[index]];
-        // cout << index << ' ' << digit << ' ' << th << ' ' << num << '\n';
-        cout << num_digit << '\n';
+        ll backward = n - table[index - 1];
+        ll digit = backward / (index + 1);
+        if (backward % (index + 1) == 0) digit--;
+        ll num = table2[index] + digit;
+        int pos = backward % (index + 1);
+        if (pos == 0) pos = index + 1;
+        pos--;
+        // cout << index << ' ' << backward << ' ' << digit << ' ' << num << ' ' << pos << "\n";
+        cout << (to_string(num)[pos]) << '\n';
     }
 }
 

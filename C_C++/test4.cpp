@@ -3,9 +3,6 @@
 using namespace std;
 
 typedef long long ll;
-typedef pair<int, int> pii;
-
-ll n;
 
 void solve()
 {
