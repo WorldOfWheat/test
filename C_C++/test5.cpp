@@ -2,11 +2,10 @@
 
 using namespace std;
 
+typedef ll long long;
+
 int main()
 {
-    int n;
-    cin >> n;
-    cout << n / 100 + (n % 100 > 0) << '\n';
 
     return 0;
 }

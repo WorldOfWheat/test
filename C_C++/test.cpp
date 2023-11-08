@@ -4,16 +4,33 @@ using namespace std;
 
 typedef long long ll;
 
-int n, m;
-vector<int> arr;
+class Node {
+public:
+    int value;
+    Node* next;
+};
+
+int n;
 
 void solve()
 {
-    cin >> n >> m;
-    
-    arr.resize(n);
-    arr.push_back()
-    
+    cin >> n;
+    Node* head = new Node();
+    Node* current = head;
+    for (int i = 1; i <= n; i++)
+    {
+        current->value = i;
+        current->next = new Node();
+        current = current->next;
+    }
+    current->next = head;
+    current = head;
+    while (current != nullptr)
+    {
+        cout << current->next->value << ' ';
+        current->next = current->next->next;
+        current = current->next;
+    }
 }
 
 int main()
