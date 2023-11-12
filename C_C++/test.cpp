@@ -3,15 +3,10 @@
 using namespace std;
 
 typedef long long ll;
-typedef pair<int, int> pii;
-
-ll n;
 
 void solve()
 {
-    cin >> n;
 
-    cout << ((n / 2) + 1)  * ((n / 2 + n % 2) + 1) << "\n";
 }
 
 int main()
