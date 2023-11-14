@@ -9,19 +9,20 @@ int main(int argc, char* argv[])
 {
     registerGen(argc, argv, 1);
 
-    rnd.setSeed(time(0) ^ (int) argv[1]);
+    for (int i = 0; i < 5; i++) cout << rnd.next(1, 10) << ' ';
+    cout << '\n';
 
-    set<string> names_table;
-    for (int i = 0; i < 1e6; i++)
+    return 0;
+    vector<string> names_table;
+    for (int i = 0; i < 100; i++)
     {
         const string person_name = rnd.next("[a-zA-Z]{8}");
-        names_table.insert(person_name);
+        names_table.push_back(person_name);
     }
 
     vector<string> names;
 
     const int phone_number_amount = rnd.next(10, (int) 1e4);
-    // const int phone_number_amount = 5;
     cout << phone_number_amount << '\n';
     for (int i = 0; i < phone_number_amount; i++)
     {
@@ -36,12 +37,10 @@ int main(int argc, char* argv[])
         }
 
         const string person_name = rnd.any(names_table);
-        names_table.erase(person_name);
         cout << "->" << person_name << '\n';
     }
 
-    const int query_amount = rnd.next(10, 1000);
-    // const int query_amount = 2;
+    const int query_amount = rnd.next(10, (int) 1e4);
     cout << query_amount << '\n';
     for (int i = 0; i < query_amount; i++)
     {
