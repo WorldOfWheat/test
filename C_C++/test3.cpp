@@ -31,7 +31,7 @@ void printAllPermutations(vector<int> &arr, int start, int end)
 
 int main()
 {
-    vector<int> arr = {1, 2, 3, 4, 5, 6};
+    vector<int> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
     printAllPermutations(arr, 0, arr.size());
 
     cout << (ss.str());

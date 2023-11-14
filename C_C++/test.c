@@ -2,12 +2,9 @@
 
 int main()
 {
-    for (int i = 1; i <= 9; i++)
-    {
-        for (int j = 1; j <= 9; j++) 
-            printf("%d*%d=%d\t", i, j, i * j);
-        printf("\n");
-    }
+    char c;
+    scanf("%c", &c);
+    printf("%c", c^32);
 
     return 0;
 }
