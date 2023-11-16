@@ -4,30 +4,29 @@ using namespace std;
 
 typedef long long ll;
 
-int n;
-vector<pair<int, int>> arr;
-map<int, int> ma;
+int n, m;
+set<int> se;
 
 void solve()
 {
-    cin >> n;
+    cin >> n >> m;
+    for (int i = 1; i <= n; i++) se.insert(i);
 
-    arr.resize(n + 1);
-    for (int i = 0; i < n; i++) cin >> arr[i].first >> arr[i].second;
-    sort(arr.begin(), arr.end());
-
-    for (int i = 0; i < n - 1; i++)
+    auto it = se.begin();
+    while (se.size())
     {
-        auto it = prev(upper_bound(arr.begin(), arr.end(), arr[i].second));
-
-        int maximum_left = distance(arr.begin(), )
-        int l = i + 1;
-        int r = n;
-        while (l < r)
-        {
-            
-        }
+        // for (auto i : se) cerr << i << ' ';
+        // cerr << '\n';
+        int offset = distance(se.begin(), it);
+        offset = (offset + m) % se.size();
+        it = next(se.begin(), offset);
+        auto it_next = next(it);
+        cout << (*it) << ' ';
+        se.erase(it);
+        it = it_next;
     }
+    cout << '\n';
+    // cerr << '\n';
 }
 
 int main()
