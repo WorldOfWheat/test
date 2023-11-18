@@ -6,12 +6,9 @@ typedef long long ll;
 
 int main()
 {
-    while(1) {
-
-        while (1)
-        {
-            
-        }
+    for (int i = 0; i < 52; i++)
+    {
+        if (i % 4 == i % 13) cout << i << ' ';
     }
 
     return 0;
