@@ -14,9 +14,13 @@ struct seg {
 int n;
 vector<seg> arr;
 vector<pii> record;
+set<int> se;
 
 bool compare(seg x, seg y)
 {
+    if (x.left > y.left) return false;
+    if (x.left < y.left) return true;
+
     int distance_x = x.right - x.left;
     int distance_y = y.right - y.left;
     if (distance_x < distance_y) return false;
@@ -37,27 +41,35 @@ void solve()
     }
     
     sort(arr.begin(), arr.end(), compare);
-
-    // for (int i = 0; i < n; i++)
-    // {
-    //     cerr << arr[i].left << ' ' << arr[i].right << '\n';
-    // }
-
-    int maximum_end = -1e9;
+    
     for (int i = 0; i < n; i++)
     {
         seg current = arr[i];
-        if (current.right < maximum_end) record[current.index].second = 1;
-        maximum_end = max(maximum_end, current.right);
+        auto lower = se.lower_bound(current.right);
+        if (lower != se.end()) 
+        {
+            int count = distance(lower, se.end());
+            record[current.index].second = count;
+        }
+        se.insert(current.right);
     }
 
-    int minimum_end = 1e9;
+    se.clear();
+
     for (int i = n - 1; i >= 0; i--)
     {
         seg current = arr[i];
-        if (minimum_end < current.right) record[current.index].first = 1;
-        minimum_end = min(minimum_end, current.right);
+
+        auto upper = se.upper_bound(current.right);
+        if (upper != se.begin())
+        {
+            upper--;
+            int count = distance(se.begin(), upper) + 1;
+            record[current.index].first = count;
+        }
+        se.insert(current.right);
     }
+
     for (int i = 0; i < n; i++) cout << record[i].first << ' ';
     cout << '\n';
     for (int i = 0; i < n; i++) cout << record[i].second << ' ';
