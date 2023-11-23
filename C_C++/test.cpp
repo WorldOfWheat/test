@@ -26,6 +26,12 @@ bool compare(seg x, seg y)
     if (distance_x < distance_y) return false;
 
     return true;
+=======
+    if (x.left < y.left) return true;
+    if (x.left == y.left && x.right >= y.right) return true;
+
+    return false;
+>>>>>>> d13cc39 (Update tests)
 }
 
 void solve()
@@ -73,6 +79,8 @@ void solve()
     for (int i = 0; i < n; i++) cout << record[i].first << ' ';
     cout << '\n';
     for (int i = 0; i < n; i++) cout << record[i].second << ' ';
+    cout << '\n';
+    for (int i = 0; i < n; i++) cout << record[i].first << ' ';
     cout << '\n';
 }
 
