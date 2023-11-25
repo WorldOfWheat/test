@@ -5,82 +5,67 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
-struct seg {
+struct interval
+{
     int left;
     int right;
     int index;
 };
 
 int n;
-vector<seg> arr;
-vector<pii> record;
-set<int> se;
+vector<interval> arr; 
+vector<int> record; 
+priority_queue<int, vector<int>, greater<int>> pq;
 
-bool compare(seg x, seg y)
+bool compare(interval a, interval b)
 {
-    if (x.left > y.left) return false;
-    if (x.left < y.left) return true;
-
-    int distance_x = x.right - x.left;
-    int distance_y = y.right - y.left;
-    if (distance_x < distance_y) return false;
-
+    // left
+    if (a.left > b.left) return false;
+    if (a.left < b.left) return true;
+    // right
+    if (a.right > b.right) return false;
+    if (a.right < b.right) return true;
+    
     return true;
-=======
-    if (x.left < y.left) return true;
-    if (x.left == y.left && x.right >= y.right) return true;
-
-    return false;
->>>>>>> d13cc39 (Update tests)
 }
 
 void solve()
 {
     cin >> n;
-
+    
     arr.resize(n);
     record.resize(n);
-    for (int i = 0; i < n; i++) 
+    
+    for (int i = 0 ; i < n; i++)
     {
-        cin >> arr[i].left >> arr[i].right;
+        int a, b;
+        cin >> a >> b;
+
+        arr[i].left = a;
+        arr[i].right = b;
         arr[i].index = i;
     }
     
-    sort(arr.begin(), arr.end(), compare);
+    sort(begin(arr), end(arr), compare);
     
-    for (int i = 0; i < n; i++)
+    int maximum = 1;
+    pq.push(arr.front().right);
+    record[arr.front().index] = 1;
+
+    for (int i = 1; i < n; i++)
     {
-        seg current = arr[i];
-        auto lower = se.lower_bound(current.right);
-        if (lower != se.end()) 
-        {
-            int count = distance(lower, se.end());
-            record[current.index].second = count;
-        }
-        se.insert(current.right);
+        interval current = arr[i];
+        while (pq.size() && pq.top() < current.left) pq.pop();            
+        
+        pq.push(current.right);
+
+        int size = pq.size();
+        record[i] = size;
+        maximum = max(maximum, size);
     }
-
-    se.clear();
-
-    for (int i = n - 1; i >= 0; i--)
-    {
-        seg current = arr[i];
-
-        auto upper = se.upper_bound(current.right);
-        if (upper != se.begin())
-        {
-            upper--;
-            int count = distance(se.begin(), upper) + 1;
-            record[current.index].first = count;
-        }
-        se.insert(current.right);
-    }
-
-    for (int i = 0; i < n; i++) cout << record[i].first << ' ';
-    cout << '\n';
-    for (int i = 0; i < n; i++) cout << record[i].second << ' ';
-    cout << '\n';
-    for (int i = 0; i < n; i++) cout << record[i].first << ' ';
+    
+    cout << maximum << '\n';
+    for (int i = 0; i < n; i++) cout << record[i] << ' ';
     cout << '\n';
 }
 

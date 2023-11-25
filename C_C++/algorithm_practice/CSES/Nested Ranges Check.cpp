@@ -37,11 +37,6 @@ void solve()
     
     sort(arr.begin(), arr.end(), compare);
 
-    // for (int i = 0; i < n; i++)
-    // {
-    //     cerr << arr[i].left << ' ' << arr[i].right << '\n';
-    // }
-
     int maxi_right = arr.front().right;
     for (int i = 1; i < n; i++)
     {
