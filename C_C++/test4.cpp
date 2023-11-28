@@ -5,8 +5,8 @@ using namespace std;
 typedef long long ll;
 
 int t, n, m;
-vector<int> dp;
-vector<int> record;
+vector<ll> dp;
+vector<ll> record;
 
 void solve()
 {
