@@ -15,6 +15,12 @@ void solve()
     arr.resize(n);
     for (int i = 0; i < n; i++) cin >> arr[i];
     
+    if (m == 0) 
+    {
+        cout << '0' << '\n';
+        return;
+    }
+    
     int ans = 0;
     int l = 0, r = 0;
     int sum = arr[r];
@@ -26,7 +32,7 @@ void solve()
             r++;
             sum += arr[r];
         }
-        // cerr << l << ' ' << r << ' ' << sum << '\n';
+
         while (sum < m) 
         {
             r++;
