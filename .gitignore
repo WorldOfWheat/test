@@ -6,6 +6,8 @@ out
 C_C++/.cph/**
 C_C++/librarys/**
 
+# Rust
+*.lock
 
 # C#
 CS/**/bin/**
