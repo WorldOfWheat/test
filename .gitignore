@@ -9,7 +9,7 @@ C_C++/librarys/**
 # Rust
 *.lock
 *.o
-Rust/target/*
+Rust/target/**
 
 # C#
 CS/**/bin/**
