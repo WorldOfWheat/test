@@ -6,13 +6,10 @@ out
 C_C++/.cph/**
 C_C++/librarys/**
 
-<<<<<<< HEAD
 # Rust
 *.lock
-=======
-# Rust 
 *.o
->>>>>>> f10d61b (Update .gitignore)
+Rust/target/*
 
 # C#
 CS/**/bin/**
