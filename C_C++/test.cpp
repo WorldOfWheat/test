@@ -7,6 +7,7 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
+<<<<<<< HEAD
 int n;
 vector<pii> arr;
 int m;
@@ -56,6 +57,11 @@ void solve()
         
         cout << num1.second << ' ' << num2.second << ' ' << num3.second << '\n';
     }
+=======
+void solve()
+{
+
+>>>>>>> feabd49 (Update tests)
 }
 
 
