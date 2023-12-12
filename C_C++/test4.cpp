@@ -7,35 +7,16 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
-
-int q;
-ll n;
-
 void solve()
 {
-    cin >> q;
-    while (q--)
-    {
-        cin >> n;    
-        ll mid = sqrt(n);
-        ll l = max(2ll, mid - (ll) 1e6);
-        ll r = mid + (int) 1e6;
-        for (ll i = l; i <= r; i++) 
-        {
-            if (n % i == 0) 
-            {
-                cout << i << ' ' << (n / i) << '\n';
-                break;
-            }
-        }
-    }
+    ll n = 100000;
+    for (int i = 0; i < 10; i++) n += (double) n * 0.08;
+    cout << n << '\n';
 }
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
+    fastio;
 
     solve();
 

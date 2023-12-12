@@ -7,50 +7,30 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
-int t;
 
-vector<bool> primes_record;
-vector<int> primes_table;
-
-void linar_sive_theory(int maximum = 1e8)
-{
-    primes_record.resize(maximum + 1, true);
-
-    for (int i = 2; i <= maximum; i++) 
-    {
-        if (primes_record[i]) primes_table.push_back(i);        
-
-        int len = primes_table.size();
-        for (int j = 0; j < len; j++) 
-        {
-            ll multiply = (ll) i * (ll) primes_table[j];
-            if (multiply > maximum) break;
-            primes_record[multiply] = false;
-            if (i % primes_table[j] == 0) break;
-        }
-    }
-}
+int n, m;
+vector<int> arr;
+map<int, int> ma;
 
 void solve()
 {
-    linar_sive_theory();
+    cin >> n >> m;
 
-    cin >> t;
-    while (t--) 
+    arr.resize(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    
+    int current_sum = 0;
+    int ans = 0;
+    ma[0] = 1;
+    for (int i = 0; i < n; i++) 
     {
-        ll n;
-        cin >> n;
-        for (auto i : primes_table)
-        {
-            if (n % i == 0)
-            {
-                cout << i << ' ' << n / i << '\n';
-                break;
-            }
-        }
+        current_sum += arr[i];
+        ans += ma[current_sum - m];
+        ma[current_sum]++;
     }
+    
+    cout << ans << '\n';
 }
-
 
 int main()
 {

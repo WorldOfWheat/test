@@ -1,14 +1,15 @@
 #include <bits/stdc++.h>
 #define fastio ios::sync_with_stdio; cin.tie(0); cout.tie(0)
 #define debug(container) for (auto i : container) cerr << i << ' '; cerr << '\n';
-#define ll long long;
-#define pii pair<int, int>;
 
 using namespace std;
 
+typedef long long ll;
+typedef pair<int, int> pii;
+
 int n, m;
 vector<int> arr;
-vector<int> visited;
+vector<int> record;
 
 void coord_compress(vector<int> &arr) 
 {
@@ -39,16 +40,23 @@ void solve()
 
     coord_compress(arr);
     
-    visited.resize(2e5 + 5);
-    int ans = 0;
+    record.resize((int) 2e5 + 5);
     int l = 0, r = 0;
-    visited[arr[l]]++;
+    ll ans = 0;
     while (r < n) 
     {
-        while (arr[r] < 1) 
+        cerr << l << ' ' << r << '\n';
+        if (record[arr[r]] <= m)
         {
+            record[arr[r]]++;
+            r++;
         }
-        while ()
+        else 
+        {
+            record[arr[l]]--;
+            l++;
+        }
+        ans++;            
     }
     
     cout << ans << '\n';
