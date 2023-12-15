@@ -10,6 +10,9 @@ C_C++/librarys/**
 *.lock
 *.o
 Rust/target/**
+Rust/test_project/**
+Rust/Cargo.toml
+Rust/Cargo.lock
 
 # C#
 CS/**/bin/**

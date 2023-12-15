@@ -7,6 +7,13 @@ using namespace std;
 typedef long long ll;
 typedef pair<int, int> pii;
 
+int exgcd(int a, int b, int x, int y)
+{
+    if (b == 0) return a;
+    
+    return gcd(b, a % b);
+}
+
 void solve()
 {
     
