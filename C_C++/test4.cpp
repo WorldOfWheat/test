@@ -9,9 +9,7 @@ typedef pair<int, int> pii;
 
 void solve()
 {
-    ll n = 100000;
-    for (int i = 0; i < 10; i++) n += (double) n * 0.08;
-    cout << n << '\n';
+    
 }
 
 int main()
