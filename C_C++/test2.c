@@ -1,23 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 int main()
 {
-    srand(time(NULL));
-    int secret = rand() % 100 + 1;
-    printf("Secret: %i\n", secret);
-    printf("Guess 1 to 100\n");
-
-    int guess;
-    do
-    {
-        scanf("%i", &guess);
-        if (guess > secret) printf("Too large\n");
-        else printf("Too low\n");
-    } while ((guess ^ secret) != 0);
-    
-
-    printf("Correct\n");
+    int dp[10];
+    dp[0] = 1;
+    dp[1] = 1;
+    for (int i = 2; i < 10; i++) dp[i] = dp[i-1] + dp[i-2];
+    for (int i = 0; i < 10; i++) printf("%i ", dp[i]);
 
     return 0;
 }

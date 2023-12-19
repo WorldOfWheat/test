@@ -22,8 +22,6 @@ void solve()
 int main()
 {
     fastio;
-
     solve();
-
     return 0;
 }
