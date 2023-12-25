@@ -3,17 +3,9 @@
 
 int main()
 {
-    int a, b, c;
-    a = 1;
-    b = 1;
-    printf("%i %i ", a, b);
-    for (int i = 2; i < 10; i++) 
-    {
-        c = a + b;
-        printf("%i ", c);
-        a = b;
-        b = c;
-    }
+    int n;
+    scanf("%i", &n);
+    printf("%i", n / 12 * 50 + n % 12 * 5);
 
     return 0;
 }
