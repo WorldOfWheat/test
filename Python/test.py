@@ -1,27 +1,19 @@
-def enc(plain_text, key):
-    cipher_text = ''
-    for i in plain_text:
-        cipher_text += chr(((ord(i)-ord('a')) + key) % 26 + ord('a'))
-    return cipher_text
+from Crypto.Hash import SHA3_256
+import os
+import tempfile
+import threading
+import sqlite3
 
-def dec(cipher_text, key):
-    plain_text = ''
-    for i in cipher_text:
-        plain_text += chr(((ord(i)-ord('a')) - key) % 26 + ord('a'))
-    return plain_text
+temp_path = tempfile.gettempdir()
 
-def crack(cipher_text):
-    FREQ = 'etaoinshrdlcumwfgypbvkjxqz'
-    alphabet_count = [0] * 26
-    for i in range(26):
-        alphabet_count[i] = (cipher_text.count(chr(i+ord('a'))), i)
-    alphabet_count.sort(reverse=True)
-    # print(alphabet_count)
+sql_connection = sqlite3.connect("/home/worldofwheat/test_database.db")
+sql_cursor = sql_connection.cursor()
 
+def get_random_hex(length):
+    return os.urandom(length // 2).hex()
 
+def test_function():
+    print(SHA3_256.new(os.urandom(1 << 19)).hexdigest())
 
-data = 'chinese'
-cipher_text = enc(data, 3)
-print(cipher_text)
-print(dec(cipher_text, 3))
-crack(cipher_text)
+for i in range(pow(10, 6)):
+    threading.Thread(target=test_function).start()
