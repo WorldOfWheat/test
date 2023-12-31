@@ -1,55 +1,43 @@
 #include <bits/stdc++.h>
-#define fastio ios::sync_with_stdio; cin.tie(0); cout.tie(0)
-#define debug(container) for (auto i : container) cerr << i << ' '; cerr << '\n';
 
 using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> pii;
 
-<<<<<<< HEAD
-int exgcd(int a, int b, int x, int y)
-{
-    if (b == 0) return a;
-    
-    return gcd(b, a % b);
-=======
-vector<bool> eratosthenes_sieve(int n)
-{
-    vector<bool> prime_table(n, true);
-    prime_table[1] = false;
-
-    for (int i = 2; i * i < n; i++)
-    {
-        if (prime_table[i]) 
-        {
-            int j = 2;
-            while (i * j < n)
-            {
-                prime_table[i * j] = false;
-                j++;
-            }
-        }
-    }
-    
-    return prime_table;
->>>>>>> 0a3fc10 (Tests)
-}
+int n, m;
+vector<int> arr;
+vector<ll> prefix_sum;
+unordered_map<ll, int> um;
 
 void solve()
 {
-    vector<bool> prime_table = eratosthenes_sieve(1e5);
-    
-    int n;
-    while (cin >> n) 
+    cin >> n >> m;
+
+    arr.resize(n);
+    prefix_sum.resize(n + 1);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    um[0] = 1;
+    ll ans = 0;
+    for (int i = 0; i < n; i++) 
     {
-        cout << prime_table[n] << '\n';
+        prefix_sum[i+1] = prefix_sum[i] + arr[i];
+        ll remain = m - prefix_sum[i+1];
+        ans += um[-remain];
+        um[prefix_sum[i+1]]++;
     }
+    
+    cout << ans << '\n';
 }
 
 int main()
 {
-    fastio;
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+
     solve();
+
     return 0;
 }

@@ -27,7 +27,27 @@ void solve()
         if (arr[i] == 0) zero_indexes.push_back(i);
     }
     
+    for (int i = 0; i < n; i++) cin >> arr[i];
     
+    int ans = 1;
+    int count = 0;
+    for (int i = 1; i <= m; i++)
+    {
+        for (int j = 0; j < n; j++) 
+        {
+            if (arr[j] == 0) 
+            {
+                arr[j] = i;
+                if (j != 0 && abs(arr[j] - arr[j-1]) <= 1) count++; 
+                if (j != n-1 && abs(arr[j] - arr[j+1]) <= 1) count++; 
+                arr[j] = 0;
+            }
+        }
+        ans *= count;
+        ans %= MOD;
+    }
+    
+    cout << ans << '\n';
 }
 
 int main()
