@@ -1,19 +1,10 @@
-from Crypto.Hash import SHA3_256
-import os
-import tempfile
-import threading
-import sqlite3
+from manim import *
 
-temp_path = tempfile.gettempdir()
+class LagRatios(Scene):
+    def construct(self):
+        ratios = [0, 0.9, 0.5, 1, 2]  # demonstrated lag_ratios
 
-sql_connection = sqlite3.connect("/home/worldofwheat/test_database.db")
-sql_cursor = sql_connection.cursor()
-
-def get_random_hex(length):
-    return os.urandom(length // 2).hex()
-
-def test_function():
-    print(SHA3_256.new(os.urandom(1 << 19)).hexdigest())
-
-for i in range(pow(10, 6)):
-    threading.Thread(target=test_function).start()
+        # Create dot groups
+        group = VGroup(*[Dot() for _ in range(4)]).arrange_submobjects()
+        groups = VGroup(*[group.copy() for _ in ratios]).arrange_submobjects(buff=1)
+        self.add(groups)

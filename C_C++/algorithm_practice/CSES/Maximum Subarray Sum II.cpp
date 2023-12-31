@@ -11,23 +11,30 @@ typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<pii> vp;
 
-const int MOD = 1e9 + 7;
-int n, m;
+int n;
+int o, p;
 vi arr;
-vi zero_indexes;
+vl prefix;
+multiset<ll> ms;
 
 void solve() 
 {
-    cin >> n >> m;
+    cin >> n >> o >> p;
     
     arr.resize(n);
-    for (int i = 0; i < n; i++) 
-    {
-        cin >> arr[i];
-        if (arr[i] == 0) zero_indexes.push_back(i);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    prefix.resize(n + 1);
+    for (int i = 1; i <= n; i++) prefix[i] = prefix[i-1] + arr[i-1];
+    
+    ll ans = -1e18;
+    for (int i = o; i <= n; i++)
+    {   
+        if (i > p) ms.erase(ms.find(prefix[i - p - 1]));
+        ms.insert(prefix[i - o]);
+        ans = max(ans, prefix[i] - *(ms.begin()));        
     }
     
-    
+    cout << ans << '\n';
 }
 
 int main()

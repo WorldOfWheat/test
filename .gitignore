@@ -20,5 +20,7 @@ CS/**/obj/**
 CS/**/.vs/**
 
 # Python
+Python/__pycache__/**
 Python/mini_project/**/build/**
 Python/mini_project/**/dist/**
+Python/media/**

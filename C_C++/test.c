@@ -3,9 +3,11 @@
 
 int main()
 {
-    int n;
-    scanf("%i", &n);
-    printf("%i", n / 12 * 50 + n % 12 * 5);
+    int** arr = (int**)malloc(sizeof(int*) * 3);
+    for (int i = 0; i < 3; i++)
+    {
+        arr[i] = (int*)malloc(sizeof(int) * 4);
+    }
 
     return 0;
 }
