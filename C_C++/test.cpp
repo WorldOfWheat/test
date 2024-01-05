@@ -9,14 +9,9 @@ typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<pii> vp;
 
-int n;
-vi arr;
-vi zero_indexes;
-vector<vi> dp;
-
 void solve() 
 {
-    
+
 }
 
 int main() 

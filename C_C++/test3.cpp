@@ -1,43 +1,22 @@
 #include <bits/stdc++.h>
+#define fastio ios::sync_with_stdio; cin.tie(0); cout.tie(0)
 
 using namespace std;
 
 typedef long long ll;
 typedef pair<int, int> pii;
-
-int n, m;
-vector<int> arr;
-vector<ll> prefix_sum;
-unordered_map<ll, int> um;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef vector<pii> vp;
 
 void solve()
 {
-    cin >> n >> m;
-
-    arr.resize(n);
-    prefix_sum.resize(n + 1);
-    for (int i = 0; i < n; i++) cin >> arr[i];
-
-    um[0] = 1;
-    ll ans = 0;
-    for (int i = 0; i < n; i++) 
-    {
-        prefix_sum[i+1] = prefix_sum[i] + arr[i];
-        ll remain = m - prefix_sum[i+1];
-        ans += um[-remain];
-        um[prefix_sum[i+1]]++;
-    }
     
-    cout << ans << '\n';
 }
 
 int main()
 {
-    ios::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-
+    fastio;
     solve();
-
     return 0;
 }
