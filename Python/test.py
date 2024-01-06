@@ -1,10 +1,20 @@
-from manim import *
+arr = list(map(int, input().split()))
+n = int(input())
 
-class LagRatios(Scene):
-    def construct(self):
-        ratios = [0, 0.9, 0.5, 1, 2]  # demonstrated lag_ratios
+dp = []
+dp.append(0)
+for i in range(n + 1):
+    dp.append(1000000000)
 
-        # Create dot groups
-        group = VGroup(*[Dot() for _ in range(4)]).arrange_submobjects()
-        groups = VGroup(*[group.copy() for _ in ratios]).arrange_submobjects(buff=1)
-        self.add(groups)
+for i in range(1, n + 1):
+    current_sum = i
+
+    for j in range(10):
+        if (current_sum - arr[j] < 0):
+            continue
+        dp[i] = min(dp[i], dp[current_sum - arr[j]] + 1)
+
+if dp[n] == 1000000000:
+    print("No Solution")
+else:
+    print(dp[n])

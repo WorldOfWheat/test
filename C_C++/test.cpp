@@ -9,34 +9,41 @@ typedef vector<int> vi;
 typedef vector<ll> vl;
 typedef vector<pii> vp;
 
-string str1;
-string str2;
-vector<vi> dp;
+int n;
+vi arr;
+vector<vi> dp(5000+1, vi(5000+1, -1));
+
+int f(int l, int r, int depth)
+{
+    if (l + 1 > r) return arr[l];
+    if (dp[l][r] != -1) return dp[l][r];
+
+    if (depth & 1)
+    {
+        return dp[l][r] = max(f(l+1, r, depth ^ 1), f(l, r-1, depth ^1));
+    }
+    else 
+    {
+        return dp[l][r] = max(f(l+1, r, depth ^ 1) + arr[l], f(l, r-1, depth ^ 1) + arr[r]);
+    }
+}
 
 void solve() 
 {
-    cin >> str1 >> str2;
-    int size1 = str1.size();
-    int size2 = str2.size();
+    cin >> n;
     
-    dp.resize(size1 + 1, vi(size2 + 1));
-    for (int i = 0; i <= size1; i++) dp[i][0] = i;
-    for (int i = 0; i <= size2; i++) dp[0][i] = i;
+    arr.resize(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
     
-    for (int i = 1; i <= size1; i++)
+    cout << f(0, n-1, 1) << '\n';
+    for (int i = 0; i < n; i++) 
     {
-        for (int j = 1; j <= size2; j++)
+        for (int j = 0; j < n; j++)
         {
-            if (str1[i-1] == str2[j-1]) 
-            {
-                dp[i][j] = dp[i-1][j-1];
-                continue;
-            }
-            dp[i][j] = min({dp[i-1][j], dp[i][j-1], dp[i-1][j-1]}) + 1;
+            cerr << dp[i][j] << ' ';
         }
+        cerr << '\n';
     }
-    
-    cout << dp[size1][size2] << '\n';
 }
 
 int main() 
