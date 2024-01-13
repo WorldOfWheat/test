@@ -11,7 +11,7 @@ typedef vector<pii> vp;
 
 void solve()
 {
-
+    
 }
 
 signed main()

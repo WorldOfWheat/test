@@ -7,10 +7,11 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
-typedef vector<string> vs;
 typedef vector<pii> vp;
+typedef vector<vp> vvp;
+typedef vector<string> vs;
 
-void solve() 
+void solve()
 {
     
 }
