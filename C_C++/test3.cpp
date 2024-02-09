@@ -7,7 +7,7 @@ using namespace std;
 typedef pair<int, int> pii;
 
 void solve() {
-
+    
 }
 
 signed main() {
