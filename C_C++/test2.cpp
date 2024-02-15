@@ -7,30 +7,32 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<vi> v2i;
+typedef vector<string> vs;
+typedef vector<vs> v2s;
 typedef vector<pii> vp;
 
-void quick_sort(vi* arr, int left, int right) {
-    if (left + 1 >= right) {
-        return;
+void build(v2i& st, vi& arr) {
+    for (int i = 0; i < arr.size(); i++) {
+        st[0][i] = arr[i];        
     }
-    
-    int pivot = (*arr)[left];
-    int l = left, r = right - 1;
-    while (l < r) {
-        while (r > l && (*arr)[r] >= pivot) {
-            r--;
+    for (int i = 1; i < 30; i++) {
+        for (int j = 0; j + (1 << i) < arr.size(); j++) {
+            st[i][j] = max(st[i-1][j], st[i-1][j + (1 << (i - 1))]);            
         }
-        while (l < r && (*arr)[l] <= pivot) {
-            l++;
-        }            
-        if (l < r) {
-            swap((*arr)[l], (*arr)[r]);
-        }
-    }
-    swap((*arr)[left], (*arr)[l]);
+    }        
+}
 
-    quick_sort(arr, left, l);
-    quick_sort(arr, l+1, right);
+int query(v2i& st, int l, int r) {
+    int res = -1e18;
+    for (int i = 30; i >= 0; i--) {
+        if ((1 << i) <= r - l) {
+            cerr << (1 << i) << ' ';
+            res = max(res, st[i][l]);
+            cerr << res << '\n';
+            l += (1 << i);
+        }
+    }
+    return res;
 }
 
 void solve() {
@@ -42,16 +44,14 @@ void solve() {
         cin >> arr[i];
     }
     
-    mt19937 rng(time(0));
-    int size = arr.size();
-    for (int i = 0; i < size; i++) {
-        // swap(arr[i], arr[rng() % size]);
-    }
-
-    quick_sort(&arr, 0, n);
-    
-    for (int i = 0; i < n; i++) {
-        cout << arr[i] << ' ';
+    v2i sparse_table(30 + 1, vi(n + 1));
+    build(sparse_table, arr);
+    int m;
+    cin >> m;
+    for (int i = 0; i < m; i++) {
+        int a, b;
+        cin >> a >> b;
+        cout << query(sparse_table, a - 1, b) << '\n';
     }
 }
 
