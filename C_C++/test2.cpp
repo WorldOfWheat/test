@@ -18,6 +18,7 @@ void solve() {
         stack<int> num_stack;
         stack<int> magnification_stack;
         stack<char> symbol_stack;
+        stack<int> ans_stack;
         int ans = 0;
         for (int i = 0; i < s.size(); i++) {
             if (s[i] == 'T') {
@@ -39,20 +40,38 @@ void solve() {
             }
             if (s[i] == 'E') {
                 int tail = num_stack.top();
-                int head;
-                int sum = 0;
                 int last = num_stack.top();
+                int sum = 0;
                 num_stack.pop();
                 while (num_stack.top() != 0) {
                     int num1 = num_stack.top();
                     num_stack.pop();
-                    head = num1;
                     sum += abs(last - num1);
                     last = num1;
                 }
-                cerr << sum << '\n';
+                num_stack.pop();
+                int top_ans = 0;
+                if (ans_stack.size()) {
+                    top_ans = ans_stack.top();
+                }
+                ans_stack.push((sum * magnification_stack.top()) + abs(tail - last) * (magnification_stack.top() - 1) + top_ans * magnification_stack.top());
+                magnification_stack.pop();
             }
         }
+        
+        while (ans_stack.size()) {
+            cerr << ans_stack.top() << '\n';   
+            ans_stack.pop();
+        }
+        // int last = num_stack.top();
+        // num_stack.pop();
+        // while (num_stack.size()) {
+        //     ans += abs(last - num_stack.top());            
+        //     last = num_stack.top();
+        //     num_stack.pop();
+        // }
+        // 
+        // cout << ans << '\n';
     }
 }
 
