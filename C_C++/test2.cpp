@@ -10,48 +10,49 @@ typedef vector<vi> v2i;
 typedef vector<string> vs;
 typedef vector<vs> v2s;
 typedef vector<pii> vp;
-
-void build(v2i& st, vi& arr) {
-    for (int i = 0; i < arr.size(); i++) {
-        st[0][i] = arr[i];        
-    }
-    for (int i = 1; i < 30; i++) {
-        for (int j = 0; j + (1 << i) < arr.size(); j++) {
-            st[i][j] = max(st[i-1][j], st[i-1][j + (1 << (i - 1))]);            
-        }
-    }        
-}
-
-int query(v2i& st, int l, int r) {
-    int res = -1e18;
-    for (int i = 30; i >= 0; i--) {
-        if ((1 << i) <= r - l) {
-            cerr << (1 << i) << ' ';
-            res = max(res, st[i][l]);
-            cerr << res << '\n';
-            l += (1 << i);
-        }
-    }
-    return res;
-}
+typedef vector<vp> v2p;
 
 void solve() {
-    int n;
-    cin >> n;
-
-    vi arr(n);
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-    
-    v2i sparse_table(30 + 1, vi(n + 1));
-    build(sparse_table, arr);
-    int m;
-    cin >> m;
-    for (int i = 0; i < m; i++) {
-        int a, b;
-        cin >> a >> b;
-        cout << query(sparse_table, a - 1, b) << '\n';
+    string s;
+    while (cin >> s) {
+        stack<int> num_stack;
+        stack<int> magnification_stack;
+        stack<char> symbol_stack;
+        int ans = 0;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == 'T') {
+                int num_temp = 0;
+                i++;
+                num_temp += s[i] - '0';
+                num_temp *= 10;
+                i++;
+                num_temp += s[i] - '0';
+                num_stack.push(num_temp);
+                continue;
+            }
+            if (s[i] == 'L') {
+                i++;
+                int magnification = s[i] - '0';
+                magnification_stack.push(magnification);
+                num_stack.push(0);
+                continue;
+            }
+            if (s[i] == 'E') {
+                int tail = num_stack.top();
+                int head;
+                int sum = 0;
+                int last = num_stack.top();
+                num_stack.pop();
+                while (num_stack.top() != 0) {
+                    int num1 = num_stack.top();
+                    num_stack.pop();
+                    head = num1;
+                    sum += abs(last - num1);
+                    last = num1;
+                }
+                cerr << sum << '\n';
+            }
+        }
     }
 }
 
