@@ -15,63 +15,65 @@ typedef vector<vp> v2p;
 void solve() {
     string s;
     while (cin >> s) {
-        stack<int> num_stack;
-        stack<int> magnification_stack;
-        stack<char> symbol_stack;
-        stack<int> ans_stack;
-        int ans = 0;
+        vi nums;
+        vi magnifications;
+        vi sums;
         for (int i = 0; i < s.size(); i++) {
             if (s[i] == 'T') {
-                int num_temp = 0;
-                i++;
-                num_temp += s[i] - '0';
-                num_temp *= 10;
-                i++;
-                num_temp += s[i] - '0';
-                num_stack.push(num_temp);
+                int num = (s[i+1] - '0') * 10 + (s[i+2] - '0');
+                nums.push_back(num);
+                i += 2;
                 continue;
             }
             if (s[i] == 'L') {
-                i++;
-                int magnification = s[i] - '0';
-                magnification_stack.push(magnification);
-                num_stack.push(0);
+                int magnification = s[i+1] - '0'; 
+                magnifications.push_back(magnification);
+                nums.push_back(-1);
+                i += 1;
                 continue;
             }
             if (s[i] == 'E') {
-                int tail = num_stack.top();
-                int last = num_stack.top();
+                for (auto i : nums) {
+                    cerr << i << ' ';
+                }
+                cerr << '\n';
+                int tail = nums.back();
+                int head = nums.back();
+                nums.pop_back();
                 int sum = 0;
-                num_stack.pop();
-                while (num_stack.top() != 0) {
-                    int num1 = num_stack.top();
-                    num_stack.pop();
-                    sum += abs(last - num1);
-                    last = num1;
+                while (nums.back() != -1) {
+                    sum += abs(head - nums.back());                                        
+                    head = nums.back();
+                    nums.pop_back();
                 }
-                num_stack.pop();
-                int top_ans = 0;
-                if (ans_stack.size()) {
-                    top_ans = ans_stack.top();
+                nums.pop_back();
+                nums.push_back(head);
+                nums.push_back(tail);
+                int sums_top = 0;
+                if (sums.size()) {
+                    sums_top = sums.back();
+                    sums.pop_back();
                 }
-                ans_stack.push((sum * magnification_stack.top()) + abs(tail - last) * (magnification_stack.top() - 1) + top_ans * magnification_stack.top());
-                magnification_stack.pop();
+                sums.push_back(sums_top * magnifications.back() + sum * magnifications.back() + abs(tail - head) * (magnifications.back() - 2));
+                magnifications.pop_back();
+                // for (auto i : nums) {
+                //     cerr << i << ' ';
+                // }
+                // cerr << '\n';
             }
         }
-        
-        while (ans_stack.size()) {
-            cerr << ans_stack.top() << '\n';   
-            ans_stack.pop();
+        int head = nums.back();
+        nums.pop_back();
+        int sum = 0;
+        while (nums.size()) {
+            sum += abs(head - nums.back());                                        
+            head = nums.back();
+            nums.pop_back();
         }
-        // int last = num_stack.top();
-        // num_stack.pop();
-        // while (num_stack.size()) {
-        //     ans += abs(last - num_stack.top());            
-        //     last = num_stack.top();
-        //     num_stack.pop();
-        // }
-        // 
-        // cout << ans << '\n';
+        if (sums.size()) {
+            sum += sums.back();
+        }
+        cout << sum << '\n';
     }
 }
 
