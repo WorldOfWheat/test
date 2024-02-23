@@ -12,68 +12,56 @@ typedef vector<vs> v2s;
 typedef vector<pii> vp;
 typedef vector<vp> v2p;
 
+int f(string& s, int& index, int& head, int& tail) {
+    if (index >= s.size()) {
+        head = -1;
+        tail = -1;
+        return 0;
+    }
+
+    int result = 0;
+    while (index < s.size()) {
+        if (s[index] == 'T') {
+            int len = (s[index + 1] - '0') * 10 + (s[index + 2] - '0');
+            index += 3;
+            int next = f(s, index, head, tail);
+            if (head == -1) {
+                result = next;
+            }
+            else {
+                result += abs(len - head) + next;
+            }
+            head = len;
+            if (tail == -1) {
+                tail = len;
+            }
+            continue;
+        }
+        if (s[index] == 'L') {
+            int magnification = (s[index + 1] - '0');
+            index += 2;
+            int next = f(s, index, head, tail);
+            int tail2 = tail;
+            result = next * magnification + (magnification - 1) * abs(tail - head);
+            result += abs(tail2 - tail);
+            continue;
+        }
+        if (s[index] == 'E') {
+            tail = -1;
+            return 0;
+        }
+    }
+
+    return result;
+}
+
 void solve() {
     string s;
     while (cin >> s) {
-        vi nums;
-        vi magnifications;
-        vi sums;
-        for (int i = 0; i < s.size(); i++) {
-            if (s[i] == 'T') {
-                int num = (s[i+1] - '0') * 10 + (s[i+2] - '0');
-                nums.push_back(num);
-                i += 2;
-                continue;
-            }
-            if (s[i] == 'L') {
-                int magnification = s[i+1] - '0'; 
-                magnifications.push_back(magnification);
-                nums.push_back(-1);
-                i += 1;
-                continue;
-            }
-            if (s[i] == 'E') {
-                for (auto i : nums) {
-                    cerr << i << ' ';
-                }
-                cerr << '\n';
-                int tail = nums.back();
-                int head = nums.back();
-                nums.pop_back();
-                int sum = 0;
-                while (nums.back() != -1) {
-                    sum += abs(head - nums.back());                                        
-                    head = nums.back();
-                    nums.pop_back();
-                }
-                nums.pop_back();
-                nums.push_back(head);
-                nums.push_back(tail);
-                int sums_top = 0;
-                if (sums.size()) {
-                    sums_top = sums.back();
-                    sums.pop_back();
-                }
-                sums.push_back(sums_top * magnifications.back() + sum * magnifications.back() + abs(tail - head) * (magnifications.back() - 2));
-                magnifications.pop_back();
-                // for (auto i : nums) {
-                //     cerr << i << ' ';
-                // }
-                // cerr << '\n';
-            }
-        }
-        int head = nums.back();
-        nums.pop_back();
-        int sum = 0;
-        while (nums.size()) {
-            sum += abs(head - nums.back());                                        
-            head = nums.back();
-            nums.pop_back();
-        }
-        if (sums.size()) {
-            sum += sums.back();
-        }
-        cout << sum << '\n';
+        int index = 0;
+        int head = 0;
+        int tail = 0;
+        cout << f(s, index, head, tail) << '\n';
     }
 }
 
