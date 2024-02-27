@@ -7,7 +7,7 @@ using namespace std;
 typedef pair<int, int> pii;
 
 void solve() {
-
+    cout << boolalpha << (1 == 1) << '\n';
 }
 
 signed main() {

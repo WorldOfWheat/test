@@ -7,6 +7,7 @@ using namespace std;
 typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<vi> v2i;
+typedef vector<v2i> v3i;
 typedef vector<string> vs;
 typedef vector<vs> v2s;
 typedef vector<pii> vp;
