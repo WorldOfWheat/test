@@ -15,35 +15,30 @@ typedef vector<vp> v2p;
 typedef vector<bool> vb;
 typedef vector<vb> v2b;
 
-int n, m;
-vi arr;
+char c;
 
 void solve() {
-    cin >> n >> m;
-    
-    arr.resize(n);
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
+    cin >> c;
+    switch (c) {
+        case 'A':
+            cout << "你越派、我越愛\n";
+            break;
+        case 'B':
+            cout << "happy\n";
+            break;
+        case 'C':
+            cout << "幽浮也是福。\n";
+            break;
+        case 'D':
+            cout << "菜就多練\n";
+            break;
+        case 'E':
+            cout << "確實\n";
+            break;
+        case 'F':
+            cout << "特別會吃飯捲\n";
+            break;
     }
-    
-    v2i dp(m + 2, vi(n + 1, 0));
-    for (int i = 0; i <= m; i++){
-        for (int j = 1; j <= n; j++) {
-            if (i == 0) {
-                dp[i][j] = max(dp[i][j-1] + arr[j-1], arr[j-1]);
-                continue;
-            }
-            dp[i][j] = max({dp[i-1][j-1], dp[i][j-1] + arr[j-1]});
-        }
-    }
-    
-    int ans = 0;
-    for (int i = 0; i <= m; i++){
-        for (int j = 1; j <= n; j++) {
-            ans = max(ans, dp[i][j]);
-        }
-    }
-    cout << ans << '\n';
 }
 
 signed main() {
