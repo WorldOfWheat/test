@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4B2G0003</title>
+  </head>
+  <body>
+    <form>
+      <fieldset>
+        <legend>個人資料</legend>
+        <label>姓名：</label>
+        <input type="text">
+        <label>地址：</label>
+        <input type="text">
+      </fieldset>
+
+      <fieldset style="display: inline-block;">
+        <legend>
+          行程相關
+        </legend>
+        <label>何處得知行程：（可複選）</label>
+        <input type="checkbox">公車廣告</input>
+        <input type="checkbox">網站廣告</input>
+        <input type="checkbox">Google 搜尋</input>
+        <br>
+        <label>參加本行程是：（單選）</label>
+        <input name="trip" type="radio">個人旅遊</input>
+        <input name="trip" type="radio">蜜月旅行</input>
+        <input name="trip" type="radio">家庭旅遊</input>
+        <input name="trip" type="radio">員工旅遊</input>
+        <br>
+        <label>其它行程建議：</label>
+        <br>
+        <textarea placeholder="" row="10" cols="35" style="height: 80px;">其它需求或建議可以寫在此
+        </textarea>
+      </fieldset>
+      <br>
+
+      <input type="submit" value="提交">
+      <input type="reset" value="重設">
+    </form>
+  </body>
+</html>
