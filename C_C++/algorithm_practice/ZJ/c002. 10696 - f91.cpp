@@ -15,10 +15,25 @@ typedef vector<vp> v2p;
 typedef vector<bool> vb;
 typedef vector<vb> v2b;
 
-int n;    
+int n;
+
+int f(int n) {
+    if (n <= 100) {
+        return f(f(n + 11));
+    }
+    if (n >= 101) {
+        return n - 10;
+    }
+}
 
 void solve() {
-
+    while (cin >> n) {
+        if (n == 0) {
+            break;
+        }
+        
+        cout << "f91(" << n << ") = " << f(n) << '\n';        
+    }
 }
 
 signed main() {
