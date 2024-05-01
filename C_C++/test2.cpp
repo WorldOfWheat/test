@@ -15,48 +15,32 @@ typedef vector<vp> v2p;
 typedef vector<bool> vb;
 typedef vector<vb> v2b;
 
-mt19937 rand_gen(time(0));
-int n, m;
-vi arr;
+mt19937 rng;
 
-void quick_sort(vi& arr, int l, int r) {
-    if (l + 1 >= r) {
-        return;
-    }
+int randint(int min, int max) {
+    return uniform_int_distribution<int>(min, max)(rng);
+}
 
-    int pivot = l;
-    int l_ptr = l;
-    int r_ptr = r - 1;
-    while (l_ptr < r_ptr) {
-        while (l_ptr < r_ptr && arr[r_ptr] >= arr[pivot]) {
-            r_ptr--;
-        }
-        while (l_ptr < r_ptr && arr[l_ptr] <= arr[pivot]) {
-            l_ptr++;
-        }
-        if (l_ptr < r_ptr) {
-            swap(arr[l_ptr], arr[r_ptr]);
-        }
+void shuffle(vi &a) {
+    int n = a.size();
+    for (int i = 0; i < n; i++) {
+        swap(a[i], a[randint(i, n - 1)]);
     }
-    swap(arr[l_ptr], arr[l]);
-    
-    quick_sort(arr, l, l_ptr);
-    quick_sort(arr, l_ptr + 1, r);
 }
 
 void solve() {
-    cin >> n;
-    
-    arr.resize(n);
-    for (int& i : arr) {
-        cin >> i;
-    }
-    
-    shuffle(arr.begin(), arr.end(), rand_gen);
-    quick_sort(arr, 0, n);
-    
-    for (int i : arr) {
-        cout << i << ' ';
+    for (int i = 0; i <= 3; i++) {
+        vi arr;
+        for (int j = 1; j <= 12; j++) {
+            if (j & (1 << i)) {
+                arr.push_back(j);
+            }
+        }
+        shuffle(arr);
+        for (int j = 0; j < arr.size(); j++) {
+            cout << arr[j] << " ";
+        }
+        cout << endl;
     }
 }
 

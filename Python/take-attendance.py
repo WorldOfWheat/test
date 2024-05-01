@@ -1,4 +1,3 @@
-from random import randint
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -42,35 +41,37 @@ except:
     pass
 
 # jump to course page
-driver.get('https://flipclass.stust.edu.tw/course/31204')
+driver.get('https://flipclass.stust.edu.tw/course/31169')
+sleep(1)
+date = datetime.now().strftime('%Y%m%d')
+element_attendance_button = driver.find_element(By.XPATH, f'//a/span[text()="{date}_簽到"]')
+element_attendance_button.click()
 sleep(1)
 
-# list all videos
-element_doc_links = driver.find_elements(By.XPATH, '//a[starts-with(@href, "/media/doc/")]')
-links = []
-for element_doc_link in element_doc_links:
-    doc_link = element_doc_link.get_attribute('href')
-    links.append(doc_link)
-    # driver.execute_script(f'window.open("{doc_link}");')
-    # sleep(0.5)
+# click submit button
+element_submit_button = driver.find_element(By.XPATH, '//a/span[text()="Submit assignment"]')
+element_submit_button.click()
+sleep(2)
 
-ok_counter = 0
-while (len(links) > 0):
-    ok_counter += 1
-    print(ok_counter, datetime.now())
+# fill in the form 
+# switch to the iframe
+iframe = driver.find_element(By.TAG_NAME, "iframe")
+driver.switch_to.frame(iframe)
+sleep(0.5)
+# input
+element_text_box = driver.find_element(By.CSS_SELECTOR, 'body')
+element_text_box.click()
+input_action = ActionChains(driver)
+input_action.send_keys('4B2G0003')
+input_action.perform()
+sleep(0.5)
 
-    # open link
-    link = links[randint(0, len(links) - 1)]
-    links.remove(link)
-    driver.execute_script(f'window.open("{link}");')
-    driver.switch_to.window(driver.window_handles[1])
+# click second submit button
+element_second_submit_button = driver.find_element(By.XPATH, '//button/span[text()="Temporary save"]')
+element_second_submit_button.click()
 
-    # sleep
-    sleep_time = randint(600, 1200)
-    # sleep_time = randint(2, 3)
-    sleep(sleep_time)
-
-    driver.close()
-    driver.switch_to.window(driver.window_handles[0])
+# take a screenshot
+sleep(1)
+driver.save_screenshot('/home/worldofwheat/Pictures/flipclass-attendance-record.png')
 
 driver.close()
