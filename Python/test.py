@@ -1,52 +1,36 @@
-import flask
-import subprocess
-from flask import render_template, request
-from python_arptable import get_arp_table
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from time import sleep
 
-def get_mac(ip):
-    arp_table = get_arp_table()
-    for entry in arp_table:
-        if entry['IP address'] == ip:
-            return entry['HW address']
-    return None
+secrets = ''
+with open('secrets', 'r') as f:
+    secrets = f.read()
 
-def add_rule(mac):
-    print("MAC: " + str(mac))
-    for table in {'filter', 'nat'}:
-        subprocess.run([
-            'iptables', 
-            '-t', table, '-A', 'ACCEPTED_USERS_' + table.upper(), 
-            '-m', 'mac', '--mac-source', mac, 
-            '-j', 'ACCEPT'])
+account = secrets.split('\n')[0]
+password = secrets.split('\n')[1]
 
-app = flask.Flask(__name__)
+# print(account, password)
 
-@app.route("/")
-@app.route("/generate_204")
-def hello():
-    redirect = '<meta HTTP-EQUIV=\'REFRESH\' content=\'0; url=http://192.168.0.39/login\'>'
-    return redirect
+driver = webdriver.Chrome()
+driver.get('https://flipclass.stust.edu.tw')
 
-@app.route("/login")
-def login():
-    return render_template('stust_portal.html')
+sleep(1)
 
-@app.route("/auth/index.html/u", methods=['POST'])
-def auth():
-    username = request.form['user']
-    password = request.form['password']
-    print("username: " + username + ", password: " + password)
+# input account and password
+element_account = driver.find_element(By.NAME, 'account')
+element_password = driver.find_element(By.NAME, 'password')
 
-    # IP
-    ip = request.remote_addr
-    # MAC
-    mac = get_mac(ip)
-    
-    if (username == "admin" and password == "admin"):
-        add_rule(mac)
-        return "Login Success"
-    else:
-        return "Login Failed"
+element_account.send_keys(account)
+sleep(1)
+element_password.send_keys(password)
+sleep(1)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+# click login button
+element_login_text = driver.find_element(By.PARTIAL_LINK_TEXT, 'Login')
+element_login = element_login_text.parent
+
+element_login.click()
+sleep(10)
+
+driver.close()

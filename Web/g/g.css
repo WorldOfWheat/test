@@ -1,0 +1,33 @@
+.title {
+    font-weight: bold;
+    font-size: 30px;
+}
+.description {
+    display: inline-block;
+    font-size: 18px;
+    margin-bottom: 5px;
+    border: dashed blue 2px;
+    padding: 2px;
+    font-weight: bold;
+    color: black;
+}
+.subject {
+    border: 1px solid blue;
+    font-weight: normal;
+}
+.subject:hover {
+    background-color: yellow;
+}
+
+#gradient1 {
+    background: linear-gradient(red, yellow);
+}
+#gradient2 {
+    background: radial-gradient(circle at center, yellow, red);
+}
+#gradient3 {
+    background-image: conic-gradient(red 0deg, red 90deg, yellow 90deg, yellow 180deg, green 180deg, green 270deg, blue 270deg);
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}

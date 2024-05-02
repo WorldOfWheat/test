@@ -15,10 +15,19 @@ typedef vector<pii> vp;
 typedef vector<vp> v2p;      
 typedef vector<bool> vb;      
 typedef vector<vb> v2b;      
-      
-void solve() {
 
-}     
+int f(int start, int last, int d) {
+    if (start == last) {
+        return last;
+    }
+    return start + f(start + d, last, d);
+}
+
+void solve() {
+    int a, b, c;
+    cin >> a >> b >> c;
+    cout << f((a % c == 0 ? a : a - (a % c) + c), b - (b % c), c) << '\n';
+}    
       
 signed main() {      
     fastio;      
